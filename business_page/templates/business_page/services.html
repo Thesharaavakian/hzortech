@@ -1,0 +1,287 @@
+{% extends "business_page/base.html" %}
+{% block title %}Services | HzorTech{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ── -->
+<section class="text-center mb-5 fade-up">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="section-label">Services</div>
+            <h1 class="display-4 mb-3">What we do</h1>
+            <p class="lead">
+                Cloud operations, security, and DevOps — for companies that need solid technical
+                execution without hiring a full internal team.
+            </p>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-divider">
+
+<!-- ── Core services ── -->
+<section class="mb-5">
+    <div class="row gy-4">
+        <div class="col-lg-4 fade-up">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="icon-circle mb-3"><i class="bi bi-cloud-arrow-up"></i></div>
+                    <h5 class="card-title mb-2">Managed Cloud & Infrastructure</h5>
+                    <p class="card-text mb-3">Setup, monitoring, and day-to-day management of cloud infrastructure.</p>
+                    <ul style="font-size:0.85rem; padding-left:1.1rem;">
+                        <li>Cloud migration and environment setup (AWS, Azure, GCP)</li>
+                        <li>24/7 monitoring, alerting, and incident triage</li>
+                        <li>Cost optimisation and capacity planning</li>
+                        <li>Backup, disaster recovery, and failover testing</li>
+                        <li>Infrastructure as Code (Terraform, Ansible)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 fade-up" style="transition-delay:0.07s">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="icon-circle mb-3"><i class="bi bi-shield-check"></i></div>
+                    <h5 class="card-title mb-2">Security & Compliance</h5>
+                    <p class="card-text mb-3">Reduce your attack surface and meet compliance requirements with practical controls.</p>
+                    <ul style="font-size:0.85rem; padding-left:1.1rem;">
+                        <li>Vulnerability scanning and patch management</li>
+                        <li>Endpoint hardening (CIS benchmarks)</li>
+                        <li>Threat detection with Wazuh, Splunk, or ELK</li>
+                        <li>Incident response planning and playbooks</li>
+                        <li>Compliance alignment: ISO 27001, SOC 2, GDPR, PCI</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 fade-up" style="transition-delay:0.14s">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="icon-circle mb-3"><i class="bi bi-gear"></i></div>
+                    <h5 class="card-title mb-2">DevOps & Automation</h5>
+                    <p class="card-text mb-3">Build reliable pipelines and reduce manual operational work.</p>
+                    <ul style="font-size:0.85rem; padding-left:1.1rem;">
+                        <li>CI/CD pipeline design and implementation</li>
+                        <li>Docker and Kubernetes setup and management</li>
+                        <li>Scripting and automation (Python, Bash, PowerShell)</li>
+                        <li>API integrations and legacy system modernisation</li>
+                        <li>Deployment runbooks and release documentation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-divider">
+
+<!-- ── Security detail row ── -->
+<section class="mb-5 fade-up">
+    <div class="section-label">Security in depth</div>
+    <h3 class="mb-4">How we approach security</h3>
+    <div class="row gy-4">
+        <div class="col-md-4">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-bug"></i></div>
+                <div>
+                    <strong>Threat analysis</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">Periodic threat hunting and control validation. Not just scanning — actually checking whether your defences work.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-file-earmark-lock"></i></div>
+                <div>
+                    <strong>Data privacy</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">Data classification, retention policies, and access controls aligned to your regulatory requirements.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-clipboard-check"></i></div>
+                <div>
+                    <strong>Policy governance</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">Security policy review, incident playbooks, and audit-ready documentation for your compliance cycles.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-divider">
+
+<!-- ── Support ── -->
+<section class="mb-5 fade-up">
+    <div class="section-label">Support model</div>
+    <h3 class="mb-3">Training and ongoing support</h3>
+    <p>
+        Every engagement includes documentation and knowledge transfer — we don't build things
+        your team can't maintain. Ongoing support options are available for clients who want
+        a retained relationship rather than one-off projects.
+    </p>
+    <div class="row gy-3 mt-2">
+        <div class="col-md-6">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-book"></i></div>
+                <div>
+                    <strong>Documentation and runbooks</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">Delivered at the end of every engagement. Written for your team, not for us.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-calendar-check"></i></div>
+                <div>
+                    <strong>Monthly health checks</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">Infrastructure and security reviews with a short written summary and recommended actions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-display"></i></div>
+                <div>
+                    <strong>Workshops</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">Remote sessions for your engineering or IT team on cloud, security, or tooling topics.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex gap-3">
+                <div class="icon-circle" style="flex-shrink:0"><i class="bi bi-graph-up-arrow"></i></div>
+                <div>
+                    <strong>Quarterly roadmap sessions</strong>
+                    <p class="mb-0" style="font-size:0.875rem;">For retainer clients — plan upcoming work, review metrics, and adjust priorities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-divider">
+
+<!-- ── Pricing ── -->
+<section class="mb-5 fade-up">
+    <div class="section-label">Engagement models</div>
+    <h3 class="mb-2">How we structure projects</h3>
+    <p class="mb-4">Pricing depends on scope and complexity. The models below give a rough sense of how engagements are typically structured.</p>
+    <div class="row gy-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="badge-subtle mb-3">Fixed scope</div>
+                    <h5 class="card-title mb-2">Foundations</h5>
+                    <p class="card-text mb-3" style="font-size:0.85rem;">One-time delivery package for a defined project — environment setup, security audit, or automation build.</p>
+                    <ul style="font-size:0.82rem; color:var(--muted); padding-left:1.1rem;">
+                        <li>Scoped deliverables with clear acceptance criteria</li>
+                        <li>Includes documentation and 30-day handover support</li>
+                        <li>Suitable for SMBs tackling a specific problem</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100" style="border-color:rgba(74,127,165,0.35)">
+                <div class="card-body">
+                    <div class="badge-subtle mb-3" style="color:var(--accent-lt); border-color:rgba(74,127,165,0.3);">Monthly retainer</div>
+                    <h5 class="card-title mb-2">Growth</h5>
+                    <p class="card-text mb-3" style="font-size:0.85rem;">Ongoing managed service with a set number of hours per month, regular reviews, and continuous improvement.</p>
+                    <ul style="font-size:0.82rem; color:var(--muted); padding-left:1.1rem;">
+                        <li>Monthly health checks and improvement recommendations</li>
+                        <li>Defined response times for support requests</li>
+                        <li>Flexible scope adjustments each quarter</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="badge-subtle mb-3">Dedicated coverage</div>
+                    <h5 class="card-title mb-2">Enterprise</h5>
+                    <p class="card-text mb-3" style="font-size:0.85rem;">Dedicated engineer time, SLA-backed response, and full compliance support for larger or regulated environments.</p>
+                    <ul style="font-size:0.82rem; color:var(--muted); padding-left:1.1rem;">
+                        <li>Prioritised access to the full team</li>
+                        <li>Compliance and audit documentation support</li>
+                        <li>Quarterly roadmap planning and reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="mt-3" style="font-size:0.8rem; color:var(--dim);">
+        All pricing is agreed upfront based on scope. We don't do surprise invoices or out-of-scope billing without prior discussion.
+    </p>
+</section>
+
+<hr class="hz-divider">
+
+<!-- ── FAQ ── -->
+<section class="mb-5 fade-up">
+    <div class="section-label">FAQ</div>
+    <h3 class="mb-4">Common questions</h3>
+    <div class="accordion" id="faqServices">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                    Can you work alongside our existing internal team?
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqServices">
+                <div class="accordion-body">
+                    Yes — this is common. We can operate as an extension of your team, plug into your existing tools and processes, and hand back as much as you want over time.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    What cloud platforms do you support?
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqServices">
+                <div class="accordion-body">
+                    AWS, Azure, and GCP — as well as on-premise Linux and Windows environments, VMware, and hybrid setups.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    What's your security baseline for new projects?
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqServices">
+                <div class="accordion-body">
+                    CIS hardening benchmarks, secret management policies, automated vulnerability scanning, and policy-as-code. We document what we apply and why.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                    How do you handle urgent issues?
+                </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqServices">
+                <div class="accordion-body">
+                    For retainer clients, there are defined SLAs and an escalation path. For one-off projects, we're reachable by email and respond same-day to critical issues during working hours (GMT+4).
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-divider">
+
+<!-- ── CTA ── -->
+<section class="text-center py-4 fade-up">
+    <h3 class="mb-2">Not sure what you need?</h3>
+    <p class="mb-4" style="color:var(--muted);">Describe your situation and we'll suggest an approach — no commitment required.</p>
+    <a href="{% url 'contact' %}" class="btn btn-primary">Get in touch</a>
+</section>
+
+{% endblock %}
