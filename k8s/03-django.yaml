@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+  namespace: hzortech
+  labels:
+    app: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      # Pull the image from GitHub Container Registry
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+
+      # ── Init container: run migrations before app starts ──────────────────
+      initContainers:
+        - name: migrate
+          image: ghcr.io/thesharaavakian/hzortech:latest
+          imagePullPolicy: Always
+          command: ["python", "manage.py", "migrate", "--noinput"]
+          envFrom:
+            - configMapRef:
+                name: hzortech-config
+            - secretRef:
+                name: hzortech-secrets
+
+      # ── Main Django / Gunicorn container ──────────────────────────────────
+      containers:
+        - name: django
+          image: ghcr.io/thesharaavakian/hzortech:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: hzortech-config
+            - secretRef:
+                name: hzortech-secrets
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django
+  namespace: hzortech
+spec:
+  selector:
+    app: django
+  ports:
+    - port: 80
+      targetPort: 8000

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(aws ssm *)",
+      "Bash(aws ec2 *)",
+      "Bash(ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -o ConnectTimeout=8 ubuntu@16.171.19.40 \"echo OK && whoami\")",
+      "Bash(ssh -i ~/.ssh/hzortech_deploy -o StrictHostKeyChecking=no -o ConnectTimeout=6 ubuntu@16.171.19.40 \"echo OK\")",
+      "Bash(ssh -i ~/.ssh/hzortech_deploy -o StrictHostKeyChecking=no -o ConnectTimeout=6 ubuntu@13.60.216.247 \"echo OK && whoami\")",
+      "Bash(aws iam create-policy --policy-name hzortech-deploy-policy --policy-document '{ *)",
+      "Bash(aws iam *)",
+      "Bash(aws s3 *)"
+    ]
+  }
+}

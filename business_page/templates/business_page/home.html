@@ -1,23 +1,27 @@
 {% extends "business_page/base.html" %}
-{% block title %}HzorTech — Cloud & Security Engineering{% endblock %}
+{% block title %}HzorTech — Software, Automation & Cloud Engineering{% endblock %}
 
 {% block content %}
 
 <!-- ── Hero ── -->
-<section class="text-center py-5 mb-4 fade-up">
+<section class="text-center py-5 mb-4 fade-up hero-glow">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="section-label">Yerevan, Armenia</div>
+            <div class="terminal-badge mb-4">
+                <span class="live-dot"></span>
+                Yerevan, Armenia &mdash; available for remote projects globally
+            </div>
             <h1 class="display-4 mb-3">
-                Cloud engineering and<br>cybersecurity, done right.
+                Build smarter.<br>Automate everything.<br>Stay secure.
             </h1>
             <p class="lead mb-4">
-                HzorTech is a small specialist team helping businesses secure their infrastructure,
-                automate operations, and run reliable cloud systems — without the overhead of a large firm.
+                HzorTech is a specialist team delivering software development, business automation,
+                DevOps infrastructure, and security monitoring — so your operations run on reliable systems
+                without the overhead of a full internal IT department.
             </p>
             <div class="d-flex gap-3 justify-content-center flex-wrap">
                 <a href="{% url 'contact' %}" class="btn btn-primary">Start a conversation</a>
-                <a href="{% url 'services' %}" class="btn btn-outline-secondary">View services</a>
+                <a href="{% url 'services' %}" class="btn btn-outline-secondary">View all services</a>
             </div>
         </div>
     </div>
@@ -25,47 +29,41 @@
 
 <hr class="hz-divider">
 
-<!-- ── What we do ── -->
+<!-- ── Three pillars ── -->
 <section class="mb-5">
     <div class="row gy-4">
         <div class="col-md-4 fade-up">
-            <div class="card h-100">
+            <div class="card h-100 card-web">
                 <div class="card-body">
-                    <div class="icon-circle mb-3">
-                        <i class="bi bi-cloud-arrow-up"></i>
-                    </div>
-                    <h5 class="card-title mb-2">Cloud Operations</h5>
+                    <div class="icon-circle ic-web mb-3"><i class="bi bi-code-slash"></i></div>
+                    <h5 class="card-title mb-2">Software & Web Development</h5>
                     <p class="card-text">
-                        Infrastructure setup, migration, and ongoing management across AWS, Azure, and GCP.
-                        We handle the ops so your team can focus on building.
+                        Corporate websites, web applications, custom backends, APIs, and CRM systems.
+                        Built to work, not just to look good.
                     </p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 fade-up" style="transition-delay:0.07s">
-            <div class="card h-100">
+            <div class="card h-100 card-auto">
                 <div class="card-body">
-                    <div class="icon-circle mb-3">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <h5 class="card-title mb-2">Cybersecurity</h5>
+                    <div class="icon-circle ic-auto mb-3"><i class="bi bi-diagram-3"></i></div>
+                    <h5 class="card-title mb-2">Automation & Integrations</h5>
                     <p class="card-text">
-                        Vulnerability management, endpoint hardening, and incident response.
-                        We've worked across environments from banking to enterprise IT.
+                        Business process automation, tool-to-tool integrations, workflow triggers,
+                        and notification pipelines. Less manual work, fewer errors.
                     </p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 fade-up" style="transition-delay:0.14s">
-            <div class="card h-100">
+            <div class="card h-100 card-ops">
                 <div class="card-body">
-                    <div class="icon-circle mb-3">
-                        <i class="bi bi-terminal"></i>
-                    </div>
-                    <h5 class="card-title mb-2">DevOps & Automation</h5>
+                    <div class="icon-circle ic-ops mb-3"><i class="bi bi-cloud-arrow-up"></i></div>
+                    <h5 class="card-title mb-2">DevOps, Cloud & Security</h5>
                     <p class="card-text">
-                        CI/CD pipelines, IaC, container orchestration, and scripting in Python, Bash, and PowerShell.
-                        Less manual work, more consistent deployments.
+                        CI/CD pipelines, cloud infrastructure, server migration, and security monitoring.
+                        We handle the ops so your team can focus on building.
                     </p>
                 </div>
             </div>
@@ -80,15 +78,16 @@
     <div class="row align-items-start gy-4">
         <div class="col-lg-5 fade-up">
             <div class="section-label">Why work with us</div>
-            <h2 class="mb-3">A small team with focused expertise</h2>
+            <h2 class="mb-3">A compact team with broad technical depth</h2>
             <p>
-                We're not a large consultancy. We're a compact team of engineers with direct experience
-                in security operations, cloud infrastructure, and technical support for high-pressure
-                environments — banking, research labs, and enterprise IT.
+                We're not a large consultancy. We're a focused group of engineers with hands-on experience
+                across software development, cloud infrastructure, business automation, and security operations —
+                built from real work in banking, research computing, and enterprise IT.
             </p>
             <p>
-                That means you deal with the engineers doing the actual work, not account managers.
-                Communication is direct, decisions are faster, and accountability is clear.
+                You deal directly with the engineers doing the work. No account managers, no handoffs
+                after the proposal is signed. Communication is fast, accountability is clear, and we
+                stay involved through delivery.
             </p>
             <a href="{% url 'about' %}" class="btn btn-outline-secondary mt-2">About the team</a>
         </div>
@@ -97,8 +96,8 @@
                 <div class="col-6">
                     <div class="card">
                         <div class="card-body">
-                            <div class="stat-val mb-1">~4</div>
-                            <div class="stat-lbl">Core team members across cloud, security, and DevOps</div>
+                            <div class="stat-val mb-1">6</div>
+                            <div class="stat-lbl">Core service areas: web, automation, CRM, DevOps, APIs, security</div>
                         </div>
                     </div>
                 </div>
@@ -106,7 +105,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-val mb-1">3+</div>
-                            <div class="stat-lbl">Years of combined delivery across banking, research, and security</div>
+                            <div class="stat-lbl">Years of combined delivery in banking, research, and security</div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +113,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-val mb-1">48h</div>
-                            <div class="stat-lbl">Typical response time for new project enquiries</div>
+                            <div class="stat-lbl">Typical first response with a proposed approach, not a sales pitch</div>
                         </div>
                     </div>
                 </div>
@@ -122,7 +121,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="stat-val mb-1">GMT+4</div>
-                            <div class="stat-lbl">Based in Yerevan, available for remote collaboration globally</div>
+                            <div class="stat-lbl">Based in Yerevan — available async for EU, ME, and US time zones</div>
                         </div>
                     </div>
                 </div>
@@ -135,29 +134,49 @@
 
 <!-- ── Tech stack ── -->
 <section class="mb-5 fade-up">
-    <div class="section-label">Tech stack</div>
+    <div class="section-label">Stack</div>
     <h3 class="mb-3">What we work with</h3>
+    <div class="mb-2">
+        <span style="font-size:0.7rem; color:var(--dim); font-family:var(--mono); text-transform:uppercase; letter-spacing:0.08em; margin-right:0.5rem;">Web &amp; Backend</span>
+        <span class="chip chip-web">Python</span>
+        <span class="chip chip-web">Django</span>
+        <span class="chip chip-web">JavaScript</span>
+        <span class="chip chip-web">HTML/CSS</span>
+        <span class="chip chip-web">Bootstrap</span>
+        <span class="chip chip-web">PostgreSQL</span>
+        <span class="chip chip-web">REST APIs</span>
+    </div>
+    <div class="mb-2">
+        <span style="font-size:0.7rem; color:var(--dim); font-family:var(--mono); text-transform:uppercase; letter-spacing:0.08em; margin-right:0.5rem;">Automation &amp; CRM</span>
+        <span class="chip chip-auto">HubSpot</span>
+        <span class="chip chip-auto">Zapier</span>
+        <span class="chip chip-auto">n8n</span>
+        <span class="chip chip-auto">Bash</span>
+        <span class="chip chip-auto">PowerShell</span>
+        <span class="chip chip-crm">Webhooks</span>
+        <span class="chip chip-crm">Telegram API</span>
+        <span class="chip chip-crm">Slack API</span>
+    </div>
+    <div class="mb-2">
+        <span style="font-size:0.7rem; color:var(--dim); font-family:var(--mono); text-transform:uppercase; letter-spacing:0.08em; margin-right:0.5rem;">DevOps &amp; Cloud</span>
+        <span class="chip chip-ops">Docker</span>
+        <span class="chip chip-ops">Kubernetes</span>
+        <span class="chip chip-ops">AWS</span>
+        <span class="chip chip-ops">Terraform</span>
+        <span class="chip chip-ops">Ansible</span>
+        <span class="chip chip-ops">GitHub Actions</span>
+        <span class="chip chip-ops">Nginx</span>
+        <span class="chip chip-ops">Linux</span>
+    </div>
     <div>
-        <span class="chip">Python</span>
-        <span class="chip">Bash</span>
-        <span class="chip">PowerShell</span>
-        <span class="chip">Docker</span>
-        <span class="chip">Kubernetes</span>
-        <span class="chip">AWS</span>
-        <span class="chip">Azure</span>
-        <span class="chip">GCP</span>
-        <span class="chip">Terraform</span>
-        <span class="chip">Ansible</span>
-        <span class="chip">CI/CD</span>
-        <span class="chip">Wazuh</span>
-        <span class="chip">Splunk</span>
-        <span class="chip">ELK</span>
-        <span class="chip">Nmap</span>
-        <span class="chip">Burp Suite</span>
-        <span class="chip">Wireshark</span>
-        <span class="chip">Linux</span>
-        <span class="chip">Windows Server</span>
-        <span class="chip">VMware</span>
+        <span style="font-size:0.7rem; color:var(--dim); font-family:var(--mono); text-transform:uppercase; letter-spacing:0.08em; margin-right:0.5rem;">Security</span>
+        <span class="chip chip-sec">Wazuh</span>
+        <span class="chip chip-sec">Splunk</span>
+        <span class="chip chip-sec">ELK</span>
+        <span class="chip chip-sec">Nmap</span>
+        <span class="chip chip-sec">Wireshark</span>
+        <span class="chip chip-sec">Burp Suite</span>
+        <span class="chip chip-sec">CIS Benchmarks</span>
     </div>
 </section>
 
@@ -168,45 +187,91 @@
     <div class="section-label">Services</div>
     <h3 class="mb-4">What we deliver</h3>
     <div class="accordion" id="serviceDetails">
+
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#svc1">
-                    Managed Cloud Operations
+                    <span style="color:#7aaeff; font-family:var(--mono); font-size:0.8rem; margin-right:0.75rem;">01</span>
+                    Web & Software Development
                 </button>
             </h2>
             <div id="svc1" class="accordion-collapse collapse" data-bs-parent="#serviceDetails">
                 <div class="accordion-body">
-                    Monitoring, alerting, capacity planning, cost optimisation, and GitOps pipelines.
-                    We can take over existing infrastructure or greenfield a new environment.
+                    Corporate websites, landing pages, web portals, and custom applications. Built on Django and Python backends with clean, mobile-first frontends. Every site is production-ready from day one — hosted, secured, and properly configured.
                 </div>
             </div>
         </div>
+
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#svc2">
-                    Security & Vulnerability Management
+                    <span style="color:#56bda4; font-family:var(--mono); font-size:0.8rem; margin-right:0.75rem;">02</span>
+                    CRM Setup & Customization
                 </button>
             </h2>
             <div id="svc2" class="accordion-collapse collapse" data-bs-parent="#serviceDetails">
                 <div class="accordion-body">
-                    Endpoint hardening, patch management, threat detection, and incident response planning.
-                    Grounded in real-world experience on large endpoint estates and regulated environments.
+                    HubSpot and custom CRM configuration, pipeline setup, workflow automation, and integration with your existing tools. We handle the setup, train your team, and leave you with a system that actually gets used.
                 </div>
             </div>
         </div>
+
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#svc3">
-                    Long-term Technical Support
+                    <span style="color:#a07ec4; font-family:var(--mono); font-size:0.8rem; margin-right:0.75rem;">03</span>
+                    Business Process Automation
                 </button>
             </h2>
             <div id="svc3" class="accordion-collapse collapse" data-bs-parent="#serviceDetails">
                 <div class="accordion-body">
-                    Retainer-based support with defined escalation paths, weekly check-ins, and documentation.
-                    Suitable for teams without a dedicated infrastructure or security function in-house.
+                    Map, automate, and connect your business workflows. We build custom integrations between tools, set up trigger-based notifications (Slack, Telegram, email), automate reports, and eliminate the repetitive manual work your team does every day.
                 </div>
             </div>
         </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#svc4">
+                    <span style="color:var(--accent-lt); font-family:var(--mono); font-size:0.8rem; margin-right:0.75rem;">04</span>
+                    DevOps, CI/CD & Cloud Infrastructure
+                </button>
+            </h2>
+            <div id="svc4" class="accordion-collapse collapse" data-bs-parent="#serviceDetails">
+                <div class="accordion-body">
+                    CI/CD pipeline design for dev teams, Docker and Kubernetes deployment, Infrastructure as Code (Terraform, Ansible), cloud environment setup on AWS, and server-to-cloud migration. We also handle ongoing monitoring, cost optimisation, and Linux server administration.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#svc5">
+                    <span style="color:#5dc8d4; font-family:var(--mono); font-size:0.8rem; margin-right:0.75rem;">05</span>
+                    API Development & System Integrations
+                </button>
+            </h2>
+            <div id="svc5" class="accordion-collapse collapse" data-bs-parent="#serviceDetails">
+                <div class="accordion-body">
+                    RESTful API design and development, third-party API integrations, webhook setup, and connecting systems that weren't built to talk to each other. We modernise legacy systems through clean API layers without requiring a full rewrite.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#svc6">
+                    <span style="color:#d4935f; font-family:var(--mono); font-size:0.8rem; margin-right:0.75rem;">06</span>
+                    Security Monitoring & DevSecOps
+                </button>
+            </h2>
+            <div id="svc6" class="accordion-collapse collapse" data-bs-parent="#serviceDetails">
+                <div class="accordion-body">
+                    SIEM setup (Wazuh, Splunk, ELK), log aggregation, alerting rules, access control audits, endpoint hardening, and blue team operations. We build logging and alerting into new systems from the start, and add it to existing ones where it's missing.
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
 
@@ -215,7 +280,7 @@
 <!-- ── CTA ── -->
 <section class="text-center py-4 fade-up">
     <h3 class="mb-2">Have a project in mind?</h3>
-    <p class="mb-4" style="color:var(--muted);">Send us a brief and we'll come back within 48 hours with a proposed approach.</p>
+    <p class="mb-4" style="color:var(--muted);">Send a brief and we'll come back within 48 hours with a suggested approach — no commitment required.</p>
     <a href="{% url 'contact' %}" class="btn btn-primary">Get in touch</a>
 </section>
 

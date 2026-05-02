@@ -1,33 +1,23 @@
-# Use official Python image
 FROM python:3.13-slim
 
-# Prevent Python from writing pyc files
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install dependencies + nginx + certbot
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt \
- && apt-get update \
- && apt-get install -y nginx certbot python3-certbot-nginx \
- && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
 COPY . .
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Collect static files at build time (whitenoise serves them at runtime)
+RUN DJANGO_SECRET_KEY=build-placeholder python manage.py collectstatic --noinput
 
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/sites-available/default
+EXPOSE 8000
 
-# Expose ports
-EXPOSE 80 443
-
-# Make startup script executable
-RUN chmod +x /app/run_gunicorn.sh
-
-# Start Gunicorn + Nginx
-CMD ["/app/run_gunicorn.sh"]
+CMD ["gunicorn", "hzortech.wsgi:application", \
+     "--bind", "0.0.0.0:8000", \
+     "--workers", "3", \
+     "--timeout", "120", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-"]

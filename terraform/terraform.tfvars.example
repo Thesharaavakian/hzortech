@@ -1,0 +1,3 @@
+# Copy to terraform.tfvars and fill in — never commit terraform.tfvars
+aws_region     = "us-east-1"
+ssh_public_key = "ssh-rsa AAAA... your-public-key-here"

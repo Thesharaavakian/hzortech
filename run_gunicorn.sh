@@ -1,25 +1,41 @@
 #!/bin/bash
-cd /app
+set -e
 
-# Gunicorn settings
-APP_MODULE=hzortech.wsgi:application
-BIND_ADDRESS=127.0.0.1:8000
-WORKERS=3
-TIMEOUT=120
+DOMAIN="${DOMAIN:-hzortech.com}"
+EMAIL="${CERTBOT_EMAIL:-shara@hzortech.com}"
+CERT_PATH="/etc/letsencrypt/live/$DOMAIN/fullchain.pem"
 
-# Logging
-mkdir -p /app/logs
-ACCESS_LOG=/app/logs/gunicorn_access.log
-ERROR_LOG=/app/logs/gunicorn_error.log
+mkdir -p /app/logs /var/www/certbot
 
-# Start Gunicorn in background
-gunicorn $APP_MODULE \
-    --bind $BIND_ADDRESS \
-    --workers $WORKERS \
-    --timeout $TIMEOUT \
-    --access-logfile $ACCESS_LOG \
-    --error-logfile $ERROR_LOG \
-    --log-level info &
+# Start gunicorn
+gunicorn hzortech.wsgi:application \
+    --bind 127.0.0.1:8000 \
+    --workers 3 \
+    --timeout 120 \
+    --access-logfile /app/logs/gunicorn_access.log \
+    --error-logfile /app/logs/gunicorn_error.log \
+    --log-level info \
+    --daemon
 
-# Start Nginx in foreground
-nginx -g "daemon off;"
+# Obtain SSL cert on first boot
+if [ ! -f "$CERT_PATH" ]; then
+    echo "[startup] No cert found — obtaining via certbot..."
+    nginx -c /app/nginx_bootstrap.conf
+    certbot certonly --webroot \
+        -w /var/www/certbot \
+        -d "$DOMAIN" -d "www.$DOMAIN" \
+        --email "$EMAIL" \
+        --agree-tos \
+        --non-interactive
+    nginx -s stop
+    sleep 1
+    echo "[startup] Certificate obtained."
+fi
+
+# Schedule renewal (twice daily, standard certbot recommendation)
+echo "0 0,12 * * * root certbot renew --quiet --deploy-hook 'nginx -s reload'" \
+    > /etc/cron.d/certbot-renew
+chmod 644 /etc/cron.d/certbot-renew
+service cron start 2>/dev/null || true
+
+exec nginx -g "daemon off;"

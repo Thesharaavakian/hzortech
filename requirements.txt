@@ -1,35 +1,4 @@
-# Core Django framework
-Django>=4.2,<5.0
-
-# Database
-psycopg2-binary>=2.9  # For PostgreSQL (recommended for production on AWS RDS)
-# sqlite3 is built-in for local development
-
-# Forms
-django-crispy-forms>=2.1  # optional, makes form rendering prettier
-
-# Environment management
-python-decouple>=3.8  # read environment variables for secrets, DB URLs, etc.
-
-# WSGI / ASGI server
-gunicorn>=20.1
- # production WSGI server for EC2
-# if using ASGI/Django Channels for real-time notifications:
-channels>=4.1
-
-# Security
-django-environ>=0.10  # optional for environment config
-django-extensions>=3.2  # optional, useful for development tools
-
-# HTTP & requests (for webhooks like Slack / Telegram)
-requests>=2.31
-
-# Bootstrap integration (optional but useful)
-django-bootstrap5>=22.3  # for easier Bootstrap forms rendering
-
-# Deployment helpers
-boto3>=1.30  # AWS SDK, useful if integrating SES, S3, etc.
-whitenoise>=6.5  # serve static files efficiently in production
-
-# Testing
-pytest-django>=4.5  # optional, for unit tests
+Django>=6.0,<7.0
+gunicorn>=21.2
+whitenoise>=6.6
+psycopg2-binary>=2.9

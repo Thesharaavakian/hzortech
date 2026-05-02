@@ -1,0 +1,109 @@
+name: Terraform
+
+on:
+  push:
+    branches: [master]
+    paths: ["terraform/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # ── Job 1: Provision / update AWS infrastructure ───────────────────────────
+  terraform:
+    name: Provision infrastructure
+    runs-on: ubuntu-latest
+
+    outputs:
+      public_ip: ${{ steps.ip.outputs.ip }}
+
+    env:
+      AWS_ACCESS_KEY_ID:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+          terraform_wrapper: false   # required for clean output capture
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+            -var="ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
+            -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+
+      - name: Capture Elastic IP
+        id: ip
+        run: echo "ip=$(terraform output -raw public_ip)" >> $GITHUB_OUTPUT
+
+      # Automatically write the server IP back to GitHub Secrets so deploy.yml
+      # always has the correct EC2_HOST without any manual step.
+      - name: Update EC2_HOST secret
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh secret set EC2_HOST \
+            --body "${{ steps.ip.outputs.ip }}" \
+            --repo "${{ github.repository }}"
+
+  # ── Job 2: Wait for k3s, then bootstrap Kubernetes secrets ─────────────────
+  bootstrap:
+    name: Bootstrap server
+    needs: terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # k3s takes 2-3 minutes to start on a fresh instance.
+      # On an existing server it's already running, so this exits immediately.
+      - name: Wait for k3s API
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host:            ${{ needs.terraform.outputs.public_ip }}
+          username:        ubuntu
+          key:             ${{ secrets.EC2_SSH_KEY }}
+          command_timeout: 600s
+          script: |
+            echo "Waiting for k3s to be ready..."
+            for i in $(seq 1 40); do
+              /usr/local/bin/kubectl get nodes 2>/dev/null && echo "k3s ready." && break
+              echo "  [$i/40] not ready yet — sleeping 15s..."
+              sleep 15
+            done
+
+      # Clone repo if first boot, otherwise pull.
+      # Then run setup-secrets.sh (idempotent — safe to run on every apply).
+      - name: Clone repo and create k8s secrets
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host:     ${{ needs.terraform.outputs.public_ip }}
+          username: ubuntu
+          key:      ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            APP_DIR="/opt/hzortech"
+            if [ ! -d "$APP_DIR/.git" ]; then
+              git clone "https://github.com/${{ github.repository }}.git" "$APP_DIR"
+            else
+              cd "$APP_DIR" && git pull origin master
+            fi
+            bash "$APP_DIR/k8s/setup-secrets.sh"

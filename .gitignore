@@ -185,5 +185,19 @@ static/frontend/
 # MacOS
 .DS_Store
 
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+*.tfplan
+tfplan
+
+# Kubernetes / k3s
+kubeconfig
+*.kubeconfig
+k3s.yaml
+
 # Linux
 *.swp

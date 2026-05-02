@@ -350,6 +350,106 @@
             padding: 0.25rem 0.6rem;
             border-radius: 5px;
         }
+
+        /* ── Terminal status badge (hero) ── */
+        .terminal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.3rem 0.85rem;
+            color: var(--muted);
+        }
+        .terminal-badge .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: blink 2.2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+        /* ── Hero gradient ── */
+        .hero-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-glow::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -15%;
+            width: 55%;
+            height: 220%;
+            background: radial-gradient(ellipse, rgba(74,127,165,0.1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero-glow::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 45%;
+            height: 180%;
+            background: radial-gradient(ellipse, rgba(74,127,165,0.06) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero-glow > * { position: relative; z-index: 1; }
+
+        /* ── Service colour system ── */
+        /* web */   .ic-web  { background:rgba(91,143,222,.13)!important; border-color:rgba(91,143,222,.22)!important; color:#7aaeff!important; }
+        /* ops */   .ic-ops  { background:rgba(74,127,165,.13)!important; border-color:rgba(74,127,165,.22)!important; color:var(--accent-lt)!important; }
+        /* sec */   .ic-sec  { background:rgba(196,124,58,.13)!important; border-color:rgba(196,124,58,.22)!important; color:#d4935f!important; }
+        /* auto */  .ic-auto { background:rgba(123,94,167,.13)!important; border-color:rgba(123,94,167,.22)!important; color:#a07ec4!important; }
+        /* crm */   .ic-crm  { background:rgba(58,158,135,.13)!important; border-color:rgba(58,158,135,.22)!important; color:#56bda4!important; }
+        /* api */   .ic-api  { background:rgba(58,174,185,.13)!important; border-color:rgba(58,174,185,.22)!important; color:#5dc8d4!important; }
+
+        /* coloured top-border on service cards */
+        .card-web  { border-top: 2px solid rgba(91,143,222,.45)!important; }
+        .card-ops  { border-top: 2px solid rgba(74,127,165,.45)!important; }
+        .card-sec  { border-top: 2px solid rgba(196,124,58,.45)!important; }
+        .card-auto { border-top: 2px solid rgba(123,94,167,.45)!important; }
+        .card-crm  { border-top: 2px solid rgba(58,158,135,.45)!important; }
+        .card-api  { border-top: 2px solid rgba(58,174,185,.45)!important; }
+
+        /* coloured chips */
+        .chip-web  { border-color:rgba(91,143,222,.3)!important;  color:#7aaeff!important; }
+        .chip-ops  { border-color:rgba(74,127,165,.3)!important;  color:var(--accent-lt)!important; }
+        .chip-sec  { border-color:rgba(196,124,58,.3)!important;  color:#d4935f!important; }
+        .chip-auto { border-color:rgba(123,94,167,.3)!important;  color:#a07ec4!important; }
+        .chip-crm  { border-color:rgba(58,158,135,.3)!important;  color:#56bda4!important; }
+        .chip-api  { border-color:rgba(58,174,185,.3)!important;  color:#5dc8d4!important; }
+
+        /* ── Stat accent ── */
+        .stat-val { color: var(--accent-lt); }
+
+        /* ── Subtle divider with centre label ── */
+        .hz-divider-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2.5rem 0;
+        }
+        .hz-divider-label::before,
+        .hz-divider-label::after { content:''; flex:1; height:1px; background:var(--border); }
+        .hz-divider-label span {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--dim);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* ── Enhanced button glow ── */
+        .btn-primary:hover {
+            box-shadow: 0 4px 20px rgba(74,127,165,.38);
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -380,20 +480,44 @@
 
 <main>
     <div class="container py-5">
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
         {% block content %}{% endblock %}
     </div>
 </main>
 
 <footer>
-    <div class="container py-4">
-        <div class="row align-items-center gy-2">
-            <div class="col-md-6">
-                <p class="mb-1" style="color:var(--muted); font-size:0.85rem;">© {% now "Y" %} HzorTech. All rights reserved.</p>
-                <p class="mb-0">Yerevan, Armenia &mdash; serving clients globally.</p>
+    <div class="container py-5">
+        <div class="row gy-4">
+            <div class="col-md-4">
+                <p class="mb-1" style="font-family:var(--mono); font-size:0.95rem; color:var(--text); font-weight:500;">Hzor<span style="color:var(--accent-lt)">Tech</span></p>
+                <p class="mb-2" style="font-size:0.82rem;">Yerevan, Armenia &mdash; remote-first, global clients.</p>
+                <p class="mb-0" style="font-size:0.78rem;">© {% now "Y" %} HzorTech. All rights reserved.</p>
             </div>
-            <div class="col-md-6 text-md-end">
-                <p class="mb-1"><a href="mailto:shara@hzortech.com">shara@hzortech.com</a></p>
-                <p class="mb-0"><a href="mailto:hello@hzortech.com">hello@hzortech.com</a></p>
+            <div class="col-md-4">
+                <p style="font-size:0.78rem; color:var(--dim); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.6rem;">Services</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.25rem 0.5rem; font-size:0.82rem;">
+                    <a href="{% url 'services' %}">Web Development</a>
+                    <a href="{% url 'services' %}">CRM & Automation</a>
+                    <a href="{% url 'services' %}">API & Integrations</a>
+                    <a href="{% url 'services' %}">DevOps & Cloud</a>
+                    <a href="{% url 'services' %}">Cloud Migration</a>
+                    <a href="{% url 'services' %}">Security Monitoring</a>
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <p style="font-size:0.78rem; color:var(--dim); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.6rem;">Contact</p>
+                <p class="mb-1" style="font-size:0.85rem;"><a href="mailto:shara@hzortech.com">shara@hzortech.com</a></p>
+                <p class="mb-2" style="font-size:0.8rem; color:var(--dim);">General: <a href="mailto:hello@hzortech.com">hello@hzortech.com</a></p>
+                <p class="mb-0" style="font-size:0.82rem;"><a href="tel:+37477075919">+374 77 075 919</a></p>
             </div>
         </div>
     </div>
