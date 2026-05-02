@@ -199,5 +199,8 @@ kubeconfig
 *.kubeconfig
 k3s.yaml
 
+# Private files — never commit these
+for-sharas-eyes-only/
+
 # Linux
 *.swp
