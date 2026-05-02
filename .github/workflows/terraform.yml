@@ -107,3 +107,12 @@ jobs:
               cd "$APP_DIR" && git pull origin master
             fi
             bash "$APP_DIR/k8s/setup-secrets.sh"
+
+      # Server is ready — kick off a fresh deploy now that EC2_HOST is set
+      - name: Trigger deploy workflow
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          gh workflow run deploy.yml \
+            --repo "${{ github.repository }}" \
+            --ref master

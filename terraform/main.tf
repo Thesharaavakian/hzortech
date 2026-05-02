@@ -8,11 +8,11 @@ terraform {
     }
   }
 
-  # S3 state bucket already created: hzortech-tf-state (us-east-1)
+  # S3 state bucket: hzortech-tf-state (eu-north-1)
   backend "s3" {
     bucket = "hzortech-tf-state"
     key    = "hzortech/terraform.tfstate"
-    region = "us-east-1"
+    region = "eu-north-1"
   }
 }
 
