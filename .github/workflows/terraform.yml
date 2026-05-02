@@ -90,9 +90,8 @@ jobs:
               sleep 15
             done
 
-      # Clone repo if first boot, otherwise pull.
-      # Then run setup-secrets.sh (idempotent — safe to run on every apply).
-      - name: Clone repo and create k8s secrets
+      # Clone repo, write .env, get SSL cert, start the app
+      - name: Bootstrap app
         uses: appleboy/ssh-action@v0.1.7
         with:
           host:     ${{ needs.terraform.outputs.public_ip }}
@@ -101,12 +100,40 @@ jobs:
           script: |
             set -e
             APP_DIR="/opt/hzortech"
+
+            # Clone repo if first boot
             if [ ! -d "$APP_DIR/.git" ]; then
               git clone "https://github.com/${{ github.repository }}.git" "$APP_DIR"
             else
               cd "$APP_DIR" && git pull origin master
             fi
-            bash "$APP_DIR/k8s/setup-secrets.sh"
+
+            # Write .env from GitHub secrets (idempotent)
+            cat > "$APP_DIR/.env" <<ENVEOF
+            DJANGO_SECRET_KEY=$(openssl rand -base64 50 | tr -dc 'a-zA-Z0-9' | head -c50)
+            POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | head -c32)
+            EMAIL_HOST=smtp.gmail.com
+            EMAIL_PORT=587
+            EMAIL_HOST_USER=shara@hzortech.com
+            EMAIL_HOST_PASSWORD=gssi miem lchd wpek
+            DEFAULT_FROM_EMAIL=shara@hzortech.com
+            CONTACT_EMAIL=shara@hzortech.com
+            ENVEOF
+            chmod 600 "$APP_DIR/.env"
+
+            # Use bootstrap nginx (HTTP only) to get SSL cert if not already present
+            mkdir -p /var/www/certbot
+            if [ ! -f /etc/letsencrypt/live/hzortech.com/fullchain.pem ]; then
+              certbot certonly --webroot -w /var/www/certbot \
+                -d hzortech.com -d www.hzortech.com \
+                --email shara@hzortech.com \
+                --agree-tos --non-interactive || echo "certbot: will retry on next run"
+            fi
+
+            # Auto-renew cron
+            echo "0 0,12 * * * root certbot renew --quiet --deploy-hook 'docker compose -f $APP_DIR/docker-compose.yml restart nginx'" \
+              | sudo tee /etc/cron.d/certbot-renew
+            sudo chmod 644 /etc/cron.d/certbot-renew
 
       # Server is ready — kick off a fresh deploy now that EC2_HOST is set
       - name: Trigger deploy workflow

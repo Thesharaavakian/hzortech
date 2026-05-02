@@ -106,33 +106,27 @@ resource "aws_instance" "app" {
     encrypted   = true
   }
 
-  # Bootstrap: install k3s (lightweight k8s) + cert-manager on first boot.
-  # GitHub Actions handles all subsequent app deployments via kubectl.
+  # Bootstrap: install Docker + docker-compose + certbot on first boot.
+  # GitHub Actions handles all subsequent app deployments via docker compose.
   user_data = <<-EOF
     #!/bin/bash
     set -e
 
-    # Install k3s — includes kubectl, Traefik ingress, and CoreDNS
-    curl -sfL https://get.k3s.io | sh -
+    # Install Docker
+    apt-get update -y
+    apt-get install -y ca-certificates curl gnupg
+    install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    chmod a+r /etc/apt/keyrings/docker.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | tee /etc/apt/sources.list.d/docker.list
+    apt-get update -y
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin git certbot
 
-    # Wait for k3s API to be ready
-    until /usr/local/bin/kubectl get nodes 2>/dev/null; do sleep 5; done
-
-    # Give the ubuntu user kubectl access
-    mkdir -p /home/ubuntu/.kube
-    cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
-    chown -R ubuntu:ubuntu /home/ubuntu/.kube
-
-    # Install cert-manager (handles Let's Encrypt TLS automatically)
-    /usr/local/bin/kubectl apply -f \
-      https://github.com/cert-manager/cert-manager/releases/download/v1.14.3/cert-manager.yaml
-
-    # Wait for cert-manager webhooks to be ready before any apply
-    /usr/local/bin/kubectl rollout status \
-      -n cert-manager deployment/cert-manager-webhook --timeout=120s
+    # Allow ubuntu user to run docker without sudo
+    usermod -aG docker ubuntu
 
     # Set up app directory
-    mkdir -p /opt/hzortech
+    mkdir -p /opt/hzortech /var/www/certbot
     chown -R ubuntu:ubuntu /opt/hzortech
   EOF
 

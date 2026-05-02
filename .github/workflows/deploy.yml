@@ -3,7 +3,7 @@ name: Deploy Hzortech
 on:
   push:
     branches: [master]
-  workflow_dispatch:         # so terraform.yml can re-trigger this after bootstrap
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -31,47 +31,52 @@ jobs:
           push: true
           tags: ghcr.io/thesharaavakian/hzortech:latest
 
-      # ── 2. Skip deploy if server not provisioned yet ─────────────────────
+      # ── 2. Skip if server not ready yet ──────────────────────────────────
       - name: Check EC2_HOST is set
         id: check
         run: |
           if [ -z "${{ secrets.EC2_HOST }}" ]; then
-            echo "EC2_HOST is not set yet — Terraform hasn't run. Skipping deploy."
+            echo "EC2_HOST not set yet — skipping deploy step."
             echo "skip=true" >> $GITHUB_OUTPUT
           else
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
-      # ── 3. Deploy to k3s ─────────────────────────────────────────────────
-      - name: Deploy to k3s
+      # ── 3. Deploy via Docker Compose ─────────────────────────────────────
+      - name: Deploy to server
         if: steps.check.outputs.skip == 'false'
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host:     ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          key:      ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
+            APP_DIR="/opt/hzortech"
 
-            cd /opt/hzortech
-            if [ ! -d ".git" ]; then
-              git clone https://github.com/Thesharaavakian/hzortech.git .
+            # Pull latest code
+            if [ ! -d "$APP_DIR/.git" ]; then
+              git clone https://github.com/Thesharaavakian/hzortech.git "$APP_DIR"
             else
-              git pull origin master
+              cd "$APP_DIR" && git pull origin master
             fi
 
-            kubectl create secret docker-registry ghcr-pull-secret \
-              --namespace hzortech \
-              --docker-server=ghcr.io \
-              --docker-username=${{ github.actor }} \
-              --docker-password=${{ secrets.GITHUB_TOKEN }} \
-              --dry-run=client -o yaml | kubectl apply -f -
+            cd "$APP_DIR"
 
-            kubectl apply -f k8s/00-namespace.yaml
-            kubectl apply -f k8s/01-configmap.yaml
-            kubectl apply -f k8s/02-postgres.yaml
-            kubectl apply -f k8s/03-django.yaml
-            kubectl apply -f k8s/04-ingress.yaml
+            # Log in to ghcr.io so docker can pull the image
+            echo "${{ secrets.GITHUB_TOKEN }}" | \
+              docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            kubectl rollout restart deployment/django -n hzortech
-            kubectl rollout status deployment/django -n hzortech --timeout=120s
+            # Pull new image and restart (migrations run inside the django command)
+            docker compose pull
+            docker compose up -d --remove-orphans
+
+            # Wait for django to be healthy
+            echo "Waiting for django to start..."
+            for i in $(seq 1 20); do
+              docker compose ps django | grep -q "Up" && echo "Django is up." && break
+              echo "  [$i/20] not up yet, waiting 5s..."
+              sleep 5
+            done
+
+            docker compose ps
