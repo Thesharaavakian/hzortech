@@ -54,11 +54,13 @@ jobs:
             set -e
             APP_DIR="/opt/hzortech"
 
-            # Pull latest code
+            # Pull latest code — hard reset ensures local edits never block a deploy
             if [ ! -d "$APP_DIR/.git" ]; then
               git clone https://github.com/Thesharaavakian/hzortech.git "$APP_DIR"
             else
-              cd "$APP_DIR" && git pull origin master
+              cd "$APP_DIR"
+              git fetch origin master
+              git reset --hard origin/master
             fi
 
             cd "$APP_DIR"
