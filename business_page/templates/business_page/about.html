@@ -1,5 +1,4 @@
 {% extends "business_page/base.html" %}
-{% load static %}
 {% block title %}About | HZORTECH{% endblock %}
 
 {% block content %}
@@ -100,12 +99,10 @@
     <div class="hz-label reveal">FOUNDER</div>
     <div class="row gy-4 align-items-start">
         <div class="col-lg-4 reveal">
-            <!-- Founder photo — add shara.jpg to business_page/static/business_page/images/
-                 then replace the placeholder below with:
-                 <img src="{% static 'business_page/images/shara.jpg' %}"
-                      alt="Shara Avakian — Founder, HZORTECH"
-                      style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:1.25rem;">
-            -->
+            {# To add founder photo: drop shara.jpg into business_page/static/business_page/images/
+               then replace the div below with:
+               <img src="..." alt="Shara Avakian — Founder HZORTECH" style="...">
+            #}
             <div style="width:100%;aspect-ratio:3/4;border-radius:var(--radius);border:1px solid var(--border);
                         background:var(--silicon);display:flex;flex-direction:column;align-items:center;
                         justify-content:center;gap:0.5rem;margin-bottom:1.25rem;">

@@ -350,13 +350,9 @@
     <div class="hz-label reveal">LIVE LAB // YEREVAN OPERATIONS</div>
     <h2 class="display-section mb-4 reveal">Engineering,<br><span style="color:var(--ember);">Not Promises.</span></h2>
     <div class="row g-2 reveal">
+        {# Photo slots: drop lab-01.jpg .. lab-04.jpg into business_page/static/business_page/images/ #}
         {% for slot in "1234" %}
         <div class="col-6 col-md-3">
-            <!-- Replace this placeholder with:
-                 <img src="{% static 'business_page/images/lab-0{{ slot }}.jpg' %}"
-                      alt="HZORTECH Lab"
-                      style="width:100%;height:220px;object-fit:cover;border-radius:var(--radius);border:1px solid var(--border);">
-            -->
             <div style="height:220px;border-radius:var(--radius);border:1px solid var(--border);
                         background:var(--silicon);display:flex;flex-direction:column;
                         align-items:center;justify-content:center;gap:0.5rem;">
@@ -392,7 +388,6 @@
 
 {% endblock %}
 
-{% load static %}
 {% block extra_css %}
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
