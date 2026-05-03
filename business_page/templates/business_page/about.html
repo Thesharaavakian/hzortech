@@ -1,4 +1,5 @@
 {% extends "business_page/base.html" %}
+{% load static %}
 {% block title %}About | HZORTECH{% endblock %}
 
 {% block content %}
@@ -99,6 +100,18 @@
     <div class="hz-label reveal">FOUNDER</div>
     <div class="row gy-4 align-items-start">
         <div class="col-lg-4 reveal">
+            <!-- Founder photo — add shara.jpg to business_page/static/business_page/images/
+                 then replace the placeholder below with:
+                 <img src="{% static 'business_page/images/shara.jpg' %}"
+                      alt="Shara Avakian — Founder, HZORTECH"
+                      style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:1.25rem;">
+            -->
+            <div style="width:100%;aspect-ratio:3/4;border-radius:var(--radius);border:1px solid var(--border);
+                        background:var(--silicon);display:flex;flex-direction:column;align-items:center;
+                        justify-content:center;gap:0.5rem;margin-bottom:1.25rem;">
+                <i class="bi bi-person-square" style="font-size:3.5rem;color:var(--border);"></i>
+                <span style="font-family:var(--mono);font-size:0.62rem;color:var(--border);">shara.jpg</span>
+            </div>
             <h2 style="font-size:1.8rem;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:0.25rem;">Shara Avakian</h2>
             <p style="font-family:var(--mono);font-size:0.72rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.25rem;">Principal Engineer & Founder</p>
             <p style="font-size:0.88rem;margin-bottom:1rem;">

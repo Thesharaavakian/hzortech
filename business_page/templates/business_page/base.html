@@ -641,6 +641,39 @@
         .ember-border-left { border-left: 2px solid var(--ember); padding-left: 1rem; }
         .grid-line { width: 100%; height: 1px; background: var(--border); }
 
+        /* ══════════════════════════════════════════════════════════════
+           LIGHT MODE — full override
+        ══════════════════════════════════════════════════════════════ */
+        [data-theme="light"] {
+            --obsidian:   #F0F2F5;
+            --silicon:    #FFFFFF;
+            --silicon-2:  #F5F7FA;
+            --text:       #0D0D0D;
+            --titanium:   #4A4E57;
+            --border:     rgba(0,0,0,0.09);
+            --border-lit: rgba(230,33,39,0.4);
+            --glass:      rgba(255,255,255,0.92);
+            --ember-dim:  rgba(230,33,39,0.07);
+            --ember-glow: rgba(230,33,39,0.2);
+            --shadow-card: 0 4px 24px rgba(0,0,0,0.08), 0 1px 0 rgba(0,0,0,0.04);
+        }
+        [data-theme="light"] body {
+            background-color: var(--obsidian);
+            background-image:
+                linear-gradient(rgba(230,33,39,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(230,33,39,0.05) 1px, transparent 1px);
+        }
+        [data-theme="light"] body::before { opacity: 0.3; }
+        [data-theme="light"] .navbar {
+            background: rgba(240,242,245,0.94) !important;
+            border-bottom-color: rgba(0,0,0,0.08);
+        }
+        [data-theme="light"] .navbar-brand { color: var(--text) !important; }
+        [data-theme="light"] footer { background: #E8EAED !important; }
+        [data-theme="light"] .hz-terminal { background: #F5F7FA; }
+        [data-theme="light"] #themeIcon::before { content: "\F497"; } /* sun icon */
+        [data-theme="light"] ::-webkit-scrollbar-track { background: #F0F2F5; }
+
         {% block extra_css %}{% endblock %}
     </style>
 </head>
@@ -696,14 +729,20 @@
 <header>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="/">HZR<span class="hz-red">■</span>TECH</a>
+            <a class="navbar-brand" href="/">HZORTECH</a>
 
             <div class="d-flex align-items-center gap-3 ms-auto">
                 <!-- Status indicator -->
                 <span class="status-badge d-none d-lg-flex">
                     <span class="status-dot"></span>
-                    SYSTEMS ONLINE
+                    <span data-i18n="nav.status">SYSTEMS ONLINE</span>
                 </span>
+
+                <!-- Dark/Light mode toggle -->
+                <button id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode"
+                        style="background:var(--silicon);border:1px solid var(--border);border-radius:4px;padding:4px 8px;cursor:pointer;color:var(--titanium);font-size:0.8rem;line-height:1;transition:all 0.2s;">
+                    <i class="bi bi-moon-fill" id="themeIcon"></i>
+                </button>
 
                 <!-- Language toggle -->
                 <div class="lang-toggle d-none d-lg-flex">
@@ -729,10 +768,10 @@
 
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-3 gap-1">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'services' %}">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}" data-i18n="nav.home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'services' %}" data-i18n="nav.services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-i18n="nav.about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}" data-i18n="nav.contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -762,7 +801,7 @@
         <div class="row gy-4">
             <div class="col-md-4">
                 <p class="mb-1" style="font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--text);letter-spacing:0.06em;text-transform:uppercase;">
-                    HZR<span style="color:var(--ember)">■</span>TECH
+                    HZORTECH
                 </p>
                 <p class="mb-2" style="font-size:0.82rem;">Engineering sovereignty through cloud,<br>DevOps, automation, and security.</p>
                 <p class="mb-0" style="font-family:var(--mono);font-size:0.7rem;color:var(--titanium);">
@@ -927,14 +966,226 @@ if (servicesSec) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// LANGUAGE TOGGLE (display only — extend with i18n later)
+// DARK / LIGHT MODE
 // ══════════════════════════════════════════════════════════════
+(function () {
+    const saved = localStorage.getItem('hz-theme') || 'dark';
+    if (saved === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
+
+function toggleTheme() {
+    const root = document.documentElement;
+    const isLight = root.getAttribute('data-theme') === 'light';
+    root.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    localStorage.setItem('hz-theme', isLight ? 'dark' : 'light');
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+        icon.className = isLight ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
+    }
+}
+
+// Sync icon on load
+document.addEventListener('DOMContentLoaded', () => {
+    const icon = document.getElementById('themeIcon');
+    if (!icon) return;
+    icon.className = document.documentElement.getAttribute('data-theme') === 'light'
+        ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+});
+
+// ══════════════════════════════════════════════════════════════
+// FULL I18N — Formal Armenian (Հայerен) & Russian (Русский)
+// ══════════════════════════════════════════════════════════════
+const HZ_TRANSLATIONS = {
+  en: {
+    // Navigation
+    'nav.home':     'Home',
+    'nav.services': 'Services',
+    'nav.about':    'About',
+    'nav.contact':  'Contact',
+    'nav.status':   'SYSTEMS ONLINE',
+    // Hero
+    'hero.label':   'HZORTECH // YEREVAN, ARMENIA',
+    'hero.line1':   'STRENGTH',
+    'hero.line2':   'IN PRECISION.',
+    'hero.line3':   'SOVEREIGNTY',
+    'hero.line4':   'IN TECH.',
+    'hero.sub':     'We engineer the infrastructure of modern business — cloud systems, automated workflows, secure pipelines, and software that runs without you watching it.',
+    'hero.cta1':    'Initialize Project',
+    'hero.cta2':    'View Capabilities',
+    // Counter
+    'counter.projects': 'Projects Delivered',
+    'counter.code':     'Lines of Code',
+    'counter.success':  'Success Rate',
+    'counter.years':    'Years Active',
+    // Mission
+    'mission.label': 'MISSION STATEMENT',
+    'mission.text':  'At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience. Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security, and autonomous systems. We provide the edge where physics meets code, and where code runs without human intervention.',
+    // Services
+    'services.label':   'CAPABILITIES // SPEC-FIRST',
+    'services.heading': 'What We Engineer',
+    // About
+    'about.title':       'BUILT ON REAL ENGINEERING.',
+    'about.mission.lbl': 'MISSION',
+    'about.vision.lbl':  'VISION',
+    'about.core.lbl':    'THE ENGINEERING CORE',
+    'about.problem':     'The Problem We Solve',
+    'about.principles':  'OPERATING PRINCIPLES // VALUES',
+    // Contact
+    'contact.heading':   'HAVE A PROBLEM? SEND IT.',
+    'contact.sub':       'No discovery calls. No sales decks. Send a brief and we respond within 48 hours with a direct assessment and proposed approach.',
+    'contact.btn':       'INITIALIZE CONSULTATION',
+    'contact.label.name':    'Name',
+    'contact.label.email':   'Email',
+    'contact.label.subject': 'Subject / Engagement Type',
+    'contact.label.message': 'Project Requirements & Scope',
+    // Footer
+    'footer.tagline': 'Engineering sovereignty through cloud, DevOps, automation, and security.',
+    'footer.rights':  'ALL RIGHTS RESERVED.',
+    'footer.services':'Services',
+    'footer.contact': 'Contact',
+  },
+
+  am: {
+    // Նավիգացիա
+    'nav.home':     'Գլխավոր',
+    'nav.services': 'Ծառայություններ',
+    'nav.about':    'Մեր մասին',
+    'nav.contact':  'Կապ',
+    'nav.status':   'ՀԱՄԱԿԱՐԳԵՐԸ ԱԿՏԻՎ ԵՆ',
+    // Հիմնական բաժին
+    'hero.label':   'HZORTECH // ԵՐԵՒԱՆ, ՀԱՅԱՍՏԱՆ',
+    'hero.line1':   'ՈՒԺ',
+    'hero.line2':   'ՃՇԳՐՏՈՒԹՅԱՆ ՄԵՋ.',
+    'hero.line3':   'ԻՆՔՆԻՇԽԱՆՈՒԹՅՈՒՆ',
+    'hero.line4':   'ՏԵԽՆՈԼՈԳԻԱՆԵՐՈՒՄ.',
+    'hero.sub':     'Մենք ճարտարագիտում ենք ժամանակակից բիզնեսի ենթակառուցվածքը — ամպային համակարգեր, ավտոմատացված աշխատահոսքեր, անվտանգ խողովակաշարեր և ծրագրային ապահովում, որն աշխատում է ձեր անմիջական հսկողության կարիք չունեցող եղանակով:',
+    'hero.cta1':    'Մեկնարկել նախագիծը',
+    'hero.cta2':    'Դիտել հնարավորությունները',
+    // Հաշվիչ
+    'counter.projects': 'Ավարտված նախագծեր',
+    'counter.code':     'Կոդի տողեր',
+    'counter.success':  'Հաջողության տոկոս',
+    'counter.years':    'Ակտիվ տարիներ',
+    // Առաքելություն
+    'mission.label': 'ԱՌԱՔԵԼՈՒԹՅՈՒՆ',
+    'mission.text':  'HZORTECH-ում մենք պարզապես ծրագրային ապահովում չենք ստեղծում — մենք ճարտարագիտում ենք գործառնական կայունության ենթակառուցվածքը: Մեր առաքելությունը հայկական ճարտարագիտական ճշգրտության և ամպային տեխնոլոգիաների, անվտանգության ու ավտոնոմ համակարգերի ճակատի սինթեզն է: Մենք ապահովում ենք այն եզրը, որտեղ ֆիզիկան հանդիպում է կոդին:',
+    // Ծառայություններ
+    'services.label':   'ՀՆԱՐԱՎՈՐՈՒԹՅՈՒՆՆԵՐ // ՏԵԽՆԻԿԱԿԱՆ ՄՈՏԵՑՈՒՄ',
+    'services.heading': 'Ինչ ենք մենք ճարտարագիտում',
+    // Մեր մասին
+    'about.title':       'ԿԱՌՈՒՑՎԱԾ ԻՐԱԿԱՆ ՃԱՐՏԱՐԱԳԻՏՈՒԹՅԱՆ ՎՐԱ.',
+    'about.mission.lbl': 'ԱՌԱՔԵԼՈՒԹՅՈՒՆ',
+    'about.vision.lbl':  'ՏԵՍԼԱԿԱՆ',
+    'about.core.lbl':    'ՃԱՐՏԱՐԱԳԻՏԱԿԱՆ ՄԻՋՈՒԿ',
+    'about.problem':     'Լուծվող խնդիրը',
+    'about.principles':  'ԳՈՐԾԱՌՆԱԿԱՆ ՍԿԶԲՈՒՆՔՆԵՐ // ԱՐԺԵՔՆԵՐ',
+    // Կապ
+    'contact.heading':   'ԽՆԴԻՐ ՈՒՆԵ՞Ք: ՈՒՂԱՐԿԵ՛Ք:',
+    'contact.sub':       'Ոչ մի բացահայտ հանդիպում: Ոչ մի վաճառքային ներկայացում: Ուղարկե՛ք ձեր հարցումը, և մենք կպատասխանենք 48 ժամվա ընթացքում ուղղակի գնահատականով:',
+    'contact.btn':       'ՄԵԿՆԱՐԿԵԼ ԽՈՐՀՐԴԱՏՎՈՒԹՅՈՒՆ',
+    'contact.label.name':    'Անուն',
+    'contact.label.email':   'Էլ. փոստ',
+    'contact.label.subject': 'Թեմա / Ներգրավման տեսակ',
+    'contact.label.message': 'Նախագծի պահանջներ և շրջանակ',
+    // Ստորոտ
+    'footer.tagline': 'Ճարտարագիտական ինքնիշխանություն ամպի, DevOps-ի, ավտոմատացման և կիբերանվտանգության ոլորտներում:',
+    'footer.rights':  'ԲՈՑ ԻՐԱՎՈՒՆՔՆԵՐԸ ՊԱՇՏՊԱՆՎԱԾ ԵՆ.',
+    'footer.services':'Ծառայություններ',
+    'footer.contact': 'Կապ',
+  },
+
+  ru: {
+    // Навигация
+    'nav.home':     'Главная',
+    'nav.services': 'Услуги',
+    'nav.about':    'О компании',
+    'nav.contact':  'Контакт',
+    'nav.status':   'СИСТЕМЫ ОНЛАЙН',
+    // Главный блок
+    'hero.label':   'HZORTECH // ЕРЕВАН, АРМЕНИЯ',
+    'hero.line1':   'СИЛА',
+    'hero.line2':   'В ТОЧНОСТИ.',
+    'hero.line3':   'СУВЕРЕНИТЕТ',
+    'hero.line4':   'В ТЕХНОЛОГИЯХ.',
+    'hero.sub':     'Мы проектируем инфраструктуру современного бизнеса — облачные системы, автоматизированные рабочие процессы, защищённые конвейеры и программное обеспечение, функционирующее без постоянного ручного контроля.',
+    'hero.cta1':    'Запустить проект',
+    'hero.cta2':    'Просмотреть возможности',
+    // Счётчики
+    'counter.projects': 'Завершённых проектов',
+    'counter.code':     'Строк кода',
+    'counter.success':  'Уровень успешности',
+    'counter.years':    'Лет работы',
+    // Миссия
+    'mission.label': 'МИССИЯ',
+    'mission.text':  'В HZORTECH мы не просто создаём программное обеспечение — мы проектируем инфраструктуру операционной устойчивости. Наша миссия — синтез армянской инженерной точности с передовыми технологиями облачных вычислений, информационной безопасности и автономных систем. Мы обеспечиваем рубеж, где физика встречается с кодом.',
+    // Услуги
+    'services.label':   'ВОЗМОЖНОСТИ // ТЕХНИЧЕСКИЙ ПОДХОД',
+    'services.heading': 'Что мы проектируем',
+    // О компании
+    'about.title':       'ПОСТРОЕНО НА РЕАЛЬНОЙ ИНЖЕНЕРИИ.',
+    'about.mission.lbl': 'МИССИЯ',
+    'about.vision.lbl':  'ВИДЕНИЕ',
+    'about.core.lbl':    'ИНЖЕНЕРНОЕ ЯДРО',
+    'about.problem':     'Решаемая проблема',
+    'about.principles':  'ОПЕРАЦИОННЫЕ ПРИНЦИПЫ // ЦЕННОСТИ',
+    // Контакт
+    'contact.heading':   'ЕСТЬ ЗАДАЧА? ОТПРАВЬТЕ.',
+    'contact.sub':       'Без предварительных звонков. Без коммерческих презентаций. Опишите задачу — мы ответим в течение 48 часов с прямой оценкой и предложением.',
+    'contact.btn':       'ИНИЦИИРОВАТЬ КОНСУЛЬТАЦИЮ',
+    'contact.label.name':    'Имя',
+    'contact.label.email':   'Электронная почта',
+    'contact.label.subject': 'Тема / Тип взаимодействия',
+    'contact.label.message': 'Требования к проекту и объём работ',
+    // Подвал
+    'footer.tagline': 'Инженерный суверенитет в сферах облачных технологий, DevOps, автоматизации и безопасности.',
+    'footer.rights':  'ВСЕ ПРАВА ЗАЩИЩЕНЫ.',
+    'footer.services':'Услуги',
+    'footer.contact': 'Контакт',
+  }
+};
+
 function setLang(lang) {
+    // Update toggle UI
     document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
     document.querySelector(`.lang-toggle button[onclick="setLang('${lang}')"]`)?.classList.add('active');
     document.documentElement.setAttribute('data-lang', lang);
-    // Full translation requires backend i18n — this sets the attribute for future expansion
+    localStorage.setItem('hz-lang', lang);
+
+    const dict = HZ_TRANSLATIONS[lang] || HZ_TRANSLATIONS.en;
+
+    // Translate all data-i18n elements (text content)
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+
+    // Translate data-i18n-html elements (innerHTML, for formatted content)
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+
+    // Translate placeholder attributes
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+    });
+
+    // Update html lang attribute
+    const langMap = { en: 'en', am: 'hy', ru: 'ru' };
+    document.documentElement.setAttribute('lang', langMap[lang] || 'en');
 }
+
+// Restore saved language on page load
+(function () {
+    const saved = localStorage.getItem('hz-lang') || 'en';
+    if (saved !== 'en') {
+        // Small delay so DOM is ready
+        document.addEventListener('DOMContentLoaded', () => setLang(saved));
+    }
+})();
 </script>
 
 {% block extra_js %}{% endblock %}
