@@ -28,8 +28,8 @@
                 <div class="t-bar">
                     <span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span>
                 </div>
-                <span class="t-line"><span class="t-prompt">hzortech@contact:~$ </span><span class="t-cmd">compose --new-message</span></span>
-                <span class="t-line t-out">// Fill in the form below. All fields except subject are required.</span>
+                <span class="t-line"><span class="t-prompt">hzortech@contact:~$ </span><span class="t-cmd">initiate --consultation --new</span></span>
+                <span class="t-line t-out">// Submit project scope. All fields except subject are required.</span>
             </div>
             <div class="hz-card hz-card-body hz-card-ember">
                 <form method="post" novalidate>
@@ -48,11 +48,11 @@
                             {% if form.email.errors %}<div style="font-size:0.75rem;color:var(--ember);margin-top:4px;">{{ form.email.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-12">
-                            <label class="form-label">{{ form.subject.label }}</label>
+                            <label class="form-label">Subject / Engagement Type</label>
                             {{ form.subject }}
                         </div>
                         <div class="col-12">
-                            <label class="form-label">{{ form.message.label }}</label>
+                            <label class="form-label">Project Requirements &amp; Scope</label>
                             {{ form.message }}
                             {% if form.message.errors %}<div style="font-size:0.75rem;color:var(--ember);margin-top:4px;">{{ form.message.errors.0 }}</div>{% endif %}
                         </div>
@@ -61,7 +61,7 @@
                     <div class="d-flex align-items-center gap-3">
                         <span class="magnetic-wrap">
                             <button type="submit" class="btn-ember">
-                                TRANSMIT <i class="bi bi-send ms-1"></i>
+                                INITIALIZE CONSULTATION <i class="bi bi-arrow-right ms-1"></i>
                             </button>
                         </span>
                         <span style="font-family:var(--mono);font-size:0.68rem;color:var(--titanium);">// Response within 48h</span>
@@ -92,7 +92,9 @@
             <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Location</div>
                 <span style="color:var(--text);font-size:0.9rem;">Yerevan, Armenia</span>
-                <span style="display:block;font-family:var(--mono);font-size:0.72rem;color:var(--titanium);">Remote-first — clients globally.</span>
+                <span style="display:block;font-family:var(--mono);font-size:0.72rem;color:var(--titanium);margin-bottom:0.75rem;">Remote-first — clients globally.</span>
+                <!-- Dark tactical map -->
+                <div id="hz-map" style="height:180px;border-radius:8px;border:1px solid var(--border);overflow:hidden;"></div>
             </div>
 
             <div style="padding-bottom:1rem;margin-bottom:1.5rem;">
@@ -145,4 +147,45 @@
     </div>
 </section>
 
+{% endblock %}
+
+{% block extra_css %}
+.leaflet-control-attribution { background: rgba(13,13,13,0.8) !important; color: var(--titanium) !important; font-size: 0.6rem !important; }
+.leaflet-control-attribution a { color: var(--ember) !important; }
+.leaflet-popup-content-wrapper { background: var(--silicon) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important; }
+.leaflet-popup-tip { background: var(--silicon) !important; }
+.leaflet-popup-content { color: var(--text) !important; font-family: var(--mono) !important; font-size: 0.75rem !important; }
+{% endblock %}
+
+{% block extra_js %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(function () {
+    const map = L.map('hz-map', {
+        zoomControl: false,
+        attributionControl: true,
+        scrollWheelZoom: false,
+        dragging: false
+    }).setView([40.1872, 44.5152], 13);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(map);
+
+    const icon = L.divIcon({
+        html: '<div style="width:12px;height:12px;background:#E62127;border:2px solid rgba(230,33,39,0.4);border-radius:50%;box-shadow:0 0 10px rgba(230,33,39,0.7);"></div>',
+        className: '',
+        iconSize: [12, 12],
+        iconAnchor: [6, 6]
+    });
+
+    L.marker([40.1872, 44.5152], { icon })
+        .addTo(map)
+        .bindPopup('<strong>HZORTECH</strong><br>Yerevan, Armenia')
+        .openPopup();
+})();
+</script>
 {% endblock %}

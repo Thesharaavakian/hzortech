@@ -22,10 +22,10 @@
             </p>
             <div class="d-flex flex-wrap gap-3">
                 <span class="magnetic-wrap">
-                    <a href="{% url 'contact' %}" class="btn-ember">Start a Project</a>
+                    <a href="{% url 'contact' %}" class="btn-ember">Initialize Project</a>
                 </span>
                 <span class="magnetic-wrap">
-                    <a href="{% url 'services' %}" class="btn-ghost">View Services</a>
+                    <a href="{% url 'services' %}" class="btn-ghost">View Capabilities</a>
                 </span>
             </div>
         </div>
@@ -50,6 +50,32 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══════════════════════════════════════════════════════════════
+     TECHNICAL COUNTER STRIP
+══════════════════════════════════════════════════════════════ -->
+<section class="mb-3 reveal">
+    <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:repeat(4,1fr);">
+        <div class="hz-counter-cell" style="border-right:1px solid var(--border);">
+            <div class="hz-counter" data-target="50" data-suffix="+">0</div>
+            <div class="hz-counter-label">Projects Delivered</div>
+        </div>
+        <div class="hz-counter-cell" style="border-right:1px solid var(--border);">
+            <div class="hz-counter" data-target="1000000" data-display="1M+" data-suffix="">0</div>
+            <div class="hz-counter-label">Lines of Code</div>
+        </div>
+        <div class="hz-counter-cell" style="border-right:1px solid var(--border);">
+            <div class="hz-counter" data-target="99" data-suffix=".9%">0</div>
+            <div class="hz-counter-label">Success Rate</div>
+        </div>
+        <div class="hz-counter-cell">
+            <div class="hz-counter" data-target="3" data-suffix="+">0</div>
+            <div class="hz-counter-label">Years Active</div>
         </div>
     </div>
 </section>
@@ -323,7 +349,7 @@
     </p>
     <span class="magnetic-wrap">
         <a href="{% url 'contact' %}" class="btn-ember" style="font-size:0.85rem;padding:0.75rem 2rem;">
-            INITIATE CONTACT <i class="bi bi-arrow-right ms-2"></i>
+            INITIALIZE COLLABORATION <i class="bi bi-arrow-right ms-2"></i>
         </a>
     </span>
 </section>
@@ -332,4 +358,74 @@
 
 {% block extra_css %}
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hz-counter-cell {
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    transition: background var(--trans);
+}
+.hz-counter-cell:hover { background: var(--ember-dim); }
+.hz-counter {
+    font-family: var(--mono);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--ember);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+}
+.hz-counter-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--titanium);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+@media (max-width: 600px) {
+    [style*="grid-template-columns:repeat(4,1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .hz-counter-cell:nth-child(2) { border-right: none !important; }
+    .hz-counter-cell:nth-child(1),
+    .hz-counter-cell:nth-child(2) { border-bottom: 1px solid var(--border); }
+}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Animated counter on scroll
+const counters = document.querySelectorAll('.hz-counter');
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const display = el.dataset.display;
+        const suffix  = el.dataset.suffix || '';
+
+        // If a static display value is set, just show it after a brief pause
+        if (display) {
+            setTimeout(() => { el.textContent = display; }, 400);
+            counterObserver.unobserve(el);
+            return;
+        }
+
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 1600;
+        const start = performance.now();
+
+        function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            const current = Math.round(eased * target);
+            el.textContent = current + suffix;
+            if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(el);
+    });
+}, { threshold: 0.4 });
+
+counters.forEach(c => counterObserver.observe(c));
+</script>
 {% endblock %}
