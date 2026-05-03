@@ -339,32 +339,21 @@
 
 <hr class="hz-line">
 
-<!-- ══════════════════════════════════════════════════════════════
-     LIVE LAB — Photo strip
-     Drop your images into:
-       business_page/static/business_page/images/
-     Name them: lab-01.jpg, lab-02.jpg, lab-03.jpg, lab-04.jpg
-     Then remove the data-placeholder divs and uncomment the <img> tags.
-══════════════════════════════════════════════════════════════ -->
+<!-- LIVE LAB photo strip -->
 <section class="mb-3">
     <div class="hz-label reveal">LIVE LAB // YEREVAN OPERATIONS</div>
     <h2 class="display-section mb-4 reveal">Engineering,<br><span style="color:var(--ember);">Not Promises.</span></h2>
     <div class="row g-2 reveal">
-        {# Photo slots: drop lab-01.jpg .. lab-04.jpg into business_page/static/business_page/images/ #}
         {% for slot in "1234" %}
         <div class="col-6 col-md-3">
             <div style="height:220px;border-radius:var(--radius);border:1px solid var(--border);
                         background:var(--silicon);display:flex;flex-direction:column;
-                        align-items:center;justify-content:center;gap:0.5rem;">
-                <i class="bi bi-image" style="font-size:2rem;color:var(--border);"></i>
-                <span style="font-family:var(--mono);font-size:0.65rem;color:var(--border);text-transform:uppercase;letter-spacing:0.08em;">lab-0{{ slot }}.jpg</span>
+                        align-items:center;justify-content:center;">
+                <i class="bi bi-image" style="font-size:2.5rem;color:var(--border);"></i>
             </div>
         </div>
         {% endfor %}
     </div>
-    <p class="mt-2" style="font-family:var(--mono);font-size:0.68rem;color:var(--titanium);">
-        // Add photos to <code style="color:var(--ember);">business_page/static/business_page/images/</code> — push to deploy automatically.
-    </p>
 </section>
 
 <hr class="hz-line">
