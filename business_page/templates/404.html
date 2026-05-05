@@ -1,0 +1,16 @@
+{% extends "business_page/base.html" %}
+{% block title %}404 — HZORTECH{% endblock %}
+{% block content %}
+<section class="text-center py-5 reveal">
+    <div style="font-family:var(--mono);font-size:6rem;font-weight:800;color:var(--ember);line-height:1;margin-bottom:1rem;">404</div>
+    <div class="hz-label" style="justify-content:center;" data-i18n="err.404.label">ERROR // NOT FOUND</div>
+    <h1 class="display-section mb-3 mt-2" data-i18n="err.404.heading">Page Not Found.</h1>
+    <p style="max-width:420px;margin:0 auto 2rem;" data-i18n="err.404.sub">
+        The page you are looking for does not exist or has been moved.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="/" class="btn-ember" data-i18n="err.404.home">Return Home</a>
+        <a href="/contact/" class="btn-ghost" data-i18n="err.404.contact">Contact Us</a>
+    </div>
+</section>
+{% endblock %}

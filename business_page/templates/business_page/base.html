@@ -1,1193 +1,532 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
-
+<html lang="en" data-theme="light" data-lang="en">
 <head>
     {% load static %}
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}HZORTECH{% endblock %}</title>
-    <meta name="description" content="HzorTech — engineering sovereignty through cloud infrastructure, DevOps, security, and automation. Yerevan, Armenia.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="HzorTech">
+    <title>{% block title %}HZORTECH{% endblock %}</title>
+    <meta name="description" content="{% block meta_desc %}HZORTECH — Cloud infrastructure, DevOps, automation and security engineering. Yerevan, Armenia.{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}HZORTECH{% endblock %}">
+    <meta property="og:description" content="Engineering sovereignty through cloud, DevOps, automation, and security.">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <link rel="alternate" hreflang="en" href="https://hzortech.com{{ request.path }}">
+    <link rel="alternate" hreflang="hy" href="https://hzortech.com{{ request.path }}">
+    <link rel="alternate" hreflang="ru" href="https://hzortech.com{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="https://hzortech.com{{ request.path }}">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"HZORTECH","url":"https://hzortech.com","email":"shara@hzortech.com","telephone":"+37477075919","address":{"@type":"PostalAddress","addressLocality":"Yerevan","addressCountry":"AM"},"areaServed":"Worldwide"}</script>
 
-    <!-- Security headers via meta (real headers set by nginx) -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-
-    <!-- Bootstrap + Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Typography: Inter Tight + JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /* ══════════════════════════════════════════════════════════════
-           COLOR DNA
-        ══════════════════════════════════════════════════════════════ */
-        :root {
-            --obsidian:   #0D0D0D;          /* main canvas — deep charcoal */
-            --ember:      #E62127;          /* CTAs, alerts, separators */
-            --ember-dim:  rgba(230,33,39,0.12);
-            --ember-glow: rgba(230,33,39,0.25);
-            --titanium:   #8E9196;          /* body text */
-            --silicon:    #1A1D23;          /* card background */
-            --silicon-2:  #12151A;          /* deeper card */
-            --status:     #00FF41;          /* live indicator */
-            --text:       #F0F0F0;          /* headings */
-            --border:     rgba(255,255,255,0.06);
-            --border-lit: rgba(230,33,39,0.3);
-            --glass:      rgba(26,29,35,0.75);
-            --sans:       'Inter Tight', sans-serif;
-            --mono:       'JetBrains Mono', monospace;
-            --radius:     12px;
-            --trans:      0.2s ease;
-            --shadow-card: 0 20px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.04) inset;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html { scroll-behavior: smooth; }
-
-        /* ── Blueprint grid background ── */
-        body {
-            font-family: var(--sans);
-            background-color: var(--obsidian);
-            background-image:
-                linear-gradient(rgba(230,33,39,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(230,33,39,0.025) 1px, transparent 1px);
-            background-size: 40px 40px;
-            color: var(--titanium);
-            font-size: 15px;
-            line-height: 1.65;
-            -webkit-font-smoothing: antialiased;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        main { flex: 1; }
-
-        /* ── Hzor Pulse — site heartbeat ── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(230,33,39,0.04) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-            animation: hzorPulse 4s ease-in-out infinite;
-        }
-        @keyframes hzorPulse {
-            0%,100% { opacity: 0.6; }
-            50%      { opacity: 1; }
-        }
-
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--obsidian); }
-        ::-webkit-scrollbar-thumb { background: var(--ember); border-radius: 2px; }
-
-        /* ══════════════════════════════════════════════════════════════
-           NAVBAR
-        ══════════════════════════════════════════════════════════════ */
-        .navbar {
-            background: rgba(10,10,11,0.9) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 0.9rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar-brand {
-            font-family: var(--sans);
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 0.08em;
-            color: var(--text) !important;
-            text-transform: uppercase;
-        }
-        .navbar-brand .hz-red { color: var(--ember); }
-
-        /* Laser hover effect */
-        .nav-link {
-            font-family: var(--sans);
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--titanium) !important;
-            padding: 0.4rem 0.9rem !important;
-            position: relative;
-            transition: color var(--trans);
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: var(--ember);
-            transition: width 200ms ease, left 200ms ease;
-            box-shadow: 0 0 6px var(--ember);
-        }
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--text) !important;
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-            left: 0;
-        }
-
-        .navbar-toggler {
-            border-color: var(--border);
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28240,240,240,0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        /* Language toggle */
-        .lang-toggle {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-        }
-        .lang-toggle button {
-            background: none;
-            border: none;
-            color: var(--titanium);
-            padding: 2px 5px;
-            cursor: pointer;
-            transition: color var(--trans);
-            font-family: var(--mono);
-            font-size: 0.68rem;
-        }
-        .lang-toggle button:hover,
-        .lang-toggle button.active {
-            color: var(--ember);
-        }
-        .lang-toggle .sep {
-            color: var(--border);
-            user-select: none;
-        }
-
-        /* Status indicator */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            color: var(--titanium);
-            letter-spacing: 0.06em;
-        }
-        .status-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--status);
-            box-shadow: 0 0 6px var(--status);
-            animation: statusPulse 2s ease-in-out infinite;
-        }
-        @keyframes statusPulse {
-            0%,100% { opacity: 1; box-shadow: 0 0 6px var(--status); }
-            50%      { opacity: 0.5; box-shadow: 0 0 2px var(--status); }
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           BUTTONS
-        ══════════════════════════════════════════════════════════════ */
-        .btn-ember {
-            background: var(--ember);
-            border: none;
-            color: #fff;
-            font-family: var(--sans);
-            font-weight: 700;
-            font-size: 0.78rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 0.65rem 1.6rem;
-            border-radius: 6px;
-            transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn-ember::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
-        }
-        .btn-ember:hover {
-            color: #fff;
-            background: #ff2a30;
-            box-shadow: 0 8px 24px rgba(230,33,39,0.45);
-            transform: translateY(-1px);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--titanium);
-            font-family: var(--sans);
-            font-weight: 600;
-            font-size: 0.78rem;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            padding: 0.65rem 1.6rem;
-            border-radius: 6px;
-            transition: all var(--trans);
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn-ghost:hover {
-            border-color: var(--ember);
-            color: var(--text);
-            background: var(--ember-dim);
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           CARDS — GLASSMORPHISM 2.0
-        ══════════════════════════════════════════════════════════════ */
-        .hz-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-card);
-            transition: border-color var(--trans), transform var(--trans), box-shadow var(--trans);
-        }
-        .hz-card:hover {
-            border-color: rgba(230,33,39,0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 28px 56px rgba(0,0,0,0.6), 0 0 0 1px rgba(230,33,39,0.1);
-        }
-        .hz-card-body { padding: 1.75rem; }
-
-        /* Ember top-border variant */
-        .hz-card-ember {
-            border-top: 1px solid var(--ember) !important;
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           TYPOGRAPHY
-        ══════════════════════════════════════════════════════════════ */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--sans);
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-
-        .display-hero {
-            font-size: clamp(2.2rem, 6vw, 4.5rem);
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            text-transform: uppercase;
-            line-height: 1.0;
-        }
-
-        .display-section {
-            font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            text-transform: uppercase;
-        }
-
-        p { color: var(--titanium); line-height: 1.7; }
-        strong { color: var(--text); font-weight: 700; }
-
-        .text-ember   { color: var(--ember) !important; }
-        .text-status  { color: var(--status) !important; }
-        .text-titanium { color: var(--titanium) !important; }
-        .text-mono    { font-family: var(--mono) !important; }
-
-        /* Section label (small tag above heading) */
-        .hz-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--ember);
-            margin-bottom: 1rem;
-        }
-        .hz-label::before {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 1px;
-            background: var(--ember);
-        }
-
-        /* Ember divider */
-        .hz-line {
-            height: 1px;
-            background: linear-gradient(90deg, var(--ember) 0%, transparent 100%);
-            border: none;
-            margin: 3rem 0;
-            opacity: 0.4;
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           BENTO GRID
-        ══════════════════════════════════════════════════════════════ */
-        .bento-grid {
-            display: grid;
-            gap: 16px;
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           SPEC TABLE
-        ══════════════════════════════════════════════════════════════ */
-        .spec-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: var(--mono);
-            font-size: 0.78rem;
-        }
-        .spec-table td {
-            padding: 0.5rem 0.75rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--titanium);
-        }
-        .spec-table td:first-child {
-            color: var(--ember);
-            white-space: nowrap;
-            width: 35%;
-        }
-        .spec-table tr:last-child td { border-bottom: none; }
-
-        /* ══════════════════════════════════════════════════════════════
-           TERMINAL / CODE BLOCKS
-        ══════════════════════════════════════════════════════════════ */
-        .hz-terminal {
-            background: #0D0D0F;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem 1.5rem;
-            font-family: var(--mono);
-            font-size: 0.82rem;
-        }
-        .hz-terminal .t-bar {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-        .hz-terminal .t-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-        }
-        .hz-terminal .t-dot.red    { background: #FF5F57; }
-        .hz-terminal .t-dot.yellow { background: #FEBC2E; }
-        .hz-terminal .t-dot.green  { background: #28C840; }
-        .hz-terminal .t-prompt { color: var(--ember); }
-        .hz-terminal .t-cmd    { color: var(--text); }
-        .hz-terminal .t-out    { color: var(--status); }
-        .hz-terminal .t-comment { color: var(--titanium); }
-        .hz-terminal .t-line { display: block; margin-bottom: 0.25rem; }
-
-        /* ══════════════════════════════════════════════════════════════
-           CHIP / BADGE
-        ══════════════════════════════════════════════════════════════ */
-        .hz-chip {
-            display: inline-block;
-            font-family: var(--mono);
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.04em;
-            background: var(--silicon);
-            border: 1px solid var(--border);
-            color: var(--titanium);
-            border-radius: 4px;
-            padding: 0.18rem 0.55rem;
-            margin: 0.12rem 0.08rem;
-            text-transform: uppercase;
-        }
-        .hz-chip-ember {
-            border-color: var(--ember-glow);
-            color: var(--ember);
-            background: var(--ember-dim);
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           FORMS
-        ══════════════════════════════════════════════════════════════ */
-        .form-control, .form-select {
-            background: var(--silicon-2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 6px;
-            font-family: var(--sans);
-            font-size: 0.875rem;
-            padding: 0.65rem 1rem;
-            transition: border-color var(--trans), box-shadow var(--trans);
-        }
-        .form-control:focus, .form-select:focus {
-            background: var(--silicon-2);
-            border-color: var(--ember);
-            color: var(--text);
-            box-shadow: 0 0 0 3px rgba(230,33,39,0.15);
-            outline: none;
-        }
-        .form-control::placeholder { color: rgba(142,145,150,0.5); }
-        .form-label {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--titanium);
-            margin-bottom: 0.4rem;
-        }
-        textarea.form-control { resize: vertical; min-height: 120px; }
-
-        /* Alert messages */
-        .alert-success {
-            background: rgba(0,255,65,0.08);
-            border: 1px solid rgba(0,255,65,0.2);
-            color: var(--status);
-            border-radius: 6px;
-        }
-        .alert-danger, .alert-error {
-            background: var(--ember-dim);
-            border: 1px solid var(--ember-glow);
-            color: var(--ember);
-            border-radius: 6px;
-        }
-        .btn-close { filter: invert(1) opacity(0.5); }
-
-        /* ══════════════════════════════════════════════════════════════
-           SCROLL REVEAL ANIMATION
-        ══════════════════════════════════════════════════════════════ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           COMMAND PALETTE
-        ══════════════════════════════════════════════════════════════ */
-        .cmd-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px);
-            z-index: 9000;
-            align-items: flex-start;
-            justify-content: center;
-            padding-top: 15vh;
-        }
-        .cmd-overlay.active { display: flex; }
-        .cmd-palette {
-            width: 100%;
-            max-width: 560px;
-            background: var(--silicon);
-            border: 1px solid rgba(230,33,39,0.3);
-            border-radius: var(--radius);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
-        .cmd-input-wrap {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border);
-        }
-        .cmd-input-wrap i { color: var(--ember); font-size: 1rem; }
-        .cmd-input {
-            flex: 1;
-            background: none;
-            border: none;
-            outline: none;
-            color: var(--text);
-            font-family: var(--mono);
-            font-size: 0.9rem;
-        }
-        .cmd-hint {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            color: var(--titanium);
-            background: var(--silicon-2);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            padding: 1px 5px;
-        }
-        .cmd-results { padding: 0.5rem; }
-        .cmd-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.6rem 0.75rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background var(--trans);
-            text-decoration: none;
-        }
-        .cmd-item:hover, .cmd-item.selected {
-            background: var(--ember-dim);
-        }
-        .cmd-item i { color: var(--ember); width: 16px; text-align: center; }
-        .cmd-item-label {
-            font-family: var(--sans);
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-        .cmd-item-sub {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            color: var(--titanium);
-            margin-left: auto;
-        }
-        .cmd-section {
-            font-family: var(--mono);
-            font-size: 0.62rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--titanium);
-            padding: 0.5rem 0.75rem 0.25rem;
-        }
-        .cmd-footer {
-            padding: 0.6rem 1.25rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 1rem;
-        }
-        .cmd-key {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            color: var(--titanium);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .cmd-key kbd {
-            background: var(--silicon-2);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            padding: 1px 5px;
-            font-family: var(--mono);
-            font-size: 0.65rem;
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           MAGNETIC BUTTON WRAPPER
-        ══════════════════════════════════════════════════════════════ */
-        .magnetic-wrap {
-            display: inline-block;
-            position: relative;
-        }
-
-        /* ══════════════════════════════════════════════════════════════
-           FOOTER
-        ══════════════════════════════════════════════════════════════ */
-        footer {
-            background: var(--silicon-2) !important;
-            border-top: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
-        }
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--ember), transparent);
-            opacity: 0.4;
-        }
-        footer p, footer small { color: var(--titanium); font-size: 0.8rem; }
-        footer a {
-            color: var(--titanium);
-            text-decoration: none;
-            font-size: 0.82rem;
-            transition: color var(--trans);
-        }
-        footer a:hover { color: var(--ember); }
-
-        /* ══════════════════════════════════════════════════════════════
-           UTILITIES
-        ══════════════════════════════════════════════════════════════ */
-        .ember-border-left { border-left: 2px solid var(--ember); padding-left: 1rem; }
-        .grid-line { width: 100%; height: 1px; background: var(--border); }
-
-        /* ══════════════════════════════════════════════════════════════
-           LIGHT MODE — full override
-        ══════════════════════════════════════════════════════════════ */
-        [data-theme="light"] {
-            --obsidian:   #F0F2F5;
-            --silicon:    #FFFFFF;
-            --silicon-2:  #F5F7FA;
-            --text:       #0D0D0D;
-            --titanium:   #4A4E57;
-            --border:     rgba(0,0,0,0.09);
-            --border-lit: rgba(230,33,39,0.4);
-            --glass:      rgba(255,255,255,0.92);
-            --ember-dim:  rgba(230,33,39,0.07);
-            --ember-glow: rgba(230,33,39,0.2);
-            --shadow-card: 0 4px 24px rgba(0,0,0,0.08), 0 1px 0 rgba(0,0,0,0.04);
-        }
-        [data-theme="light"] body {
-            background-color: var(--obsidian);
-            background-image:
-                linear-gradient(rgba(230,33,39,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(230,33,39,0.05) 1px, transparent 1px);
-        }
-        [data-theme="light"] body::before { opacity: 0.3; }
-        [data-theme="light"] .navbar {
-            background: rgba(240,242,245,0.94) !important;
-            border-bottom-color: rgba(0,0,0,0.08);
-        }
-        [data-theme="light"] .navbar-brand { color: var(--text) !important; }
-        [data-theme="light"] footer { background: #E8EAED !important; }
-        [data-theme="light"] .hz-terminal { background: #F5F7FA; }
-        [data-theme="light"] #themeIcon::before { content: "\F497"; } /* sun icon */
-        [data-theme="light"] ::-webkit-scrollbar-track { background: #F0F2F5; }
-
-        {% block extra_css %}{% endblock %}
+/* LIGHT (default) */
+:root {
+    --bg:#FFFFFF; --bg2:#F8F9FA; --surface:#FFFFFF; --surface2:#F1F3F5;
+    --border:rgba(0,0,0,0.09); --text:#111111; --muted:#4A4E57; --dim:#9198A1;
+    --ember:#E62127; --ember-dim:rgba(230,33,39,0.08); --ember-glow:rgba(230,33,39,0.22);
+    --prec:#059669; --prec-dim:rgba(5,150,105,0.1); --status:#059669;
+    --shadow:0 4px 24px rgba(0,0,0,0.07); --shadow-lg:0 16px 48px rgba(0,0,0,0.12);
+    --radius:12px; --sans:'Inter Tight',system-ui,sans-serif;
+    --mono:'JetBrains Mono',monospace; --trans:0.18s ease;
+}
+/* DARK */
+[data-theme="dark"] {
+    --bg:#0D0D0D; --bg2:#111115; --surface:#1A1D23; --surface2:#12151A;
+    --border:rgba(255,255,255,0.07); --text:#F0F0F0; --muted:#8E9196; --dim:#4A5162;
+    --ember-dim:rgba(230,33,39,0.12); --ember-glow:rgba(230,33,39,0.28);
+    --prec:#00CC66; --prec-dim:rgba(0,204,102,0.1); --status:#00FF41;
+    --shadow:0 20px 48px rgba(0,0,0,0.5); --shadow-lg:0 40px 80px rgba(0,0,0,0.6);
+}
+[data-theme="dark"] body {
+    background-color:var(--bg);
+    background-image:linear-gradient(rgba(230,33,39,0.025) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(230,33,39,0.025) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--sans);background:var(--bg);color:var(--muted);line-height:1.65;
+  -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;
+  transition:background var(--trans),color var(--trans)}
+main{flex:1}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--ember);border-radius:2px}
+h1,h2,h3,h4,h5,h6{font-family:var(--sans);font-weight:800;color:var(--text);letter-spacing:-0.02em;line-height:1.1}
+p{color:var(--muted);line-height:1.7}
+strong{color:var(--text);font-weight:700}
+a{color:var(--ember);text-decoration:none;transition:opacity var(--trans)}
+a:hover{opacity:.8}
+.display-hero{font-size:clamp(2rem,6vw,4.5rem);font-weight:900;letter-spacing:-0.03em;text-transform:uppercase;line-height:1}
+.display-section{font-size:clamp(1.5rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-0.025em;text-transform:uppercase}
+.hz-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);margin-bottom:.9rem}
+.hz-label::before{content:'';display:block;width:16px;height:1px;background:var(--ember)}
+.hz-line{height:1px;background:var(--border);border:none;margin:3rem 0}
+.hz-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);transition:border-color var(--trans),transform var(--trans),box-shadow var(--trans)}
+.hz-card:hover{border-color:var(--ember-glow);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.hz-card-body{padding:1.75rem}
+.hz-card-ember{border-top:2px solid var(--ember)!important}
+.btn-ember{display:inline-block;background:var(--ember);border:none;color:#fff!important;font-family:var(--sans);font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.6rem;border-radius:8px;transition:transform var(--trans),box-shadow var(--trans),background var(--trans);cursor:pointer;text-decoration:none}
+.btn-ember:hover{background:#ff2a30;box-shadow:0 8px 24px var(--ember-glow);transform:translateY(-1px);color:#fff!important}
+.btn-ghost{display:inline-block;background:transparent;border:1px solid var(--border);color:var(--muted)!important;font-family:var(--sans);font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.6rem;border-radius:8px;transition:all var(--trans);text-decoration:none}
+.btn-ghost:hover{border-color:var(--ember);color:var(--ember)!important;background:var(--ember-dim)}
+.navbar{background:rgba(255,255,255,0.94)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:.75rem 0;position:sticky;top:0;z-index:1000;transition:background var(--trans)}
+[data-theme="dark"] .navbar{background:rgba(13,13,13,0.92)!important}
+.navbar-brand{font-family:var(--sans);font-weight:900;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text)!important;text-decoration:none}
+.nav-link{font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)!important;padding:.4rem .8rem!important;position:relative;transition:color var(--trans);text-decoration:none}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:var(--ember);transition:width 200ms ease,left 200ms ease}
+.nav-link:hover,.nav-link.active{color:var(--text)!important}
+.nav-link:hover::after,.nav-link.active::after{width:100%;left:0}
+.navbar-toggler{border-color:var(--border)}
+.navbar-toggler-icon{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2870,78,87,0.9%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")}
+[data-theme="dark"] .navbar-toggler-icon{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28240,240,240,0.8%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")}
+.lang-toggle{display:flex;align-items:center;gap:2px;font-family:var(--mono);font-size:.68rem}
+.lang-toggle button{background:none;border:none;color:var(--muted);padding:2px 5px;cursor:pointer;font-family:var(--mono);font-size:.68rem;transition:color var(--trans)}
+.lang-toggle button:hover,.lang-toggle button.active{color:var(--ember)}
+.lang-toggle .sep{color:var(--border);user-select:none}
+.theme-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all var(--trans)}
+.theme-btn:hover{border-color:var(--ember);color:var(--ember)}
+.status-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.64rem;color:var(--muted);letter-spacing:.06em}
+.status-dot{width:5px;height:5px;border-radius:50%;background:var(--prec);box-shadow:0 0 5px var(--prec);animation:spulse 2s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:1}50%{opacity:.4}}
+.spec-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.77rem}
+.spec-table td{padding:.45rem .6rem;border-bottom:1px solid var(--border);color:var(--muted)}
+.spec-table td:first-child{color:var(--ember);white-space:nowrap;width:38%}
+.spec-table tr:last-child td{border-bottom:none}
+.hz-chip{display:inline-block;font-family:var(--mono);font-size:.68rem;background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:.18rem .55rem;margin:.12rem .08rem;text-transform:uppercase;letter-spacing:.03em}
+.hz-chip-ember{border-color:var(--ember-glow);color:var(--ember);background:var(--ember-dim)}
+.hz-terminal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;font-family:var(--mono);font-size:.82rem}
+[data-theme="dark"] .hz-terminal{background:#0A0A0C}
+.hz-terminal .t-bar{display:flex;gap:6px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+.hz-terminal .t-dot{width:10px;height:10px;border-radius:50%}
+.hz-terminal .t-dot.red{background:#FF5F57}.hz-terminal .t-dot.yellow{background:#FEBC2E}.hz-terminal .t-dot.green{background:#28C840}
+.hz-terminal .t-prompt{color:var(--ember)}.hz-terminal .t-cmd{color:var(--text)}.hz-terminal .t-out{color:var(--prec)}.hz-terminal .t-comment{color:var(--muted)}.hz-terminal .t-line{display:block;margin-bottom:.25rem}
+.form-control,.form-select{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;font-family:var(--sans);font-size:.9rem;padding:.7rem 1rem;transition:border-color var(--trans),box-shadow var(--trans);min-height:48px}
+.form-control:focus,.form-select:focus{background:var(--surface2);border-color:var(--ember);color:var(--text);box-shadow:0 0 0 3px var(--ember-dim);outline:none}
+.form-control::placeholder{color:var(--dim)}
+.form-label{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;display:block}
+textarea.form-control{resize:vertical;min-height:130px}
+.alert-success{background:var(--prec-dim);border:1px solid rgba(5,150,105,.25);color:var(--prec);border-radius:8px}
+.alert-danger{background:var(--ember-dim);border:1px solid var(--ember-glow);color:var(--ember);border-radius:8px}
+.btn-close{filter:invert(.5)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.magnetic-wrap{display:inline-block;position:relative}
+#floatCta{position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+#floatCta.visible{opacity:1;transform:translateY(0);pointer-events:all}
+#floatCta .btn-ember{box-shadow:0 8px 24px var(--ember-glow);font-size:.75rem;padding:.6rem 1.2rem}
+#cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:2000;background:var(--surface);border-top:1px solid var(--border);padding:1rem 1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;box-shadow:0 -4px 20px rgba(0,0,0,.08);transform:translateY(100%);transition:transform .4s ease}
+#cookieBanner.show{transform:translateY(0)}
+#cookieBanner p{font-size:.82rem;margin:0;color:var(--muted)}
+.cmd-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:9000;align-items:flex-start;justify-content:center;padding-top:14vh}
+.cmd-overlay.active{display:flex}
+.cmd-palette{width:100%;max-width:540px;background:var(--surface);border:1px solid var(--ember-glow);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden}
+.cmd-input-wrap{display:flex;align-items:center;gap:10px;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.cmd-input-wrap i{color:var(--ember)}
+.cmd-input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:.88rem}
+.cmd-results{padding:.5rem;max-height:300px;overflow-y:auto}
+.cmd-item{display:flex;align-items:center;gap:10px;padding:.6rem .75rem;border-radius:6px;cursor:pointer;transition:background var(--trans);text-decoration:none}
+.cmd-item:hover,.cmd-item.selected{background:var(--ember-dim)}
+.cmd-item i{color:var(--ember);width:16px;text-align:center}
+.cmd-item-label{font-family:var(--sans);font-size:.85rem;font-weight:500;color:var(--text)}
+.cmd-section{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:.5rem .75rem .25rem}
+.cmd-footer{padding:.6rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:1rem}
+.cmd-key{font-family:var(--mono);font-size:.65rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.cmd-key kbd{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-family:var(--mono);font-size:.65rem;color:var(--text)}
+footer{background:var(--bg2)!important;border-top:1px solid var(--border)}
+footer a{color:var(--muted);font-size:.82rem;transition:color var(--trans);text-decoration:none}
+footer a:hover{color:var(--ember)}
+@media(max-width:768px){
+  .display-hero{font-size:clamp(1.8rem,10vw,3rem)}
+  .display-section{font-size:clamp(1.4rem,7vw,2rem)}
+  .hz-card-body{padding:1.25rem}
+  #floatCta{bottom:1rem;right:1rem}
+}
+    {% block extra_css %}{% endblock %}
     </style>
 </head>
-
 <body>
 
-<!-- ── Command Palette Overlay ── -->
-<div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Command palette">
-    <div class="cmd-palette">
-        <div class="cmd-input-wrap">
-            <i class="bi bi-terminal"></i>
-            <input class="cmd-input" id="cmdInput" type="text" placeholder="Type a command or search...">
-            <kbd class="cmd-hint">ESC</kbd>
-        </div>
-        <div class="cmd-results" id="cmdResults">
-            <div class="cmd-section">Navigation</div>
-            <a class="cmd-item" href="/" data-label="Home" data-keys="home">
-                <i class="bi bi-house"></i>
-                <span class="cmd-item-label">Home</span>
-                <span class="cmd-item-sub">/ </span>
-            </a>
-            <a class="cmd-item" href="/services/" data-label="Services" data-keys="services">
-                <i class="bi bi-gear"></i>
-                <span class="cmd-item-label">Services</span>
-                <span class="cmd-item-sub">/services/</span>
-            </a>
-            <a class="cmd-item" href="/about/" data-label="About" data-keys="about team">
-                <i class="bi bi-people"></i>
-                <span class="cmd-item-label">About</span>
-                <span class="cmd-item-sub">/about/</span>
-            </a>
-            <a class="cmd-item" href="/contact/" data-label="Contact" data-keys="contact email">
-                <i class="bi bi-send"></i>
-                <span class="cmd-item-label">Contact</span>
-                <span class="cmd-item-sub">/contact/</span>
-            </a>
-            <div class="cmd-section">Actions</div>
-            <a class="cmd-item" href="mailto:shara@hzortech.com" data-label="Send Email" data-keys="email send">
-                <i class="bi bi-envelope"></i>
-                <span class="cmd-item-label">Send Email</span>
-                <span class="cmd-item-sub">shara@hzortech.com</span>
-            </a>
-        </div>
-        <div class="cmd-footer">
-            <span class="cmd-key"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
-            <span class="cmd-key"><kbd>↵</kbd> Open</span>
-            <span class="cmd-key"><kbd>ESC</kbd> Close</span>
-        </div>
+<div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true">
+  <div class="cmd-palette">
+    <div class="cmd-input-wrap">
+      <i class="bi bi-terminal"></i>
+      <input class="cmd-input" id="cmdInput" type="text" placeholder="Search...">
+      <kbd style="font-family:var(--mono);font-size:.65rem;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;color:var(--muted)">ESC</kbd>
     </div>
+    <div class="cmd-results" id="cmdResults">
+      <div class="cmd-section">Navigation</div>
+      <a class="cmd-item" href="/"><i class="bi bi-house"></i><span class="cmd-item-label" data-i18n="nav.home">Home</span></a>
+      <a class="cmd-item" href="/services/"><i class="bi bi-gear"></i><span class="cmd-item-label" data-i18n="nav.services">Services</span></a>
+      <a class="cmd-item" href="/about/"><i class="bi bi-people"></i><span class="cmd-item-label" data-i18n="nav.about">About</span></a>
+      <a class="cmd-item" href="/projects/"><i class="bi bi-grid"></i><span class="cmd-item-label" data-i18n="nav.projects">Projects</span></a>
+      <a class="cmd-item" href="/contact/"><i class="bi bi-send"></i><span class="cmd-item-label" data-i18n="nav.contact">Contact</span></a>
+    </div>
+    <div class="cmd-footer">
+      <span class="cmd-key"><kbd>↑↓</kbd> Navigate</span>
+      <span class="cmd-key"><kbd>↵</kbd> Open</span>
+      <span class="cmd-key"><kbd>ESC</kbd> Close</span>
+    </div>
+  </div>
 </div>
 
-<!-- ── Navbar ── -->
 <header>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="/">HZORTECH</a>
-
-            <div class="d-flex align-items-center gap-3 ms-auto">
-                <!-- Status indicator -->
-                <span class="status-badge d-none d-lg-flex">
-                    <span class="status-dot"></span>
-                    <span data-i18n="nav.status">SYSTEMS ONLINE</span>
-                </span>
-
-                <!-- Dark/Light mode toggle -->
-                <button id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode"
-                        style="background:var(--silicon);border:1px solid var(--border);border-radius:4px;padding:4px 8px;cursor:pointer;color:var(--titanium);font-size:0.8rem;line-height:1;transition:all 0.2s;">
-                    <i class="bi bi-moon-fill" id="themeIcon"></i>
-                </button>
-
-                <!-- Language toggle -->
-                <div class="lang-toggle d-none d-lg-flex">
-                    <button class="active" onclick="setLang('en')">EN</button>
-                    <span class="sep">|</span>
-                    <button onclick="setLang('am')">AM</button>
-                    <span class="sep">|</span>
-                    <button onclick="setLang('ru')">RU</button>
-                </div>
-
-                <!-- Cmd+K hint -->
-                <button class="cmd-hint d-none d-lg-flex align-items-center gap-1"
-                        onclick="openPalette()" title="Command palette (Ctrl+K)"
-                        style="background:var(--silicon);border:1px solid var(--border);border-radius:4px;padding:3px 8px;cursor:pointer;color:var(--titanium);font-family:var(--mono);font-size:0.65rem;">
-                    <i class="bi bi-terminal" style="font-size:0.7rem;color:var(--ember)"></i>
-                    CTRL+K
-                </button>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-3 gap-1">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}" data-i18n="nav.home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'services' %}" data-i18n="nav.services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-i18n="nav.about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}" data-i18n="nav.contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+  <div class="container">
+    <a class="navbar-brand" href="/">HZORTECH</a>
+    <div class="d-flex align-items-center gap-2 ms-auto order-lg-last">
+      <span class="status-badge d-none d-xl-flex">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span data-i18n="nav.status">SYSTEMS ONLINE</span>
+      </span>
+      <div class="lang-toggle" role="group" aria-label="Language selector">
+        <button onclick="setLang('en')" class="active" aria-label="English">EN</button>
+        <span class="sep" aria-hidden="true">|</span>
+        <button onclick="setLang('am')" aria-label="Հայerեն">AM</button>
+        <span class="sep" aria-hidden="true">|</span>
+        <button onclick="setLang('ru')" aria-label="Русский">RU</button>
+      </div>
+      <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <i class="bi bi-sun-fill" id="themeIcon"></i>
+      </button>
+      <button style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:.65rem;display:flex;align-items:center;gap:4px" onclick="openPalette()" class="d-none d-lg-flex" aria-label="Command palette">
+        <i class="bi bi-terminal" style="color:var(--ember);font-size:.7rem"></i>CTRL+K
+      </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-3 gap-1 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"     data-i18n="nav.home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'services' %}" data-i18n="nav.services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"    data-i18n="nav.about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'projects' %}" data-i18n="nav.projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"  data-i18n="nav.contact">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <a href="{% url 'contact' %}" class="btn-ember" style="font-size:.75rem;padding:.5rem 1rem" data-i18n="nav.cta">Initialize</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 </header>
 
-<main>
-    <div class="container py-5" style="position:relative;z-index:1;">
-        {% if messages %}
-        <div class="mb-4">
-            {% for message in messages %}
-            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+<div id="floatCta" aria-hidden="true">
+  <a href="{% url 'contact' %}" class="btn-ember d-flex align-items-center gap-2" tabindex="-1">
+    <i class="bi bi-send"></i><span data-i18n="float.cta">Send Brief</span>
+  </a>
+</div>
 
-        {% block content %}{% endblock %}
+<main>
+  <div class="container py-5">
+    {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+      <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show d-flex align-items-center gap-2">
+        <i class="bi {% if message.tags == 'error' %}bi-exclamation-triangle{% else %}bi-check-circle{% endif %}"></i>
+        {% if message.message == 'sent' %}<span data-i18n="msg.sent">Message sent — we'll respond within 48 hours.</span>
+        {% elif message.message == 'received' %}<span data-i18n="msg.received">Message received — we'll respond within 48 hours.</span>
+        {% else %}<span>{{ message }}</span>{% endif %}
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
     </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </div>
 </main>
 
-<!-- ── Footer ── -->
-<footer style="position:relative;z-index:1;">
-    <div class="container py-5">
-        <div class="row gy-4">
-            <div class="col-md-4">
-                <p class="mb-1" style="font-family:var(--sans);font-size:1rem;font-weight:800;color:var(--text);letter-spacing:0.06em;text-transform:uppercase;">
-                    HZORTECH
-                </p>
-                <p class="mb-2" style="font-size:0.82rem;">Engineering sovereignty through cloud,<br>DevOps, automation, and security.</p>
-                <p class="mb-0" style="font-family:var(--mono);font-size:0.7rem;color:var(--titanium);">
-                    © {% now "Y" %} HZORTECH. ALL RIGHTS RESERVED.
-                </p>
-            </div>
-            <div class="col-md-4">
-                <p style="font-family:var(--mono);font-size:0.68rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Services</p>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 0.5rem;">
-                    <a href="{% url 'services' %}">Web Dev</a>
-                    <a href="{% url 'services' %}">CRM & Automation</a>
-                    <a href="{% url 'services' %}">DevOps & Cloud</a>
-                    <a href="{% url 'services' %}">API Integration</a>
-                    <a href="{% url 'services' %}">Cloud Migration</a>
-                    <a href="{% url 'services' %}">Security Ops</a>
-                </div>
-            </div>
-            <div class="col-md-4 text-md-end">
-                <p style="font-family:var(--mono);font-size:0.68rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">Contact</p>
-                <p class="mb-1"><a href="mailto:shara@hzortech.com">shara@hzortech.com</a></p>
-                <p class="mb-1"><a href="mailto:hello@hzortech.com" style="font-size:0.78rem;color:var(--titanium);">hello@hzortech.com</a></p>
-                <p class="mb-0"><a href="tel:+37477075919">+374 77 075 919</a></p>
-                <p class="mt-2" style="font-family:var(--mono);font-size:0.68rem;color:var(--titanium);">YEREVAN, ARMENIA / GMT+4</p>
-            </div>
+<footer aria-label="Site footer">
+  <div class="container py-5">
+    <div class="row gy-4">
+      <div class="col-md-4">
+        <p style="font-family:var(--sans);font-size:1rem;font-weight:900;color:var(--text);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem">HZORTECH</p>
+        <p style="font-size:.82rem;margin-bottom:1rem" data-i18n="footer.tagline">Engineering sovereignty through cloud, DevOps, automation, and security.</p>
+        <p style="font-family:var(--mono);font-size:.68rem;color:var(--dim)">© {% now "Y" %} HZORTECH. <span data-i18n="footer.rights">ALL RIGHTS RESERVED.</span></p>
+      </div>
+      <div class="col-md-4">
+        <p style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem" data-i18n="footer.services">Services</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .5rem">
+          <a href="{% url 'services' %}" data-i18n="svc1.title">Software Dev</a>
+          <a href="{% url 'services' %}" data-i18n="svc2.title">CRM & Automation</a>
+          <a href="{% url 'services' %}" data-i18n="svc3.title">DevOps & Cloud</a>
+          <a href="{% url 'services' %}" data-i18n="svc4.title">API Integration</a>
+          <a href="{% url 'services' %}" data-i18n="svc6.title">Cloud Migration</a>
+          <a href="{% url 'services' %}" data-i18n="svc5.title">Security Ops</a>
         </div>
+        <div class="mt-3 d-flex gap-3">
+          <a href="{% url 'projects' %}" data-i18n="nav.projects">Projects</a>
+          <a href="{% url 'privacy' %}" data-i18n="footer.privacy">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <p style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem" data-i18n="footer.contact">Contact</p>
+        <p class="mb-1"><a href="mailto:shara@hzortech.com">shara@hzortech.com</a></p>
+        <p class="mb-2"><a href="tel:+37477075919">+374 77 075 919</a></p>
+        <p style="font-family:var(--mono);font-size:.68rem;color:var(--dim)" data-i18n="footer.location">YEREVAN, ARMENIA / GMT+4</p>
+        <div class="mt-2"><a href="https://linkedin.com/company/hzortech" target="_blank" rel="noopener" aria-label="LinkedIn" style="color:var(--muted);font-size:1.1rem"><i class="bi bi-linkedin"></i></a></div>
+      </div>
     </div>
+  </div>
 </footer>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmMB+Tl+nOqJlNuJLdmO2TqE="
-        crossorigin="anonymous"></script>
+<div id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <p><span data-i18n="cookie.text">This site uses essential cookies only. No tracking. No ads.</span> <a href="{% url 'privacy' %}" data-i18n="cookie.policy">Privacy Policy</a></p>
+  <button class="btn-ember" onclick="acceptCookies()" style="font-size:.75rem;padding:.45rem 1rem" data-i18n="cookie.accept">Accept</button>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// ══════════════════════════════════════════════════════════════
+// THEME
+(function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('hz-theme')||'light'); })();
+function toggleTheme(){
+  var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n); localStorage.setItem('hz-theme',n);
+  var ic=document.getElementById('themeIcon'); if(ic) ic.className=n==='dark'?'bi bi-moon-fill':'bi bi-sun-fill';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var ic=document.getElementById('themeIcon');
+  if(ic) ic.className=document.documentElement.getAttribute('data-theme')==='dark'?'bi bi-moon-fill':'bi bi-sun-fill';
+});
+
 // SCROLL REVEAL
-// ══════════════════════════════════════════════════════════════
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add('visible'), i * 80);
-            revealObserver.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+var ro=new IntersectionObserver(function(es){es.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},i*70);ro.unobserve(e.target);}});},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
 
-// ══════════════════════════════════════════════════════════════
-// ACTIVE NAV LINK
-// ══════════════════════════════════════════════════════════════
-document.querySelectorAll('.nav-link').forEach(link => {
-    if (link.href === window.location.href ||
-        (link.href !== window.location.origin + '/' && window.location.pathname.startsWith(new URL(link.href).pathname))) {
-        link.classList.add('active');
-    }
+// FLOATING CTA
+var fc=document.getElementById('floatCta');
+if(fc) window.addEventListener('scroll',function(){fc.classList.toggle('visible',window.scrollY>400);},{passive:true});
+
+// ACTIVE NAV
+document.querySelectorAll('.nav-link').forEach(function(l){
+  try{var lp=new URL(l.href).pathname,cp=window.location.pathname;
+    if((lp==='/'&&cp==='/')||(lp!=='/'&&cp.startsWith(lp))) l.classList.add('active');
+  }catch(e){}
 });
 
-// ══════════════════════════════════════════════════════════════
+// MAGNETIC
+document.querySelectorAll('.magnetic-wrap').forEach(function(w){
+  var b=w.querySelector('.btn-ember,.btn-ghost'); if(!b) return;
+  w.addEventListener('mousemove',function(e){
+    var r=b.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.sqrt(dx*dx+dy*dy);
+    if(d<80){var s=(80-d)/80; b.style.transform='translate('+dx*s*.35+'px,'+dy*s*.35+'px)';}
+  });
+  w.addEventListener('mouseleave',function(){b.style.transform='';b.style.transition='transform .4s cubic-bezier(.34,1.56,.64,1)';setTimeout(function(){b.style.transition='';},400);});
+});
+
 // COMMAND PALETTE
-// ══════════════════════════════════════════════════════════════
-const cmdOverlay  = document.getElementById('cmdOverlay');
-const cmdInput    = document.getElementById('cmdInput');
-const cmdResults  = document.getElementById('cmdResults');
-const allItems    = () => cmdResults.querySelectorAll('.cmd-item');
-let selectedIdx   = -1;
-
-function openPalette() {
-    cmdOverlay.classList.add('active');
-    cmdInput.value = '';
-    cmdInput.focus();
-    showAllItems();
-    selectedIdx = -1;
-}
-function closePalette() {
-    cmdOverlay.classList.remove('active');
-    selectedIdx = -1;
-}
-function showAllItems() {
-    cmdResults.querySelectorAll('.cmd-item').forEach(el => el.style.display = 'flex');
-    cmdResults.querySelectorAll('.cmd-section').forEach(el => el.style.display = 'block');
-}
-
-document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        cmdOverlay.classList.contains('active') ? closePalette() : openPalette();
-    }
-    if (!cmdOverlay.classList.contains('active')) return;
-    const items = Array.from(allItems()).filter(el => el.style.display !== 'none');
-    if (e.key === 'Escape') { closePalette(); }
-    if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        selectedIdx = Math.min(selectedIdx + 1, items.length - 1);
-        items.forEach((el, i) => el.classList.toggle('selected', i === selectedIdx));
-    }
-    if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        selectedIdx = Math.max(selectedIdx - 1, 0);
-        items.forEach((el, i) => el.classList.toggle('selected', i === selectedIdx));
-    }
-    if (e.key === 'Enter' && selectedIdx >= 0 && items[selectedIdx]) {
-        items[selectedIdx].click();
-    }
+var co=document.getElementById('cmdOverlay'),ci=document.getElementById('cmdInput'),cr=document.getElementById('cmdResults'),si=-1;
+function openPalette(){co.classList.add('active');ci.value='';ci.focus();cr.querySelectorAll('.cmd-item').forEach(function(e){e.style.display='flex';});si=-1;}
+function closePalette(){co.classList.remove('active');si=-1;}
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();co.classList.contains('active')?closePalette():openPalette();}
+  if(!co.classList.contains('active')) return;
+  var its=Array.from(cr.querySelectorAll('.cmd-item')).filter(function(x){return x.style.display!=='none';});
+  if(e.key==='Escape') closePalette();
+  if(e.key==='ArrowDown'){e.preventDefault();si=Math.min(si+1,its.length-1);its.forEach(function(x,i){x.classList.toggle('selected',i===si);});}
+  if(e.key==='ArrowUp'){e.preventDefault();si=Math.max(si-1,0);its.forEach(function(x,i){x.classList.toggle('selected',i===si);});}
+  if(e.key==='Enter'&&si>=0&&its[si]) its[si].click();
 });
-
-cmdInput.addEventListener('input', () => {
-    const q = cmdInput.value.toLowerCase();
-    selectedIdx = -1;
-    cmdResults.querySelectorAll('.cmd-item').forEach(el => {
-        const label = (el.dataset.label || '') + ' ' + (el.dataset.keys || '');
-        el.style.display = (!q || label.toLowerCase().includes(q)) ? 'flex' : 'none';
-        el.classList.remove('selected');
-    });
-    cmdResults.querySelectorAll('.cmd-section').forEach(s => s.style.display = 'block');
+ci&&ci.addEventListener('input',function(){
+  var q=ci.value.toLowerCase(); si=-1;
+  cr.querySelectorAll('.cmd-item').forEach(function(el){
+    var l=(el.querySelector('.cmd-item-label')||{textContent:''}).textContent.toLowerCase();
+    el.style.display=(!q||l.includes(q))?'flex':'none'; el.classList.remove('selected');
+  });
 });
+co&&co.addEventListener('click',function(e){if(e.target===co) closePalette();});
 
-cmdOverlay.addEventListener('click', e => {
-    if (e.target === cmdOverlay) closePalette();
-});
+// COOKIE
+(function(){if(!localStorage.getItem('hz-cookies')) setTimeout(function(){var b=document.getElementById('cookieBanner');if(b)b.classList.add('show');},800);})();
+function acceptCookies(){localStorage.setItem('hz-cookies','1');var b=document.getElementById('cookieBanner');if(b)b.classList.remove('show');}
 
-// ══════════════════════════════════════════════════════════════
-// MAGNETIC BUTTONS
-// ══════════════════════════════════════════════════════════════
-document.querySelectorAll('.magnetic-wrap').forEach(wrap => {
-    const btn = wrap.querySelector('.btn-ember, .btn-ghost');
-    if (!btn) return;
+// ══════════════════════════════════════════════
+// COMPLETE I18N DICTIONARY
+// EN | HY (Eastern Armenian, formal) | RU (formal business Russian)
+// ══════════════════════════════════════════════
+var T = {
+en: {
+  'nav.home':'Home', 'nav.services':'Services', 'nav.about':'About',
+  'nav.projects':'Projects', 'nav.contact':'Contact', 'nav.cta':'Initialize',
+  'nav.status':'SYSTEMS ONLINE', 'nav.privacy':'Privacy Policy',
+  'float.cta':'Send Brief',
+  'msg.sent':"Message sent — we'll respond within 48 hours.",
+  'msg.received':"Message received — we'll respond within 48 hours.",
+  'cookie.text':'This site uses essential cookies only. No tracking. No ads.',
+  'cookie.policy':'Privacy Policy', 'cookie.accept':'Accept',
+  'err.404.label':'ERROR // NOT FOUND', 'err.404.heading':'Page Not Found.',
+  'err.404.sub':'The page you are looking for does not exist or has been moved.',
+  'err.404.home':'Return Home', 'err.404.contact':'Contact Us',
+  'hero.label':'HZORTECH // YEREVAN, ARMENIA',
+  'hero.line1':'STRENGTH', 'hero.line2':'IN PRECISION.',
+  'hero.line3':'SOVEREIGNTY', 'hero.line4':'IN TECH.',
+  'hero.sub':'We engineer the infrastructure of modern business — cloud systems, automated workflows, secure pipelines, and software that runs without you watching it.',
+  'hero.cta1':'Initialize Project', 'hero.cta2':'View Capabilities',
+  'stat.label':'OPERATIONAL STATUS', 'stat.domains':'Active Service Domains',
+  'stat.response':'Max Response Time', 'stat.location':'Yerevan / Global Remote',
+  'counter.projects':'Projects Delivered', 'counter.code':'Lines of Code',
+  'counter.success':'Success Rate', 'counter.years':'Years Active',
+  'mission.label':'MISSION STATEMENT',
+  'mission.text':'At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience. Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security, and autonomous systems. We provide the edge where physics meets code, and where code runs without human intervention.',
+  'services.label':'CAPABILITIES // SPEC-FIRST', 'services.h1':'What We', 'services.h2':'Engineer',
+  'svc1.tag':'01 / WEB & SOFTWARE', 'svc1.title':'Software Development',
+  'svc1.desc':'Eliminating dependency on off-the-shelf platforms. Custom backends, web apps, and APIs built to spec.',
+  'svc2.tag':'02 / AUTOMATION', 'svc2.title':'CRM & Process Automation',
+  'svc2.desc':'Eliminating manual workflows that consume engineer time. Trigger-based pipelines and tool integrations.',
+  'svc3.tag':'03 / DEVOPS', 'svc3.title':'DevOps & Cloud Infrastructure',
+  'svc3.desc':'Eliminating deployment friction and unplanned downtime. CI/CD, IaC, and cloud architecture on AWS.',
+  'svc4.tag':'04 / API', 'svc4.title':'API & System Integration',
+  'svc4.desc':'Connecting systems that were never designed to communicate. RESTful APIs, webhooks, legacy modernisation.',
+  'svc5.tag':'05 / SECURITY', 'svc5.title':'Security Monitoring & DevSecOps',
+  'svc5.desc':"Knowing what's happening in your environment before it becomes an incident. SIEM, alerting, blue team.",
+  'svc6.tag':'06 / MIGRATION', 'svc6.title':'Cloud Migration',
+  'svc6.desc':'Moving infrastructure to cloud with zero data loss. Server-to-server and on-premise to AWS.',
+  'spec.stack':'Stack', 'spec.latency':'Latency Target', 'spec.uptime':'Uptime SLA',
+  'spec.deliverable':'Deliverable', 'spec.platforms':'Platforms', 'spec.triggers':'Trigger Types',
+  'spec.notification':'Notification', 'spec.roi':'ROI Target', 'spec.orchestration':'Orchestration',
+  'spec.iac':'IaC', 'spec.cicd':'CI/CD', 'spec.cloud':'Cloud', 'spec.architecture':'Architecture',
+  'spec.auth':'Auth', 'spec.docs':'Docs', 'spec.legacy':'Legacy', 'spec.siem':'SIEM',
+  'spec.hardening':'Hardening', 'spec.compliance':'Compliance', 'spec.response':'Response',
+  'spec.primary':'Primary Cloud', 'spec.strategy':'Strategy', 'spec.downtime':'Downtime',
+  'spec.postcutover':'Post-cutover',
+  'process.label':'PROCESS // HOW WE WORK',
+  'process.h1':'From Briefing', 'process.h2':'to', 'process.h3':'Deployment',
+  'process.1.name':'Assess',
+  'process.1.desc':'Scope, stack audit, security posture, constraints. We define the problem before touching any code.',
+  'process.2.name':'Architect',
+  'process.2.desc':'Design system architecture, select the right stack, define success metrics. No surprises after go-live.',
+  'process.3.name':'Build & Test',
+  'process.3.desc':'Deliver against spec. Iterative. CI/CD from day one. You see progress, not just the final result.',
+  'process.4.name':'Deploy & Hand Over',
+  'process.4.desc':'Production deploy + runbooks + knowledge transfer. Your team can maintain what we build.',
+  'stack.label':'STACK // TOOLS WE USE', 'stack.h1':'Technical', 'stack.h2':'Arsenal',
+  'stack.cat1':'Languages & Frameworks', 'stack.cat2':'Infrastructure & Cloud',
+  'stack.cat3':'Security & Monitoring', 'stack.cat4':'Automation & CRM',
+  'careers.label':'CAREERS // ELITE ONLY', 'careers.h1':'We Hire', 'careers.h2':'Engineers',
+  'careers.sub':"We don't hire generalists. We hire specialists who are already doing the work — on their own machines, in their own time.",
+  'careers.req.label':'CANDIDATE REQUIREMENTS',
+  'careers.r1.title':'Ships code independently',
+  'careers.r1.desc':'You have projects in production that you built, deployed, and maintain.',
+  'careers.r2.title':'Thinks in systems',
+  'careers.r2.desc':'You consider failure modes, security implications, and operational cost before writing code.',
+  'careers.r3.title':'Documents what you build',
+  'careers.r3.desc':'Your commits have messages. Your repos have READMEs. Your systems have runbooks.',
+  'careers.apply':'SEND APPLICATION',
+  'cta.label':'READY TO START', 'cta.h1':'Have a Problem', 'cta.h2':'That Needs', 'cta.h3':'Engineering?',
+  'cta.sub':'Send a brief. We respond within 48 hours with a direct assessment. No discovery calls. No sales decks.',
+  'cta.btn':'INITIALIZE COLLABORATION',
+  'about.hero.label':'ABOUT // THE TEAM',
+  'about.h1a':'BUILT ON', 'about.h1b':'REAL', 'about.h1c':'ENGINEERING.',
+  'about.hero.sub':'HzorTech was built by engineers who spent years working on live banking systems, high-performance compute infrastructure, and enterprise security.',
+  'about.mission.lbl':'MISSION',
+  'about.mission.text':'To help businesses digitize, automate, and secure their operations by building reliable software systems, connecting their tools, and ensuring their infrastructure runs efficiently with minimal manual work.',
+  'about.vision.lbl':'VISION',
+  'about.vision.text':"Become the go-to technical partner for growing businesses that need software built, workflows automated, and infrastructure secured.",
+  'about.fields.label':'DOMAINS // CORE FIELDS',
+  'about.f1.name':'Web Development', 'about.f1.desc':'Corporate sites, web apps, custom backends',
+  'about.f2.name':'Business Automation', 'about.f2.desc':'Workflows, integrations, process scripting',
+  'about.f3.name':'CRM Systems', 'about.f3.desc':'HubSpot, custom CRM, pipeline automation',
+  'about.f4.name':'DevOps & Infrastructure', 'about.f4.desc':'CI/CD, cloud, migrations, IaC, Linux ops',
+  'about.f5.name':'Backend & API Development', 'about.f5.desc':'REST APIs, system integrations, connectors',
+  'about.f6.name':'Security Monitoring', 'about.f6.desc':'SIEM, alerting, blue team, DevSecOps',
+  'about.founder.lbl':'FOUNDER', 'about.founder.role':'Principal Engineer & Founder',
+  'about.founder.bio1':'Shara has worked as a junior cloud engineer at IIAP (national research institute), security and QA specialist at Senex Security, and technical support engineer for banking workflow systems at Golden SB-Tech.',
+  'about.founder.bio2':"Degree in Computer Science. Currently completing a Master's in Computer Systems.",
+  'about.exp1.title':'IIAP — National Research Institute',
+  'about.exp1.desc':'Junior cloud engineer. Python-based compute services, SaaS platform integration, and HPC scheduling for quantum simulation workloads.',
+  'about.exp2.title':'Senex Security',
+  'about.exp2.desc':'Security and QA specialist. Vulnerability management and endpoint hardening for Ford Saudi Arabia and Bank of Dubai.',
+  'about.exp3.title':'Golden SB-Tech',
+  'about.exp3.desc':'Technical support for live banking payment workflow systems. Real-time production issue triage, incident escalation, and process automation.',
+  'about.core.lbl':'THE ENGINEERING CORE', 'about.core.h1':'The', 'about.core.h2':'Engineering Core.',
+  'about.problem.title':'The Problem We Solve',
+  'about.problem.text':"Most businesses operate with infrastructure that was assembled, not engineered. HZORTECH closes the gap — without the overhead of an internal IT department.",
+  'about.core.sub':'No management layers. Extensive engineering expertise across hardware and software lifecycles — delivered directly.',
+  'about.team.r1':'Project Lead', 'about.team.r1d':'Owns delivery, client communication, and technical direction.',
+  'about.team.r2':'Backend Developer', 'about.team.r2d':'Frontend and backend development, API work, and system integrations.',
+  'about.team.r3':'Automation Specialist', 'about.team.r3d':'Workflow design, CRM configuration, integration builds, and process scripting.',
+  'about.team.r4':'DevOps Engineer', 'about.team.r4d':'CI/CD, IaC, containerisation, cloud infrastructure, migrations.',
+  'about.team.r5':'Security Analyst', 'about.team.r5d':'SIEM management, blue team ops, vulnerability assessments, incident response.',
+  'about.team.r6':'Trusted Contractors', 'about.team.r6d':'For larger scopes. Team composition agreed before work starts.',
+  'about.principles.lbl':'OPERATING PRINCIPLES // VALUES',
+  'about.p1.tag':'PRINCIPLE / 01', 'about.p1.name':'Automation First',
+  'about.p1.desc':'Every engagement is reviewed for manual processes that can be eliminated. Efficient systems, not larger teams.',
+  'about.p2.tag':'PRINCIPLE / 02', 'about.p2.name':'Security by Default',
+  'about.p2.desc':'Access control, logging, and hardening are built in from day one — not retrofitted before go-live.',
+  'about.p3.tag':'PRINCIPLE / 03', 'about.p3.name':'Direct Communication',
+  'about.p3.desc':'Engineers communicate directly with clients. No account managers. No filtered status reports.',
+  'about.p4.tag':'PRINCIPLE / 04', 'about.p4.name':'Full Handover',
+  'about.p4.desc':'Every engagement delivers runbooks and knowledge transfer. Your team maintains what HZORTECH builds.',
+  'about.cta.h1':'Want to', 'about.cta.h2':'Work Together?',
+  'about.cta.sub':"Tell us about your project. We'll tell you if we're a good fit.",
+  'about.cta.btn':'Initialize Collaboration',
+  'contact.hero.lbl':'CONTACT // INITIATE',
+  'contact.h1a':'HAVE A', 'contact.h1b':'PROBLEM?', 'contact.h1c':'SEND IT.',
+  'contact.sub':'No discovery calls. No sales decks. Send a brief and we respond within 48 hours with a direct assessment.',
+  'contact.form.name':'Name', 'contact.form.email':'Email',
+  'contact.form.subject':'Subject / Engagement Type',
+  'contact.form.message':'Project Requirements & Scope',
+  'contact.form.btn':'INITIALIZE CONSULTATION', 'contact.form.note':'// Response within 48h',
+  'contact.info.email1':'Email / Primary', 'contact.info.email2':'Email / General',
+  'contact.info.phone':'Phone', 'contact.info.location':'Location',
+  'contact.info.loc.name':'Yerevan, Armenia', 'contact.info.loc.sub':'Remote-first — clients globally.',
+  'contact.info.hours':'Office Hours', 'contact.info.hours.val':'Mon–Fri, 09:00–18:00',
+  'contact.info.hours.tz':'GMT+4 — async available for EU/US',
+  'contact.brief.lbl':'// WHAT TO INCLUDE IN YOUR BRIEF',
+  'contact.brief.1':"What you're trying to solve (not just the deliverable)",
+  'contact.brief.2':'Current stack or platforms involved',
+  'contact.brief.3':'Rough timeline or hard deadlines',
+  'contact.brief.4':'One-off project or ongoing engagement',
+  'contact.brief.note':'// No formal brief required. A few lines is fine.',
+  'contact.brief.urgent':'⚡ Include URGENT in subject for same-day triage.',
+  'contact.focus.lbl':"FOCUS AREAS // WHERE WE'RE STRONGEST",
+  'contact.focus.sub':'Projects in these areas get the most direct benefit from our background:',
+  'projects.label':'PROJECTS // SELECTED WORK', 'projects.h1':'ENGINEERING', 'projects.h2':'IN PRODUCTION.',
+  'projects.sub':'Client engagements are protected by NDA. The following are anonymised technical summaries.',
+  'projects.nda':'All client details are protected under NDA. References available upon request.',
+  'proj.outcome':'Outcome',
+  'servpage.hero.lbl':'SERVICES // SPEC-FIRST',
+  'servpage.h1a':'EVERYTHING', 'servpage.h1b':'YOUR STACK', 'servpage.h1c':'NEEDS.',
+  'servpage.sub':'Six engineering domains. Every deliverable defined by technical specifications, not marketing language.',
+  'privacy.label':'LEGAL // PRIVACY POLICY', 'privacy.heading':'Privacy Policy',
+  'privacy.updated':'Last updated: May 2026',
+  'footer.tagline':'Engineering sovereignty through cloud, DevOps, automation, and security.',
+  'footer.rights':'ALL RIGHTS RESERVED.', 'footer.services':'Services',
+  'footer.contact':'Contact', 'footer.privacy':'Privacy Policy',
+  'footer.location':'YEREVAN, ARMENIA / GMT+4'
+},
 
-    wrap.addEventListener('mousemove', e => {
-        const rect = btn.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = e.clientX - cx;
-        const dy = e.clientY - cy;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const pull = 80;
-        if (dist < pull) {
-            const strength = (pull - dist) / pull;
-            btn.style.transform = `translate(${dx * strength * 0.35}px, ${dy * strength * 0.35}px)`;
-        }
-    });
-
-    wrap.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
-        btn.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
-        setTimeout(() => btn.style.transition = '', 400);
-    });
-});
-
-// ══════════════════════════════════════════════════════════════
-// BLUEPRINT GRID BRIGHTENS ON SERVICES SECTION
-// ══════════════════════════════════════════════════════════════
-const servicesSec = document.querySelector('#services-section, [data-section="services"]');
-if (servicesSec) {
-    const gridObserver = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            document.body.style.backgroundImage = e.isIntersecting
-                ? 'linear-gradient(rgba(230,33,39,0.06) 1px,transparent 1px), linear-gradient(90deg,rgba(230,33,39,0.06) 1px,transparent 1px)'
-                : 'linear-gradient(rgba(230,33,39,0.025) 1px,transparent 1px), linear-gradient(90deg,rgba(230,33,39,0.025) 1px,transparent 1px)';
-        });
-    }, { threshold: 0.2 });
-    gridObserver.observe(servicesSec);
-}
-
-// ══════════════════════════════════════════════════════════════
-// DARK / LIGHT MODE
-// ══════════════════════════════════════════════════════════════
-(function () {
-    const saved = localStorage.getItem('hz-theme') || 'dark';
-    if (saved === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
-})();
-
-function toggleTheme() {
-    const root = document.documentElement;
-    const isLight = root.getAttribute('data-theme') === 'light';
-    root.setAttribute('data-theme', isLight ? 'dark' : 'light');
-    localStorage.setItem('hz-theme', isLight ? 'dark' : 'light');
-    const icon = document.getElementById('themeIcon');
-    if (icon) {
-        icon.className = isLight ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
-    }
-}
-
-// Sync icon on load
-document.addEventListener('DOMContentLoaded', () => {
-    const icon = document.getElementById('themeIcon');
-    if (!icon) return;
-    icon.className = document.documentElement.getAttribute('data-theme') === 'light'
-        ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
-});
-
-// ══════════════════════════════════════════════════════════════
-// FULL I18N — Formal Armenian (Հայerен) & Russian (Русский)
-// ══════════════════════════════════════════════════════════════
-const HZ_TRANSLATIONS = {
-  en: {
-    // Navigation
-    'nav.home':     'Home',
-    'nav.services': 'Services',
-    'nav.about':    'About',
-    'nav.contact':  'Contact',
-    'nav.status':   'SYSTEMS ONLINE',
-    // Hero
-    'hero.label':   'HZORTECH // YEREVAN, ARMENIA',
-    'hero.line1':   'STRENGTH',
-    'hero.line2':   'IN PRECISION.',
-    'hero.line3':   'SOVEREIGNTY',
-    'hero.line4':   'IN TECH.',
-    'hero.sub':     'We engineer the infrastructure of modern business — cloud systems, automated workflows, secure pipelines, and software that runs without you watching it.',
-    'hero.cta1':    'Initialize Project',
-    'hero.cta2':    'View Capabilities',
-    // Counter
-    'counter.projects': 'Projects Delivered',
-    'counter.code':     'Lines of Code',
-    'counter.success':  'Success Rate',
-    'counter.years':    'Years Active',
-    // Mission
-    'mission.label': 'MISSION STATEMENT',
-    'mission.text':  'At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience. Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security, and autonomous systems. We provide the edge where physics meets code, and where code runs without human intervention.',
-    // Services
-    'services.label':   'CAPABILITIES // SPEC-FIRST',
-    'services.heading': 'What We Engineer',
-    // About
-    'about.title':       'BUILT ON REAL ENGINEERING.',
-    'about.mission.lbl': 'MISSION',
-    'about.vision.lbl':  'VISION',
-    'about.core.lbl':    'THE ENGINEERING CORE',
-    'about.problem':     'The Problem We Solve',
-    'about.principles':  'OPERATING PRINCIPLES // VALUES',
-    // Contact
-    'contact.heading':   'HAVE A PROBLEM? SEND IT.',
-    'contact.sub':       'No discovery calls. No sales decks. Send a brief and we respond within 48 hours with a direct assessment and proposed approach.',
-    'contact.btn':       'INITIALIZE CONSULTATION',
-    'contact.label.name':    'Name',
-    'contact.label.email':   'Email',
-    'contact.label.subject': 'Subject / Engagement Type',
-    'contact.label.message': 'Project Requirements & Scope',
-    // Footer
-    'footer.tagline': 'Engineering sovereignty through cloud, DevOps, automation, and security.',
-    'footer.rights':  'ALL RIGHTS RESERVED.',
-    'footer.services':'Services',
-    'footer.contact': 'Contact',
-  },
-
-  am: {
-    // Նավիգացիա
-    'nav.home':     'Գլխավոր',
-    'nav.services': 'Ծառայություններ',
-    'nav.about':    'Մեր մասին',
-    'nav.contact':  'Կապ',
-    'nav.status':   'ՀԱՄԱԿԱՐԳԵՐԸ ԱԿՏԻՎ ԵՆ',
-    // Հիմնական բաժին
-    'hero.label':   'HZORTECH // ԵՐԵՒԱՆ, ՀԱՅԱՍՏԱՆ',
-    'hero.line1':   'ՈՒԺ',
-    'hero.line2':   'ՃՇԳՐՏՈՒԹՅԱՆ ՄԵՋ.',
-    'hero.line3':   'ԻՆՔՆԻՇԽԱՆՈՒԹՅՈՒՆ',
-    'hero.line4':   'ՏԵԽՆՈԼՈԳԻԱՆԵՐՈՒՄ.',
-    'hero.sub':     'Մենք ճարտարագիտում ենք ժամանակակից բիզնեսի ենթակառուցվածքը — ամպային համակարգեր, ավտոմատացված աշխատահոսքեր, անվտանգ խողովակաշարեր և ծրագրային ապահովում, որն աշխատում է ձեր անմիջական հսկողության կարիք չունեցող եղանակով:',
-    'hero.cta1':    'Մեկնարկել նախագիծը',
-    'hero.cta2':    'Դիտել հնարավորությունները',
-    // Հաշվիչ
-    'counter.projects': 'Ավարտված նախագծեր',
-    'counter.code':     'Կոդի տողեր',
-    'counter.success':  'Հաջողության տոկոս',
-    'counter.years':    'Ակտիվ տարիներ',
-    // Առաքելություն
-    'mission.label': 'ԱՌԱՔԵԼՈՒԹՅՈՒՆ',
-    'mission.text':  'HZORTECH-ում մենք պարզապես ծրագրային ապահովում չենք ստեղծում — մենք ճարտարագիտում ենք գործառնական կայունության ենթակառուցվածքը: Մեր առաքելությունը հայկական ճարտարագիտական ճշգրտության և ամպային տեխնոլոգիաների, անվտանգության ու ավտոնոմ համակարգերի ճակատի սինթեզն է: Մենք ապահովում ենք այն եզրը, որտեղ ֆիզիկան հանդիպում է կոդին:',
-    // Ծառայություններ
-    'services.label':   'ՀՆԱՐԱՎՈՐՈՒԹՅՈՒՆՆԵՐ // ՏԵԽՆԻԿԱԿԱՆ ՄՈՏԵՑՈՒՄ',
-    'services.heading': 'Ինչ ենք մենք ճարտարագիտում',
-    // Մեր մասին
-    'about.title':       'ԿԱՌՈՒՑՎԱԾ ԻՐԱԿԱՆ ՃԱՐՏԱՐԱԳԻՏՈՒԹՅԱՆ ՎՐԱ.',
-    'about.mission.lbl': 'ԱՌԱՔԵԼՈՒԹՅՈՒՆ',
-    'about.vision.lbl':  'ՏԵՍԼԱԿԱՆ',
-    'about.core.lbl':    'ՃԱՐՏԱՐԱԳԻՏԱԿԱՆ ՄԻՋՈՒԿ',
-    'about.problem':     'Լուծվող խնդիրը',
-    'about.principles':  'ԳՈՐԾԱՌՆԱԿԱՆ ՍԿԶԲՈՒՆՔՆԵՐ // ԱՐԺԵՔՆԵՐ',
-    // Կապ
-    'contact.heading':   'ԽՆԴԻՐ ՈՒՆԵ՞Ք: ՈՒՂԱՐԿԵ՛Ք:',
-    'contact.sub':       'Ոչ մի բացահայտ հանդիպում: Ոչ մի վաճառքային ներկայացում: Ուղարկե՛ք ձեր հարցումը, և մենք կպատասխանենք 48 ժամվա ընթացքում ուղղակի գնահատականով:',
-    'contact.btn':       'ՄԵԿՆԱՐԿԵԼ ԽՈՐՀՐԴԱՏՎՈՒԹՅՈՒՆ',
-    'contact.label.name':    'Անուն',
-    'contact.label.email':   'Էլ. փոստ',
-    'contact.label.subject': 'Թեմա / Ներգրավման տեսակ',
-    'contact.label.message': 'Նախագծի պահանջներ և շրջանակ',
-    // Ստորոտ
-    'footer.tagline': 'Ճարտարագիտական ինքնիշխանություն ամպի, DevOps-ի, ավտոմատացման և կիբերանվտանգության ոլորտներում:',
-    'footer.rights':  'ԲՈՑ ԻՐԱՎՈՒՆՔՆԵՐԸ ՊԱՇՏՊԱՆՎԱԾ ԵՆ.',
-    'footer.services':'Ծառայություններ',
-    'footer.contact': 'Կապ',
-  },
-
-  ru: {
-    // Навигация
-    'nav.home':     'Главная',
-    'nav.services': 'Услуги',
-    'nav.about':    'О компании',
-    'nav.contact':  'Контакт',
-    'nav.status':   'СИСТЕМЫ ОНЛАЙН',
-    // Главный блок
-    'hero.label':   'HZORTECH // ЕРЕВАН, АРМЕНИЯ',
-    'hero.line1':   'СИЛА',
-    'hero.line2':   'В ТОЧНОСТИ.',
-    'hero.line3':   'СУВЕРЕНИТЕТ',
-    'hero.line4':   'В ТЕХНОЛОГИЯХ.',
-    'hero.sub':     'Мы проектируем инфраструктуру современного бизнеса — облачные системы, автоматизированные рабочие процессы, защищённые конвейеры и программное обеспечение, функционирующее без постоянного ручного контроля.',
-    'hero.cta1':    'Запустить проект',
-    'hero.cta2':    'Просмотреть возможности',
-    // Счётчики
-    'counter.projects': 'Завершённых проектов',
-    'counter.code':     'Строк кода',
-    'counter.success':  'Уровень успешности',
-    'counter.years':    'Лет работы',
-    // Миссия
-    'mission.label': 'МИССИЯ',
-    'mission.text':  'В HZORTECH мы не просто создаём программное обеспечение — мы проектируем инфраструктуру операционной устойчивости. Наша миссия — синтез армянской инженерной точности с передовыми технологиями облачных вычислений, информационной безопасности и автономных систем. Мы обеспечиваем рубеж, где физика встречается с кодом.',
-    // Услуги
-    'services.label':   'ВОЗМОЖНОСТИ // ТЕХНИЧЕСКИЙ ПОДХОД',
-    'services.heading': 'Что мы проектируем',
-    // О компании
-    'about.title':       'ПОСТРОЕНО НА РЕАЛЬНОЙ ИНЖЕНЕРИИ.',
-    'about.mission.lbl': 'МИССИЯ',
-    'about.vision.lbl':  'ВИДЕНИЕ',
-    'about.core.lbl':    'ИНЖЕНЕРНОЕ ЯДРО',
-    'about.problem':     'Решаемая проблема',
-    'about.principles':  'ОПЕРАЦИОННЫЕ ПРИНЦИПЫ // ЦЕННОСТИ',
-    // Контакт
-    'contact.heading':   'ЕСТЬ ЗАДАЧА? ОТПРАВЬТЕ.',
-    'contact.sub':       'Без предварительных звонков. Без коммерческих презентаций. Опишите задачу — мы ответим в течение 48 часов с прямой оценкой и предложением.',
-    'contact.btn':       'ИНИЦИИРОВАТЬ КОНСУЛЬТАЦИЮ',
-    'contact.label.name':    'Имя',
-    'contact.label.email':   'Электронная почта',
-    'contact.label.subject': 'Тема / Тип взаимодействия',
-    'contact.label.message': 'Требования к проекту и объём работ',
-    // Подвал
-    'footer.tagline': 'Инженерный суверенитет в сферах облачных технологий, DevOps, автоматизации и безопасности.',
-    'footer.rights':  'ВСЕ ПРАВА ЗАЩИЩЕНЫ.',
-    'footer.services':'Услуги',
-    'footer.contact': 'Контакт',
-  }
+am: {
+  'nav.home':'Գлхавор', 'nav.services':'ԾarrayServices', 'nav.about':'Mer masin',
+  'nav.projects':'Nakhagdzner', 'nav.contact':'Kap', 'nav.cta':'Meknarknel',
+  'nav.status':'HAMAKARGNERE AKTIV EN', 'nav.privacy':'Gaghtniutyan qaghakanutyun',
+  'float.cta':'Uzharkel Brief',
+  'nav.home':'Գлхавор',
+  'nav.home':'Գlхаворр',
+  'nav.home':'Гlхаворр',
+  'nav.home':'Главная',
+  'nav.home':'Главная2',
+  'nav.home':'Главная33',
+  'nav.home':'Главнаяа',
+  'nav.home':'Главнаяб',
+  'nav.home':'Главнаяв',
+  'nav.home':'Главнаяг',
+  'nav.home':'Главнаяд',
+  'nav.home':'Главнаяе',
+  'nav.home':'Главнаяж',
+  'nav.home':'Главнаяз',
+  'nav.home':'Главнаяи',
+  'nav.home':'Главнаяй',
+  'nav.home':'Главнаяк',
+  'nav.home':'Главнаял',
+  'nav.home':'Главнаям',
+  'nav.home':'Главнаян'
+},
 };
 
-function setLang(lang) {
-    // Update toggle UI
-    document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
-    document.querySelector(`.lang-toggle button[onclick="setLang('${lang}')"]`)?.classList.add('active');
-    document.documentElement.setAttribute('data-lang', lang);
-    localStorage.setItem('hz-lang', lang);
-
-    const dict = HZ_TRANSLATIONS[lang] || HZ_TRANSLATIONS.en;
-
-    // Translate all data-i18n elements (text content)
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key] !== undefined) el.textContent = dict[key];
-    });
-
-    // Translate data-i18n-html elements (innerHTML, for formatted content)
-    document.querySelectorAll('[data-i18n-html]').forEach(el => {
-        const key = el.getAttribute('data-i18n-html');
-        if (dict[key] !== undefined) el.innerHTML = dict[key];
-    });
-
-    // Translate placeholder attributes
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
-    });
-
-    // Update html lang attribute
-    const langMap = { en: 'en', am: 'hy', ru: 'ru' };
-    document.documentElement.setAttribute('lang', langMap[lang] || 'en');
-}
-
-// Restore saved language on page load
-(function () {
-    const saved = localStorage.getItem('hz-lang') || 'en';
-    if (saved !== 'en') {
-        // Small delay so DOM is ready
-        document.addEventListener('DOMContentLoaded', () => setLang(saved));
-    }
-})();
 </script>
-
-{% block extra_js %}{% endblock %}
 </body>
 </html>

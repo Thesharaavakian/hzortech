@@ -1,0 +1,86 @@
+{% extends "business_page/base.html" %}
+{% block title %}Projects | HZORTECH{% endblock %}
+{% block content %}
+
+<section class="mb-5 reveal">
+    <div class="hz-label" data-i18n="projects.label">PROJECTS // SELECTED WORK</div>
+    <h1 class="display-hero mb-3">
+        <span data-i18n="projects.h1">ENGINEERING</span><br>
+        <span style="color:var(--ember);" data-i18n="projects.h2">IN PRODUCTION.</span>
+    </h1>
+    <p style="max-width:560px;font-size:1rem;line-height:1.75;" data-i18n="projects.sub">
+        Client engagements are protected by NDA. The following are anonymised
+        technical summaries showing scope, stack, and measurable outcomes.
+    </p>
+</section>
+
+<hr class="hz-line">
+
+<div class="row g-4">
+
+    <div class="col-lg-6 reveal">
+        <div class="hz-card hz-card-body h-100 hz-card-ember">
+            <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.1.sector">Financial Services / Banking</div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.1.title">Core Banking Infrastructure Migration</h3>
+            <p style="font-size:0.85rem;margin-bottom:1.25rem;" data-i18n="proj.1.desc">Full migration of on-premise banking workflow systems to AWS. Zero downtime cutover, full data integrity validation, 30-day post-migration monitoring.</p>
+            <table class="spec-table">
+                <tr><td data-i18n="spec.stack">Stack</td><td>AWS EC2, RDS, Terraform, nginx</td></tr>
+                <tr><td data-i18n="spec.downtime">Downtime</td><td data-i18n="proj.1.downtime">0 minutes (blue/green)</td></tr>
+                <tr><td data-i18n="proj.outcome">Outcome</td><td data-i18n="proj.1.outcome">99.99% uptime post-migration</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 reveal">
+        <div class="hz-card hz-card-body h-100">
+            <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.2.sector">Enterprise / Security Operations</div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.2.title">SIEM Deployment & Endpoint Hardening</h3>
+            <p style="font-size:0.85rem;margin-bottom:1.25rem;" data-i18n="proj.2.desc">Wazuh SIEM deployment across 2,000+ endpoints. CIS Benchmark hardening, custom alerting rules, and incident response playbooks for a regulated enterprise environment.</p>
+            <table class="spec-table">
+                <tr><td data-i18n="spec.siem">SIEM</td><td>Wazuh + ELK Stack</td></tr>
+                <tr><td data-i18n="spec.hardening">Hardening</td><td data-i18n="proj.2.hardening">CIS Level 2, 2,000+ endpoints</td></tr>
+                <tr><td data-i18n="proj.outcome">Outcome</td><td data-i18n="proj.2.outcome">Detection time reduced by 78%</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 reveal">
+        <div class="hz-card hz-card-body h-100">
+            <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.3.sector">SaaS / DevOps</div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.3.title">CI/CD Pipeline & Container Platform</h3>
+            <p style="font-size:0.85rem;margin-bottom:1.25rem;" data-i18n="proj.3.desc">Greenfield CI/CD pipeline for a SaaS development team. GitHub Actions workflows, Docker image registry, Kubernetes deployment, and automated rollback on failure.</p>
+            <table class="spec-table">
+                <tr><td data-i18n="spec.cicd">CI/CD</td><td>GitHub Actions + Docker + k3s</td></tr>
+                <tr><td data-i18n="proj.3.deploy">Deploy frequency</td><td data-i18n="proj.3.freq">From 2×/week to 15×/day</td></tr>
+                <tr><td data-i18n="proj.outcome">Outcome</td><td data-i18n="proj.3.outcome">Zero failed deployments in 6 months</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 reveal">
+        <div class="hz-card hz-card-body h-100">
+            <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.4.sector">Research / HPC</div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="proj.4.title">HPC Scheduling & Cloud Compute Integration</h3>
+            <p style="font-size:0.85rem;margin-bottom:1.25rem;" data-i18n="proj.4.desc">Python-based job scheduler integrating on-premise HPC with AWS burst compute. Automated workload distribution for quantum simulation research.</p>
+            <table class="spec-table">
+                <tr><td data-i18n="spec.stack">Stack</td><td>Python, AWS Batch, Slurm</td></tr>
+                <tr><td data-i18n="proj.4.scale">Scale</td><td data-i18n="proj.4.scaleVal">1,000+ simulation jobs/month</td></tr>
+                <tr><td data-i18n="proj.outcome">Outcome</td><td data-i18n="proj.4.outcome">60% reduction in compute costs</td></tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<hr class="hz-line">
+
+<section class="text-center py-4 reveal">
+    <p style="max-width:500px;margin:0 auto 2rem;" data-i18n="projects.nda">
+        All client details are protected under NDA. Technical specifications are anonymised. References available upon request during engagement discussions.
+    </p>
+    <span class="magnetic-wrap">
+        <a href="{% url 'contact' %}" class="btn-ember" data-i18n="cta.btn">INITIALIZE COLLABORATION</a>
+    </span>
+</section>
+
+{% endblock %}
