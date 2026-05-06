@@ -93,10 +93,13 @@ jobs:
       # Clone repo, write .env, get SSL cert, start the app
       - name: Bootstrap app
         uses: appleboy/ssh-action@v0.1.7
+        env:
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
         with:
           host:     ${{ needs.terraform.outputs.public_ip }}
           username: ubuntu
           key:      ${{ secrets.EC2_SSH_KEY }}
+          envs:     EMAIL_HOST_PASSWORD
           script: |
             set -e
             APP_DIR="/opt/hzortech"
@@ -108,18 +111,21 @@ jobs:
               cd "$APP_DIR" && git pull origin master
             fi
 
-            # Write .env from GitHub secrets (idempotent)
-            cat > "$APP_DIR/.env" <<ENVEOF
-            DJANGO_SECRET_KEY=$(openssl rand -base64 50 | tr -dc 'a-zA-Z0-9' | head -c50)
-            POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | head -c32)
-            EMAIL_HOST=smtp.gmail.com
-            EMAIL_PORT=587
-            EMAIL_HOST_USER=shara@hzortech.com
-            EMAIL_HOST_PASSWORD=gssi miem lchd wpek
-            DEFAULT_FROM_EMAIL=shara@hzortech.com
-            CONTACT_EMAIL=shara@hzortech.com
-            ENVEOF
-            chmod 600 "$APP_DIR/.env"
+            # Write .env only on first boot — never overwrite (would rotate secret key
+            # and postgres password, breaking sessions and the database)
+            if [ ! -f "$APP_DIR/.env" ]; then
+              cat > "$APP_DIR/.env" <<ENVEOF
+DJANGO_SECRET_KEY=$(openssl rand -base64 50 | tr -dc 'a-zA-Z0-9' | head -c50)
+POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | head -c32)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=shara@hzortech.com
+EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+DEFAULT_FROM_EMAIL=shara@hzortech.com
+CONTACT_EMAIL=shara@hzortech.com
+ENVEOF
+              chmod 600 "$APP_DIR/.env"
+            fi
 
             # Use bootstrap nginx (HTTP only) to get SSL cert if not already present
             mkdir -p /var/www/certbot
