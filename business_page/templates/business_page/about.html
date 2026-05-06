@@ -3,15 +3,14 @@
 
 {% block content %}
 
-<!-- Hero -->
 <section class="mb-4 reveal">
-    <div class="hz-label">ABOUT // THE TEAM</div>
+    <div class="hz-label" data-i18n="about.hero.label">ABOUT // THE TEAM</div>
     <h1 class="display-hero mb-3">
-        BUILT ON<br>
-        REAL<br>
-        <span style="color:var(--ember);">ENGINEERING.</span>
+        <span data-i18n="about.h1a">BUILT ON</span><br>
+        <span data-i18n="about.h1b">REAL</span><br>
+        <span style="color:var(--ember);" data-i18n="about.h1c">ENGINEERING.</span>
     </h1>
-    <p style="max-width:560px;font-size:1rem;line-height:1.75;">
+    <p style="max-width:560px;font-size:1rem;line-height:1.75;" data-i18n="about.hero.sub">
         HzorTech was built by engineers who spent years working on live banking systems,
         high-performance compute infrastructure, and enterprise security — before taking
         that experience directly to clients.
@@ -20,20 +19,18 @@
 
 <hr class="hz-line">
 
-<!-- Mission -->
 <section class="mb-4 reveal" style="border-left:2px solid var(--ember);padding-left:2rem;">
-    <div class="hz-label">MISSION</div>
-    <p style="font-size:clamp(0.95rem,1.8vw,1.2rem);color:var(--text);line-height:1.65;max-width:800px;font-weight:500;">
+    <div class="hz-label" data-i18n="about.mission.lbl">MISSION</div>
+    <p style="font-size:clamp(0.95rem,1.8vw,1.2rem);color:var(--text);line-height:1.65;max-width:800px;font-weight:500;" data-i18n="about.mission.text">
         To help businesses digitize, automate, and secure their operations by building
         reliable software systems, connecting their tools, and ensuring their infrastructure
         runs efficiently with minimal manual work.
     </p>
 </section>
 
-<!-- Vision -->
 <section class="mb-4 reveal" style="border-left:2px solid var(--titanium);padding-left:2rem;">
-    <div class="hz-label" style="color:var(--titanium);">VISION</div>
-    <p style="font-size:clamp(0.95rem,1.8vw,1.2rem);color:var(--titanium);line-height:1.65;max-width:800px;">
+    <div class="hz-label" style="color:var(--titanium);" data-i18n="about.vision.lbl">VISION</div>
+    <p style="font-size:clamp(0.95rem,1.8vw,1.2rem);color:var(--titanium);line-height:1.65;max-width:800px;" data-i18n="about.vision.text">
         Become the go-to technical partner for growing businesses that need software built,
         workflows automated, and infrastructure secured — delivering systems your team
         can build on long after the engagement ends.
@@ -42,51 +39,49 @@
 
 <hr class="hz-line">
 
-<!-- Fields -->
 <section class="mb-4">
-    <div class="hz-label reveal">DOMAINS // CORE FIELDS</div>
-    <h2 class="display-section mb-4 reveal">What We<br><span style="color:var(--ember);">Operate In</span></h2>
-    <div class="row g-3">
+    <div class="hz-label reveal" data-i18n="about.fields.label">DOMAINS // CORE FIELDS</div>
+    <div class="row g-3 mt-1">
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body" style="border-top:1px solid rgba(114,160,222,.3);">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:rgba(114,160,222,.8);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">01</div>
-                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;">Web Development</strong>
-                <p style="font-size:0.82rem;margin:0;">Corporate sites, web apps, custom backends</p>
+                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;" data-i18n="about.f1.name">Web Development</strong>
+                <p style="font-size:0.82rem;margin:0;" data-i18n="about.f1.desc">Corporate sites, web apps, custom backends</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body" style="border-top:1px solid rgba(160,126,196,.3);">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:rgba(160,126,196,.8);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">02</div>
-                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;">Business Automation</strong>
-                <p style="font-size:0.82rem;margin:0;">Workflows, integrations, process scripting</p>
+                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;" data-i18n="about.f2.name">Business Automation</strong>
+                <p style="font-size:0.82rem;margin:0;" data-i18n="about.f2.desc">Workflows, integrations, process scripting</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body" style="border-top:1px solid rgba(86,189,164,.3);">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:rgba(86,189,164,.8);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">03</div>
-                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;">CRM Systems</strong>
-                <p style="font-size:0.82rem;margin:0;">HubSpot, custom CRM, pipeline automation</p>
+                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;" data-i18n="about.f3.name">CRM Systems</strong>
+                <p style="font-size:0.82rem;margin:0;" data-i18n="about.f3.desc">HubSpot, custom CRM, pipeline automation</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body" style="border-top:1px solid rgba(74,127,165,.3);">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">04</div>
-                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;">DevOps & Infrastructure</strong>
-                <p style="font-size:0.82rem;margin:0;">CI/CD, cloud, migrations, IaC, Linux ops</p>
+                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;" data-i18n="about.f4.name">DevOps & Infrastructure</strong>
+                <p style="font-size:0.82rem;margin:0;" data-i18n="about.f4.desc">CI/CD, cloud, migrations, IaC, Linux ops</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body" style="border-top:1px solid rgba(93,200,212,.3);">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:rgba(93,200,212,.8);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">05</div>
-                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;">Backend & API Development</strong>
-                <p style="font-size:0.82rem;margin:0;">REST APIs, system integrations, connectors</p>
+                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;" data-i18n="about.f5.name">Backend & API Development</strong>
+                <p style="font-size:0.82rem;margin:0;" data-i18n="about.f5.desc">REST APIs, system integrations, connectors</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body" style="border-top:1px solid rgba(230,33,39,.5);">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">06</div>
-                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;">Security Monitoring</strong>
-                <p style="font-size:0.82rem;margin:0;">SIEM, alerting, blue team, DevSecOps</p>
+                <strong style="color:var(--text);display:block;margin-bottom:0.3rem;" data-i18n="about.f6.name">Security Monitoring</strong>
+                <p style="font-size:0.82rem;margin:0;" data-i18n="about.f6.desc">SIEM, alerting, blue team, DevSecOps</p>
             </div>
         </div>
     </div>
@@ -94,20 +89,18 @@
 
 <hr class="hz-line">
 
-<!-- Founder -->
 <section class="mb-4">
-    <div class="hz-label reveal">FOUNDER</div>
+    <div class="hz-label reveal" data-i18n="about.founder.lbl">FOUNDER</div>
     <div class="row gy-4 align-items-start">
         <div class="col-lg-4 reveal">
             <h2 style="font-size:1.8rem;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:0.25rem;">Shara Avakian</h2>
-            <p style="font-family:var(--mono);font-size:0.72rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.25rem;">Principal Engineer & Founder</p>
-            <p style="font-size:0.88rem;margin-bottom:1rem;">
+            <p style="font-family:var(--mono);font-size:0.72rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.25rem;" data-i18n="about.founder.role">Principal Engineer & Founder</p>
+            <p style="font-size:0.88rem;margin-bottom:1rem;" data-i18n="about.founder.bio1">
                 Shara has worked as a junior cloud engineer at IIAP (national research institute),
                 security and QA specialist at Senex Security, and technical support engineer for
-                banking workflow systems at Golden SB-Tech. Founded HzorTech to deliver direct
-                client work across software, automation, DevOps, and security.
+                banking workflow systems at Golden SB-Tech.
             </p>
-            <p style="font-size:0.88rem;">
+            <p style="font-size:0.88rem;" data-i18n="about.founder.bio2">
                 Degree in Computer Science. Currently completing a Master's in Computer Systems.
             </p>
             <div class="mt-3 d-flex flex-wrap gap-1">
@@ -129,8 +122,8 @@
                     <div class="d-flex gap-3">
                         <div style="font-family:var(--mono);font-size:1.5rem;color:var(--ember);font-weight:700;flex-shrink:0;min-width:32px;">01</div>
                         <div>
-                            <strong style="color:var(--text);display:block;text-transform:uppercase;letter-spacing:0.03em;font-size:0.9rem;margin-bottom:0.25rem;">IIAP — National Research Institute</strong>
-                            <p style="font-size:0.83rem;margin:0;">Junior cloud engineer. Python-based compute services, SaaS platform integration, and HPC scheduling for quantum simulation workloads.</p>
+                            <strong style="color:var(--text);display:block;text-transform:uppercase;letter-spacing:0.03em;font-size:0.9rem;margin-bottom:0.25rem;" data-i18n="about.exp1.title">IIAP — National Research Institute</strong>
+                            <p style="font-size:0.83rem;margin:0;" data-i18n="about.exp1.desc">Junior cloud engineer. Python-based compute services, SaaS platform integration, and HPC scheduling for quantum simulation workloads.</p>
                         </div>
                     </div>
                 </div>
@@ -138,8 +131,8 @@
                     <div class="d-flex gap-3">
                         <div style="font-family:var(--mono);font-size:1.5rem;color:var(--ember);font-weight:700;flex-shrink:0;min-width:32px;">02</div>
                         <div>
-                            <strong style="color:var(--text);display:block;text-transform:uppercase;letter-spacing:0.03em;font-size:0.9rem;margin-bottom:0.25rem;">Senex Security</strong>
-                            <p style="font-size:0.83rem;margin:0;">Security and QA specialist. Vulnerability management and endpoint hardening programs for Ford Saudi Arabia and Bank of Dubai.</p>
+                            <strong style="color:var(--text);display:block;text-transform:uppercase;letter-spacing:0.03em;font-size:0.9rem;margin-bottom:0.25rem;" data-i18n="about.exp2.title">Senex Security</strong>
+                            <p style="font-size:0.83rem;margin:0;" data-i18n="about.exp2.desc">Security and QA specialist. Vulnerability management and endpoint hardening programs for Ford Saudi Arabia and Bank of Dubai.</p>
                         </div>
                     </div>
                 </div>
@@ -147,8 +140,8 @@
                     <div class="d-flex gap-3">
                         <div style="font-family:var(--mono);font-size:1.5rem;color:var(--ember);font-weight:700;flex-shrink:0;min-width:32px;">03</div>
                         <div>
-                            <strong style="color:var(--text);display:block;text-transform:uppercase;letter-spacing:0.03em;font-size:0.9rem;margin-bottom:0.25rem;">Golden SB-Tech</strong>
-                            <p style="font-size:0.83rem;margin:0;">Technical support for live banking payment workflow systems. Real-time production issue triage, incident escalation, and process automation.</p>
+                            <strong style="color:var(--text);display:block;text-transform:uppercase;letter-spacing:0.03em;font-size:0.9rem;margin-bottom:0.25rem;" data-i18n="about.exp3.title">Golden SB-Tech</strong>
+                            <p style="font-size:0.83rem;margin:0;" data-i18n="about.exp3.desc">Technical support for live banking payment workflow systems. Real-time production issue triage, incident escalation, and process automation.</p>
                         </div>
                     </div>
                 </div>
@@ -159,23 +152,23 @@
 
 <hr class="hz-line">
 
-<!-- Engineering Core -->
 <section class="mb-4">
-    <div class="hz-label reveal">THE ENGINEERING CORE</div>
-    <h2 class="display-section mb-3 reveal">The<br><span style="color:var(--ember);">Engineering Core.</span></h2>
+    <div class="hz-label reveal" data-i18n="about.core.lbl">THE ENGINEERING CORE</div>
+    <h2 class="display-section mb-3 reveal">
+        <span data-i18n="about.core.h1">The</span><br>
+        <span style="color:var(--ember);" data-i18n="about.core.h2">Engineering Core.</span>
+    </h2>
 
-    <!-- Problem-first framing -->
     <div class="reveal" style="border-left:2px solid var(--ember);padding-left:1.5rem;margin-bottom:2rem;">
-        <p style="font-size:1rem;color:var(--text);font-weight:600;margin-bottom:0.25rem;">The Problem We Solve</p>
-        <p style="font-size:0.88rem;margin:0;">
+        <p style="font-size:1rem;color:var(--text);font-weight:600;margin-bottom:0.25rem;" data-i18n="about.problem.title">The Problem We Solve</p>
+        <p style="font-size:0.88rem;margin:0;" data-i18n="about.problem.text">
             Most businesses operate with infrastructure that was assembled, not engineered.
             Tools that don't talk to each other. Deployments that require a developer to babysit.
-            Security that's an afterthought. HZORTECH closes the gap between where your
-            systems are and where they need to be — without the overhead of an internal IT department.
+            Security that's an afterthought. HZORTECH closes the gap — without the overhead of an internal IT department.
         </p>
     </div>
 
-    <p class="reveal" style="max-width:600px;margin-bottom:2rem;font-size:0.9rem;">
+    <p class="reveal" style="max-width:600px;margin-bottom:2rem;font-size:0.9rem;" data-i18n="about.core.sub">
         No management layers. No account executives between you and the engineers.
         Extensive engineering expertise across hardware and software lifecycles — delivered directly.
     </p>
@@ -183,43 +176,43 @@
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">ROLE / 01</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;">Project Lead</strong>
-                <p style="font-size:0.8rem;margin:0;">Owns delivery, client communication, and technical direction. Software, DevOps, and security.</p>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;" data-i18n="about.team.r1">Project Lead</strong>
+                <p style="font-size:0.8rem;margin:0;" data-i18n="about.team.r1d">Owns delivery, client communication, and technical direction.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">ROLE / 02</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;">Backend Developer</strong>
-                <p style="font-size:0.8rem;margin:0;">Frontend and backend development, API work, and system integrations.</p>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;" data-i18n="about.team.r2">Backend Developer</strong>
+                <p style="font-size:0.8rem;margin:0;" data-i18n="about.team.r2d">Frontend and backend development, API work, and system integrations.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">ROLE / 03</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;">Automation Specialist</strong>
-                <p style="font-size:0.8rem;margin:0;">Workflow design, CRM configuration, integration builds, and process scripting.</p>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;" data-i18n="about.team.r3">Automation Specialist</strong>
+                <p style="font-size:0.8rem;margin:0;" data-i18n="about.team.r3d">Workflow design, CRM configuration, integration builds, and process scripting.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">ROLE / 04</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;">DevOps Engineer</strong>
-                <p style="font-size:0.8rem;margin:0;">CI/CD, IaC, containerisation, cloud infrastructure, migrations.</p>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;" data-i18n="about.team.r4">DevOps Engineer</strong>
+                <p style="font-size:0.8rem;margin:0;" data-i18n="about.team.r4d">CI/CD, IaC, containerisation, cloud infrastructure, migrations.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">ROLE / 05</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;">Security Analyst</strong>
-                <p style="font-size:0.8rem;margin:0;">SIEM management, blue team ops, vulnerability assessments, incident response.</p>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;" data-i18n="about.team.r5">Security Analyst</strong>
+                <p style="font-size:0.8rem;margin:0;" data-i18n="about.team.r5d">SIEM management, blue team ops, vulnerability assessments, incident response.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-4 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;">EXTENDED</div>
-                <strong style="color:var(--titanium);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;">Trusted Contractors</strong>
-                <p style="font-size:0.8rem;margin:0;">For larger scopes. Team size and composition agreed before work starts. No surprises.</p>
+                <strong style="color:var(--titanium);text-transform:uppercase;letter-spacing:0.04em;font-size:0.88rem;display:block;margin-bottom:0.5rem;" data-i18n="about.team.r6">Trusted Contractors</strong>
+                <p style="font-size:0.8rem;margin:0;" data-i18n="about.team.r6d">For larger scopes. Team size and composition agreed before work starts.</p>
             </div>
         </div>
     </div>
@@ -227,36 +220,35 @@
 
 <hr class="hz-line">
 
-<!-- Principles — Bento with 1px red border per spec -->
 <section class="mb-4">
-    <div class="hz-label reveal">OPERATING PRINCIPLES // VALUES</div>
+    <div class="hz-label reveal" data-i18n="about.principles.lbl">OPERATING PRINCIPLES // VALUES</div>
     <div class="row g-3 mt-1">
         <div class="col-md-6 reveal">
             <div style="border:1px solid var(--ember);border-radius:var(--radius);padding:1.5rem;height:100%;background:var(--glass);backdrop-filter:blur(20px);">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">PRINCIPLE / 01</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;">Automation First</strong>
-                <p style="font-size:0.83rem;margin:0;">Every engagement is reviewed for manual processes that can be eliminated. Identify the toil before adding headcount. Efficient systems, not larger teams.</p>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;" data-i18n="about.p1.tag">PRINCIPLE / 01</div>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;" data-i18n="about.p1.name">Automation First</strong>
+                <p style="font-size:0.83rem;margin:0;" data-i18n="about.p1.desc">Every engagement is reviewed for manual processes that can be eliminated. Efficient systems, not larger teams.</p>
             </div>
         </div>
         <div class="col-md-6 reveal">
             <div style="border:1px solid var(--ember);border-radius:var(--radius);padding:1.5rem;height:100%;background:var(--glass);backdrop-filter:blur(20px);">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">PRINCIPLE / 02</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;">Security by Default</strong>
-                <p style="font-size:0.83rem;margin:0;">Access control, logging, and hardening are built in from day one — not retrofitted before go-live. Security is architecture, not an afterthought.</p>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;" data-i18n="about.p2.tag">PRINCIPLE / 02</div>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;" data-i18n="about.p2.name">Security by Default</strong>
+                <p style="font-size:0.83rem;margin:0;" data-i18n="about.p2.desc">Access control, logging, and hardening are built in from day one — not retrofitted before go-live.</p>
             </div>
         </div>
         <div class="col-md-6 reveal">
             <div style="border:1px solid var(--ember);border-radius:var(--radius);padding:1.5rem;height:100%;background:var(--glass);backdrop-filter:blur(20px);">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">PRINCIPLE / 03</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;">Direct Communication</strong>
-                <p style="font-size:0.83rem;margin:0;">Engineers communicate directly with clients. No account managers. No filtered status reports. You get raw facts, not polished summaries.</p>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;" data-i18n="about.p3.tag">PRINCIPLE / 03</div>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;" data-i18n="about.p3.name">Direct Communication</strong>
+                <p style="font-size:0.83rem;margin:0;" data-i18n="about.p3.desc">Engineers communicate directly with clients. No account managers. No filtered status reports.</p>
             </div>
         </div>
         <div class="col-md-6 reveal">
             <div style="border:1px solid var(--ember);border-radius:var(--radius);padding:1.5rem;height:100%;background:var(--glass);backdrop-filter:blur(20px);">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;">PRINCIPLE / 04</div>
-                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;">Full Handover</strong>
-                <p style="font-size:0.83rem;margin:0;">Every engagement delivers runbooks and knowledge transfer. Your team maintains what HZORTECH builds — without ongoing dependency on us.</p>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.6rem;" data-i18n="about.p4.tag">PRINCIPLE / 04</div>
+                <strong style="color:var(--text);text-transform:uppercase;letter-spacing:0.04em;font-size:0.9rem;display:block;margin-bottom:0.5rem;" data-i18n="about.p4.name">Full Handover</strong>
+                <p style="font-size:0.83rem;margin:0;" data-i18n="about.p4.desc">Every engagement delivers runbooks and knowledge transfer. Your team maintains what HZORTECH builds.</p>
             </div>
         </div>
     </div>
@@ -265,10 +257,13 @@
 <hr class="hz-line">
 
 <section class="text-center py-4 reveal">
-    <h2 class="display-section mb-3">Want to<br><span style="color:var(--ember);">Work Together?</span></h2>
-    <p class="mb-4" style="max-width:480px;margin:0 auto 2rem;">Tell us about your project. We'll tell you if we're a good fit — and if not, we'll say so.</p>
+    <h2 class="display-section mb-3">
+        <span data-i18n="about.cta.h1">Want to</span><br>
+        <span style="color:var(--ember);" data-i18n="about.cta.h2">Work Together?</span>
+    </h2>
+    <p class="mb-4" style="max-width:480px;margin:0 auto 2rem;" data-i18n="about.cta.sub">Tell us about your project. We'll tell you if we're a good fit — and if not, we'll say so.</p>
     <span class="magnetic-wrap">
-        <a href="{% url 'contact' %}" class="btn-ember">Initialize Collaboration</a>
+        <a href="{% url 'contact' %}" class="btn-ember" data-i18n="about.cta.btn">Initialize Collaboration</a>
     </span>
 </section>
 

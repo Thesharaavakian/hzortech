@@ -3,15 +3,14 @@
 
 {% block content %}
 
-<!-- Hero -->
 <section class="mb-4 reveal">
-    <div class="hz-label">CONTACT // INITIATE</div>
+    <div class="hz-label" data-i18n="contact.hero.lbl">CONTACT // INITIATE</div>
     <h1 class="display-hero mb-3">
-        HAVE A<br>
-        PROBLEM?<br>
-        <span style="color:var(--ember);">SEND IT.</span>
+        <span data-i18n="contact.h1a">HAVE A</span><br>
+        <span data-i18n="contact.h1b">PROBLEM?</span><br>
+        <span style="color:var(--ember);" data-i18n="contact.h1c">SEND IT.</span>
     </h1>
-    <p style="max-width:480px;font-size:1rem;line-height:1.75;">
+    <p style="max-width:480px;font-size:1rem;line-height:1.75;" data-i18n="contact.sub">
         No discovery calls. No sales decks. Send a brief and we come back within 48 hours
         with a direct assessment and proposed approach.
     </p>
@@ -22,7 +21,6 @@
 <section class="mb-4">
     <div class="row gy-4">
 
-        <!-- Form -->
         <div class="col-lg-7 reveal">
             <div class="hz-terminal mb-3">
                 <div class="t-bar">
@@ -38,86 +36,87 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-sm-6">
-                            <label class="form-label">{{ form.name.label }}</label>
+                            <label class="form-label" data-i18n="contact.form.name">Name</label>
                             {{ form.name }}
                             {% if form.name.errors %}<div style="font-size:0.75rem;color:var(--ember);margin-top:4px;">{{ form.name.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-sm-6">
-                            <label class="form-label">{{ form.email.label }}</label>
+                            <label class="form-label" data-i18n="contact.form.email">Email</label>
                             {{ form.email }}
                             {% if form.email.errors %}<div style="font-size:0.75rem;color:var(--ember);margin-top:4px;">{{ form.email.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-12">
-                            <label class="form-label">Subject / Engagement Type</label>
+                            <label class="form-label" data-i18n="contact.form.subject">Subject / Engagement Type</label>
                             {{ form.subject }}
                         </div>
                         <div class="col-12">
-                            <label class="form-label">Project Requirements &amp; Scope</label>
+                            <label class="form-label" data-i18n="contact.form.message">Project Requirements &amp; Scope</label>
                             {{ form.message }}
                             {% if form.message.errors %}<div style="font-size:0.75rem;color:var(--ember);margin-top:4px;">{{ form.message.errors.0 }}</div>{% endif %}
                         </div>
                     </div>
 
+                    {% if turnstile_site_key %}
+                    <div class="cf-turnstile mb-3" data-sitekey="{{ turnstile_site_key }}" data-theme="auto"></div>
+                    {% endif %}
+
                     <div class="d-flex align-items-center gap-3">
                         <span class="magnetic-wrap">
-                            <button type="submit" class="btn-ember">
+                            <button type="submit" class="btn-ember" data-i18n="contact.form.btn">
                                 INITIALIZE CONSULTATION <i class="bi bi-arrow-right ms-1"></i>
                             </button>
                         </span>
-                        <span style="font-family:var(--mono);font-size:0.68rem;color:var(--titanium);">// Response within 48h</span>
+                        <span style="font-family:var(--mono);font-size:0.68rem;color:var(--muted);" data-i18n="contact.form.note">// Response within 48h</span>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Sidebar -->
         <div class="col-lg-5 reveal">
             <div class="hz-label" style="margin-bottom:1.25rem;">COMMS // DIRECT LINES</div>
 
             <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Email / Primary</div>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;" data-i18n="contact.info.email1">Email / Primary</div>
                 <a href="mailto:shara@hzortech.com" style="color:var(--text);font-weight:700;font-size:0.9rem;text-decoration:none;">shara@hzortech.com</a>
             </div>
 
             <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Email / General</div>
-                <a href="mailto:hello@hzortech.com" style="color:var(--titanium);font-size:0.88rem;text-decoration:none;">hello@hzortech.com</a>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;" data-i18n="contact.info.email2">Email / General</div>
+                <a href="mailto:hello@hzortech.com" style="color:var(--muted);font-size:0.88rem;text-decoration:none;">hello@hzortech.com</a>
             </div>
 
             <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Phone</div>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;" data-i18n="contact.info.phone">Phone</div>
                 <a href="tel:+37477075919" style="color:var(--text);font-weight:600;font-size:0.9rem;text-decoration:none;">+374 77 075 919</a>
             </div>
 
             <div style="border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Location</div>
-                <span style="color:var(--text);font-size:0.9rem;">Yerevan, Armenia</span>
-                <span style="display:block;font-family:var(--mono);font-size:0.72rem;color:var(--titanium);margin-bottom:0.75rem;">Remote-first — clients globally.</span>
-                <!-- Dark tactical map -->
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;" data-i18n="contact.info.location">Location</div>
+                <span style="color:var(--text);font-size:0.9rem;" data-i18n="contact.info.loc.name">Yerevan, Armenia</span>
+                <span style="display:block;font-family:var(--mono);font-size:0.72rem;color:var(--muted);margin-bottom:0.75rem;" data-i18n="contact.info.loc.sub">Remote-first — clients globally.</span>
                 <div id="hz-map" style="height:180px;border-radius:8px;border:1px solid var(--border);overflow:hidden;"></div>
             </div>
 
             <div style="padding-bottom:1rem;margin-bottom:1.5rem;">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;">Office Hours</div>
-                <span style="color:var(--text);font-size:0.9rem;">Mon–Fri, 09:00–18:00</span>
-                <span style="display:block;font-family:var(--mono);font-size:0.72rem;color:var(--titanium);">GMT+4 — async available for EU/US</span>
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;" data-i18n="contact.info.hours">Office Hours</div>
+                <span style="color:var(--text);font-size:0.9rem;" data-i18n="contact.info.hours.val">Mon–Fri, 09:00–18:00</span>
+                <span style="display:block;font-family:var(--mono);font-size:0.72rem;color:var(--muted);" data-i18n="contact.info.hours.tz">GMT+4 — async available for EU/US</span>
             </div>
 
-            <!-- What to include -->
             <div class="hz-card hz-card-body">
-                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;">
+                <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem;" data-i18n="contact.brief.lbl">
                     // WHAT TO INCLUDE IN YOUR BRIEF
                 </div>
                 <ul style="list-style:none;padding:0;margin:0;font-size:0.8rem;display:flex;flex-direction:column;gap:0.5rem;">
-                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> What you're trying to solve (not just the deliverable)</li>
-                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> Current stack or platforms involved</li>
-                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> Rough timeline or hard deadlines</li>
-                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> One-off project or ongoing engagement</li>
+                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> <span data-i18n="contact.brief.1">What you're trying to solve (not just the deliverable)</span></li>
+                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> <span data-i18n="contact.brief.2">Current stack or platforms involved</span></li>
+                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> <span data-i18n="contact.brief.3">Rough timeline or hard deadlines</span></li>
+                    <li style="display:flex;gap:8px;"><span style="color:var(--ember);font-family:var(--mono);">▸</span> <span data-i18n="contact.brief.4">One-off project or ongoing engagement</span></li>
                 </ul>
-                <div style="margin-top:0.75rem;font-family:var(--mono);font-size:0.68rem;color:var(--titanium);">
+                <div style="margin-top:0.75rem;font-family:var(--mono);font-size:0.68rem;color:var(--muted);" data-i18n="contact.brief.note">
                     // No formal brief required. A few lines is fine.
                 </div>
-                <div style="margin-top:0.75rem;padding:0.6rem 0.75rem;background:var(--ember-dim);border:1px solid var(--ember-glow);border-radius:6px;font-family:var(--mono);font-size:0.7rem;color:var(--ember);">
+                <div style="margin-top:0.75rem;padding:0.6rem 0.75rem;background:var(--ember-dim);border:1px solid var(--ember-glow);border-radius:6px;font-family:var(--mono);font-size:0.7rem;color:var(--ember);" data-i18n="contact.brief.urgent">
                     ⚡ Include URGENT in subject line for same-day triage.
                 </div>
             </div>
@@ -127,10 +126,9 @@
 
 <hr class="hz-line">
 
-<!-- Focus areas -->
 <section class="mb-4 reveal">
-    <div class="hz-label">FOCUS AREAS // WHERE WE'RE STRONGEST</div>
-    <p style="font-size:0.88rem;max-width:560px;margin-bottom:1.25rem;">Projects in these areas get the most direct benefit from our background:</p>
+    <div class="hz-label" data-i18n="contact.focus.lbl">FOCUS AREAS // WHERE WE'RE STRONGEST</div>
+    <p style="font-size:0.88rem;max-width:560px;margin-bottom:1.25rem;" data-i18n="contact.focus.sub">Projects in these areas get the most direct benefit from our background:</p>
     <div>
         <span class="hz-chip hz-chip-ember">Cloud Infrastructure</span>
         <span class="hz-chip hz-chip-ember">Security Operations</span>
@@ -150,42 +148,25 @@
 {% endblock %}
 
 {% block extra_css %}
-.leaflet-control-attribution { background: rgba(13,13,13,0.8) !important; color: var(--titanium) !important; font-size: 0.6rem !important; }
+.leaflet-control-attribution { background: rgba(13,13,13,0.8) !important; color: var(--muted) !important; font-size: 0.6rem !important; }
 .leaflet-control-attribution a { color: var(--ember) !important; }
-.leaflet-popup-content-wrapper { background: var(--silicon) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important; }
-.leaflet-popup-tip { background: var(--silicon) !important; }
+.leaflet-popup-content-wrapper { background: var(--surface) !important; border: 1px solid var(--border) !important; border-radius: 8px !important; }
+.leaflet-popup-tip { background: var(--surface) !important; }
 .leaflet-popup-content { color: var(--text) !important; font-family: var(--mono) !important; font-size: 0.75rem !important; }
 {% endblock %}
 
 {% block extra_js %}
+{% if turnstile_site_key %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{% endif %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 (function () {
-    const map = L.map('hz-map', {
-        zoomControl: false,
-        attributionControl: true,
-        scrollWheelZoom: false,
-        dragging: false
-    }).setView([40.1872, 44.5152], 13);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© <a href="https://carto.com/">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-    }).addTo(map);
-
-    const icon = L.divIcon({
-        html: '<div style="width:12px;height:12px;background:#E62127;border:2px solid rgba(230,33,39,0.4);border-radius:50%;box-shadow:0 0 10px rgba(230,33,39,0.7);"></div>',
-        className: '',
-        iconSize: [12, 12],
-        iconAnchor: [6, 6]
-    });
-
-    L.marker([40.1872, 44.5152], { icon })
-        .addTo(map)
-        .bindPopup('<strong>HZORTECH</strong><br>Yerevan, Armenia')
-        .openPopup();
+    const map = L.map('hz-map', { zoomControl: false, attributionControl: true, scrollWheelZoom: false, dragging: false }).setView([40.1872, 44.5152], 13);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© <a href="https://carto.com/">CARTO</a>', subdomains: 'abcd', maxZoom: 19 }).addTo(map);
+    const icon = L.divIcon({ html: '<div style="width:12px;height:12px;background:#E62127;border:2px solid rgba(230,33,39,0.4);border-radius:50%;box-shadow:0 0 10px rgba(230,33,39,0.7);"></div>', className: '', iconSize: [12,12], iconAnchor: [6,6] });
+    L.marker([40.1872, 44.5152], { icon }).addTo(map).bindPopup('<strong>HZORTECH</strong><br>Yerevan, Armenia').openPopup();
 })();
 </script>
 {% endblock %}
