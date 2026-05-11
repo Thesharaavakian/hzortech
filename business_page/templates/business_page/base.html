@@ -27,6 +27,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -153,6 +154,60 @@ footer a:hover{color:var(--ember)}
   .hz-card-body{padding:1.25rem}
   #floatCta{bottom:1rem;right:1rem}
 }
+/* ── Armenian text readability ──────────────────────────────────────────── */
+:lang(hy), [data-i18n] { line-height:1.85 }
+[data-lang="am"] p,[data-lang="am"] span,[data-lang="am"] li { line-height:1.9;letter-spacing:.01em }
+/* ── Social proof ticker ─────────────────────────────────────────────────── */
+.hz-ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.6rem 0;background:var(--bg2)}
+.hz-ticker{display:flex;gap:2.5rem;width:max-content;animation:ticker 40s linear infinite}
+.hz-ticker:hover{animation-play-state:paused}
+.hz-ticker-item{white-space:nowrap;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.6rem}
+.hz-ticker-item::before{content:'//';color:var(--ember);opacity:.5}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* ── Tech icon grid ───────────────────────────────────────────────────────── */
+.tech-icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:1rem}
+.tech-icon-cell{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1rem .5rem;border:1px solid var(--border);border-radius:10px;background:var(--surface);transition:all var(--trans);text-decoration:none}
+.tech-icon-cell:hover{border-color:var(--ember-glow);background:var(--ember-dim);transform:translateY(-2px)}
+.tech-icon-cell i{font-size:2rem;color:var(--muted);transition:color var(--trans)}
+.tech-icon-cell:hover i{color:var(--ember)}
+.tech-icon-cell span{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;text-align:center}
+/* ── Glassmorphism card ───────────────────────────────────────────────────── */
+.hz-glass{background:rgba(255,255,255,.07);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius)}
+[data-theme="light"] .hz-glass{background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.08)}
+/* ── Testimonial card ────────────────────────────────────────────────────── */
+.hz-testimonial{border-left:3px solid var(--ember);padding:1.5rem 1.5rem 1.5rem 1.75rem;background:var(--surface);border-radius:var(--radius);position:relative}
+.hz-testimonial::before{content:'\201C';position:absolute;top:-.5rem;left:1.25rem;font-size:4rem;color:var(--ember);opacity:.15;font-family:Georgia,serif;line-height:1}
+/* ── Service card hover pulse ────────────────────────────────────────────── */
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 var(--ember-glow)}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.hz-card.svc-card:hover{animation:pulse-ring .8s ease-out}
+/* ── Interactive terminal (proof of craft) ───────────────────────────────── */
+.hz-iterm{background:#0A0A0C;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-family:var(--mono);font-size:.82rem}
+.hz-iterm-bar{display:flex;gap:6px;padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.06);background:#111115}
+.hz-iterm-body{padding:1rem 1.25rem;min-height:200px;max-height:320px;overflow-y:auto}
+.hz-iterm-line{display:block;margin-bottom:.25rem;color:#8E9196}
+.hz-iterm-line.out{color:#00CC66}
+.hz-iterm-line.err{color:#E62127}
+.hz-iterm-line .pr{color:#E62127}
+.hz-iterm-line .cm{color:#444C56}
+.hz-iterm-input-row{display:flex;align-items:center;gap:.5rem;margin-top:.5rem}
+.hz-iterm-input{flex:1;background:none;border:none;outline:none;color:#F0F0F0;font-family:var(--mono);font-size:.82rem;caret-color:#E62127}
+/* ── Newsletter signup ───────────────────────────────────────────────────── */
+.hz-newsletter{background:linear-gradient(135deg,var(--ember-dim),transparent);border:1px solid var(--ember-glow);border-radius:var(--radius);padding:2.5rem}
+/* ── Flowchart ───────────────────────────────────────────────────────────── */
+.hz-flow-step{display:flex;align-items:flex-start;gap:1.25rem;position:relative}
+.hz-flow-step:not(:last-child)::after{content:'';position:absolute;left:19px;top:44px;bottom:-20px;width:2px;background:linear-gradient(to bottom,var(--ember),transparent)}
+.hz-flow-num{width:40px;height:40px;border-radius:50%;background:var(--ember);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:.8rem;flex-shrink:0}
+.hz-flow-sev1{background:#E62127}.hz-flow-sev2{background:#F59E0B}.hz-flow-sev3{background:#059669}
+/* ── Deep-dive accordion ─────────────────────────────────────────────────── */
+.hz-deepdive{border-top:2px solid var(--ember);background:var(--surface);border-radius:0 0 var(--radius) var(--radius);overflow:hidden}
+.hz-deepdive-toggle{width:100%;background:none;border:none;color:var(--text);font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.85rem 1.25rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:background var(--trans)}
+.hz-deepdive-toggle:hover{background:var(--ember-dim)}
+.hz-deepdive-body{display:none;padding:1.5rem;border-top:1px solid var(--border)}
+.hz-deepdive-body.open{display:block}
+/* ── Code-as-art IaC background ─────────────────────────────────────────── */
+.hz-code-bg{position:relative;overflow:hidden}
+.hz-code-bg-art{position:absolute;inset:0;font-family:var(--mono);font-size:.7rem;line-height:1.8;color:var(--ember);opacity:.03;padding:2rem;pointer-events:none;white-space:pre;overflow:hidden;z-index:0}
+.hz-code-bg > *{position:relative;z-index:1}
     {% block extra_css %}{% endblock %}
     </style>
 </head>
@@ -213,6 +268,7 @@ footer a:hover{color:var(--ember)}
         <li class="nav-item"><a class="nav-link" href="{% url 'services' %}" data-i18n="nav.services">Services</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"    data-i18n="nav.about">About</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'projects' %}" data-i18n="nav.projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'blog' %}" data-i18n="nav.blog">Insights</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"  data-i18n="nav.contact">Contact</a></li>
         <li class="nav-item ms-lg-2">
           <a href="{% url 'contact' %}" class="btn-ember" style="font-size:.75rem;padding:.5rem 1rem" data-i18n="nav.cta">Initialize</a>
@@ -266,9 +322,11 @@ footer a:hover{color:var(--ember)}
           <a href="{% url 'services' %}" data-i18n="svc6.title">Cloud Migration</a>
           <a href="{% url 'services' %}" data-i18n="svc5.title">Security Ops</a>
         </div>
-        <div class="mt-3 d-flex gap-3">
+        <div class="mt-3 d-flex gap-3 flex-wrap">
           <a href="{% url 'projects' %}" data-i18n="nav.projects">Projects</a>
+          <a href="{% url 'blog' %}" data-i18n="nav.blog">Insights</a>
           <a href="{% url 'privacy' %}" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/security.txt" style="font-family:var(--mono);font-size:.75rem;" title="Our security disclosure policy">/security.txt</a>
         </div>
       </div>
       <div class="col-md-4">
@@ -276,7 +334,11 @@ footer a:hover{color:var(--ember)}
         <p class="mb-1"><a href="mailto:shara@hzortech.com">shara@hzortech.com</a></p>
         <p class="mb-2"><a href="tel:+37477075919">+374 77 075 919</a></p>
         <p style="font-family:var(--mono);font-size:.68rem;color:var(--dim)" data-i18n="footer.location">YEREVAN, ARMENIA / GMT+4</p>
-        <div class="mt-2"><a href="https://linkedin.com/company/hzortech" target="_blank" rel="noopener" aria-label="LinkedIn" style="color:var(--muted);font-size:1.1rem"><i class="bi bi-linkedin"></i></a></div>
+        <p style="font-family:var(--mono);font-size:.65rem;color:var(--dim);margin-top:.25rem;" id="yerevanTime"></p>
+        <div class="mt-2 d-flex gap-3 align-items-center">
+          <a href="https://linkedin.com/company/hzortech" target="_blank" rel="noopener" aria-label="LinkedIn" style="color:var(--muted);font-size:1.1rem"><i class="bi bi-linkedin"></i></a>
+          <a href="https://github.com/Thesharaavakian" target="_blank" rel="noopener" aria-label="GitHub" style="color:var(--muted);font-size:1.1rem"><i class="bi bi-github"></i></a>
+        </div>
       </div>
     </div>
   </div>
@@ -289,6 +351,19 @@ footer a:hover{color:var(--ember)}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// YEREVAN LIVE TIME
+(function tick(){
+  var el=document.getElementById('yerevanTime');
+  if(el){
+    var d=new Date();
+    var yer=new Date(d.toLocaleString('en-US',{timeZone:'Asia/Yerevan'}));
+    var h=yer.getHours(),mi=yer.getMinutes();
+    var open=h>=9&&h<18&&yer.getDay()>=1&&yer.getDay()<=5;
+    el.textContent=(h<10?'0':'')+h+':'+(mi<10?'0':'')+mi+' Yerevan — '+(open?'Office open':'Async mode');
+    el.style.color=open?'var(--status)':'var(--dim)';
+  }
+  setTimeout(tick,30000);
+})();
 // THEME
 (function(){ document.documentElement.setAttribute('data-theme', localStorage.getItem('hz-theme')||'light'); })();
 function toggleTheme(){
@@ -378,7 +453,7 @@ var T = {
 en: {
   'nav.home':'Home', 'nav.services':'Services', 'nav.about':'About',
   'nav.projects':'Projects', 'nav.contact':'Contact', 'nav.cta':'Initialize',
-  'nav.status':'SYSTEMS ONLINE', 'nav.privacy':'Privacy Policy',
+  'nav.status':'SYSTEMS ONLINE', 'nav.blog':'Insights', 'nav.privacy':'Privacy Policy',
   'float.cta':'Send Brief',
   'msg.sent':"Message sent — we'll respond within 48 hours.",
   'msg.received':"Message received — we'll respond within 48 hours.",
@@ -805,7 +880,7 @@ am: {
 ru: {
   'nav.home':'Главная', 'nav.services':'Услуги', 'nav.about':'О нас',
   'nav.projects':'Проекты', 'nav.contact':'Контакт', 'nav.cta':'Начать',
-  'nav.status':'СИСТЕМЫ ОНЛАЙН', 'nav.privacy':'Политика конфиденциальности',
+  'nav.status':'СИСТЕМЫ ОНЛАЙН', 'nav.blog':'Аналитика', 'nav.privacy':'Политика конфиденциальности',
   'float.cta':'Отправить бриф',
   'msg.sent':'Сообщение отправлено — ответим в течение 48 часов.',
   'msg.received':'Сообщение получено — ответим в течение 48 часов.',

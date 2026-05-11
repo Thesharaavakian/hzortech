@@ -1,0 +1,92 @@
+{% extends "business_page/base.html" %}
+{% block title %}Insights | HZORTECH{% endblock %}
+
+{% block content %}
+
+<section class="mb-5 reveal">
+    <div class="hz-label">INSIGHTS // TECHNICAL BRIEFS</div>
+    <h1 class="display-hero mb-3">
+        Engineering<br>
+        <span style="color:var(--ember);">Intelligence.</span>
+    </h1>
+    <p style="max-width:560px;font-size:1rem;line-height:1.75;">
+        Technical notes from the field. Cloud hardening, SIEM tuning, DevOps patterns — written by engineers, for engineers.
+    </p>
+</section>
+
+<hr class="hz-line">
+
+<div class="row g-4">
+
+    <div class="col-md-6 col-lg-4 reveal">
+        <div class="hz-card hz-card-body h-100 hz-card-ember">
+            <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">SIEM // 11 MAY 2026</div>
+            <h3 style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.75rem;">Wazuh in Production: 5 Tuning Rules That Eliminate 80% of Alert Noise</h3>
+            <p style="font-size:.83rem;margin-bottom:1.25rem;">Out-of-the-box Wazuh generates thousands of alerts per day. Most are noise. Here are the five rule overrides we apply on every deployment to surface only what matters.</p>
+            <div class="hz-terminal" style="font-size:.75rem;">
+                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
+                <span class="t-line t-comment"># /var/ossec/etc/rules/local_rules.xml</span>
+                <span class="t-line"><span class="t-prompt">&lt;rule id="100001" level="0"&gt;</span></span>
+                <span class="t-line" style="padding-left:1rem;color:#8E9196;">  &lt;if_sid&gt;5501&lt;/if_sid&gt;</span>
+                <span class="t-line" style="padding-left:1rem;color:#8E9196;">  &lt;description&gt;Ignore cron PAM&lt;/description&gt;</span>
+                <span class="t-line"><span class="t-prompt">&lt;/rule&gt;</span></span>
+            </div>
+            <div class="mt-3">
+                <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;">Request Full Guide</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4 reveal">
+        <div class="hz-card hz-card-body h-100">
+            <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">TERRAFORM // 04 MAY 2026</div>
+            <h3 style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.75rem;">Zero-Downtime AWS Migration: The Blue/Green Checklist We Run Every Time</h3>
+            <p style="font-size:.83rem;margin-bottom:1.25rem;">A 14-step pre-cutover checklist covering DNS TTL reduction, health check validation, rollback triggers, and 30-day post-migration monitoring thresholds.</p>
+            <div class="hz-terminal" style="font-size:.75rem;">
+                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
+                <span class="t-line t-comment"># Pre-cutover checklist excerpt</span>
+                <span class="t-line t-out">✓ DNS TTL set to 60s (24h before)</span>
+                <span class="t-line t-out">✓ Health checks passing on green</span>
+                <span class="t-line t-out">✓ Rollback trigger defined</span>
+                <span class="t-line" style="color:#F59E0B;">⧗ Data integrity checksums...</span>
+            </div>
+            <div class="mt-3">
+                <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;">Request Full Guide</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4 reveal">
+        <div class="hz-card hz-card-body h-100">
+            <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">CI/CD // 28 APR 2026</div>
+            <h3 style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.75rem;">GitHub Actions Security Hardening: What Most Teams Miss</h3>
+            <p style="font-size:.83rem;margin-bottom:1.25rem;">Secret scanning, OIDC instead of long-lived keys, pinned action versions, and workflow permission scoping — the four controls that prevent supply chain compromise.</p>
+            <div class="hz-terminal" style="font-size:.75rem;">
+                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
+                <span class="t-line t-comment"># .github/workflows/deploy.yml</span>
+                <span class="t-line" style="color:#8E9196;">permissions:</span>
+                <span class="t-line" style="padding-left:1rem;color:#00CC66;">  contents: read</span>
+                <span class="t-line" style="padding-left:1rem;color:#00CC66;">  packages: write</span>
+                <span class="t-line" style="padding-left:1rem;color:#E62127;">  # nothing else</span>
+            </div>
+            <div class="mt-3">
+                <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;">Request Full Guide</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="hz-line">
+
+<section class="text-center py-4 reveal">
+    <div class="hz-label" style="justify-content:center;">MORE COMING MONTHLY</div>
+    <p style="max-width:480px;margin:1rem auto 2rem;">Subscribe to get each brief when it publishes. One email. No marketing. Unsubscribe any time.</p>
+    <form action="{% url 'newsletter_signup' %}" method="post" class="d-inline-flex gap-2 flex-wrap justify-content-center">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="your@email.com" class="form-control" style="max-width:280px;" required>
+        <button type="submit" class="btn-ember">Subscribe</button>
+    </form>
+</section>
+
+{% endblock %}

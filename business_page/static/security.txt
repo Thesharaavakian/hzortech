@@ -1,0 +1,20 @@
+Contact: mailto:shara@hzortech.com
+Expires: 2027-05-11T00:00:00.000Z
+Preferred-Languages: en, hy, ru
+Canonical: https://hzortech.com/security.txt
+
+Policy: We take the security of our clients and our own infrastructure seriously.
+If you discover a security vulnerability in hzortech.com, please report it
+responsibly to shara@hzortech.com with the subject line "Security Disclosure."
+
+We commit to:
+- Acknowledging receipt within 24 hours
+- Providing a status update within 72 hours
+- Crediting you (if desired) in our security acknowledgements
+
+We operate Cloudflare-protected infrastructure with CIS Benchmark-hardened
+endpoints, GitHub Actions with scoped permissions, and Wazuh SIEM monitoring.
+We practise what we sell.
+
+HZORTECH — Yerevan, Armenia
+https://hzortech.com

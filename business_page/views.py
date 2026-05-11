@@ -44,6 +44,46 @@ def _verify_turnstile(token, ip):
         return True  # Fail open if Turnstile is unreachable
 
 
+def blog(request):
+    return render(request, 'business_page/blog.html')
+
+
+def newsletter_signup(request):
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        if email and '@' in email:
+            try:
+                send_mail(
+                    subject="[HZORTECH] Newsletter Signup",
+                    message=f"New newsletter subscriber: {email}",
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[settings.CONTACT_EMAIL],
+                    fail_silently=True,
+                )
+                send_mail(
+                    subject="HZORTECH — Security Health Check Brief",
+                    message=(
+                        f"Hello,\n\n"
+                        "Thanks for subscribing to the HZORTECH Security Intelligence brief.\n\n"
+                        "Each month you'll receive:\n"
+                        "• Cloud cost optimisation tips\n"
+                        "• SIEM tuning notes (Wazuh, ELK)\n"
+                        "• Infrastructure hardening checklists\n\n"
+                        "Your first Security Health Check checklist:\n"
+                        "https://hzortech.com/contact/\n\n"
+                        "— HZORTECH\n"
+                        "shara@hzortech.com | hzortech.com"
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[email],
+                    fail_silently=True,
+                )
+                messages.success(request, "newsletter_ok")
+            except Exception:
+                pass
+    return redirect('home')
+
+
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)

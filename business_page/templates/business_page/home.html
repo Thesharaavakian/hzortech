@@ -3,7 +3,16 @@
 
 {% block content %}
 
-<section class="py-5 mb-3 reveal">
+<!-- ══ HERO ══════════════════════════════════════════════════════════════ -->
+<section class="py-5 mb-3 reveal hz-code-bg">
+    <div class="hz-code-bg-art">resource "aws_security_group" "hzortech" {
+  name        = "hzortech-hardened"
+  description = "Zero-trust perimeter"
+  ingress { from_port=443 to_port=443 protocol="tcp" }
+  ingress { from_port=22  to_port=22  protocol="tcp" cidr_blocks=["10.0.0.0/8"] }
+  egress  { from_port=0   to_port=0   protocol="-1"  cidr_blocks=["0.0.0.0/0"] }
+  tags = { Env="production" Owner="hzortech" Hardened="true" }
+}</div>
     <div class="row align-items-center gy-5">
         <div class="col-lg-8">
             <div class="hz-label" data-i18n="hero.label">HZORTECH // YEREVAN, ARMENIA</div>
@@ -14,16 +23,11 @@
                 <span data-i18n="hero.line4">IN TECH.</span>
             </h1>
             <p style="font-size:1rem;max-width:520px;line-height:1.75;margin-bottom:2rem;" data-i18n="hero.sub">
-                We engineer the infrastructure of modern business — cloud systems, automated workflows,
-                secure pipelines, and software that runs without you watching it.
+                We engineer the infrastructure of modern business — cloud systems, automated workflows, secure pipelines, and software that runs without you watching it.
             </p>
             <div class="d-flex flex-wrap gap-3">
-                <span class="magnetic-wrap">
-                    <a href="{% url 'contact' %}" class="btn-ember" data-i18n="hero.cta1">Initialize Project</a>
-                </span>
-                <span class="magnetic-wrap">
-                    <a href="{% url 'services' %}" class="btn-ghost" data-i18n="hero.cta2">View Capabilities</a>
-                </span>
+                <span class="magnetic-wrap"><a href="{% url 'contact' %}" class="btn-ember" data-i18n="hero.cta1">Initialize Project</a></span>
+                <span class="magnetic-wrap"><a href="{% url 'services' %}" class="btn-ghost" data-i18n="hero.cta2">View Capabilities</a></span>
             </div>
         </div>
         <div class="col-lg-4">
@@ -32,15 +36,15 @@
                 <div class="d-flex flex-column gap-3">
                     <div>
                         <div style="font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--text);line-height:1;">6</div>
-                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.domains">Active Service Domains</div>
+                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.domains">Active Service Domains</div>
                     </div>
                     <div>
                         <div style="font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--text);line-height:1;">48h</div>
-                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.response">Max Response Time</div>
+                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.response">Max Response Time</div>
                     </div>
                     <div>
                         <div style="font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--ember);line-height:1;">GMT+4</div>
-                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.location">Yerevan / Global Remote</div>
+                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.location">Yerevan / Global Remote</div>
                     </div>
                 </div>
             </div>
@@ -48,8 +52,16 @@
     </div>
 </section>
 
-<hr class="hz-line">
+<!-- ══ SOCIAL PROOF TICKER ═══════════════════════════════════════════════ -->
+<div class="hz-ticker-wrap mb-0">
+    <div class="hz-ticker">
+        {% for item in "AWS Cloud,Docker Containerisation,Kubernetes Orchestration,Terraform IaC,Wazuh SIEM,CI/CD Pipelines,FinTech Systems,Banking Infrastructure,ISO 27001,SOC 2,GDPR Compliance,Python Automation,PostgreSQL,DevSecOps,Blue Team Ops,Incident Response,CIS Benchmarks,Cloud Migration,ELK Stack,Ansible,HPC Scheduling,API Integration,CBA-Compliant Systems,AWS Cloud,Docker Containerisation,Kubernetes Orchestration,Terraform IaC,Wazuh SIEM,CI/CD Pipelines,FinTech Systems,Banking Infrastructure,ISO 27001,SOC 2,GDPR Compliance,Python Automation,PostgreSQL,DevSecOps,Blue Team Ops,Incident Response,CIS Benchmarks,Cloud Migration,ELK Stack,Ansible,HPC Scheduling,API Integration,CBA-Compliant Systems"|split:"," %}
+        <span class="hz-ticker-item">{{ item }}</span>
+        {% endfor %}
+    </div>
+</div>
 
+<!-- ══ COUNTER STRIP ══════════════════════════════════════════════════════ -->
 <section class="mb-3 reveal">
     <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:repeat(4,1fr);">
         <div class="hz-counter-cell" style="border-right:1px solid var(--border);">
@@ -73,28 +85,27 @@
 
 <hr class="hz-line">
 
+<!-- ══ MISSION ════════════════════════════════════════════════════════════ -->
 <section class="py-5 mb-3 reveal" style="border-left:2px solid var(--ember);padding-left:2rem !important;">
     <div class="hz-label" data-i18n="mission.label">MISSION STATEMENT</div>
     <p style="font-size:clamp(1rem,2vw,1.3rem);color:var(--text);line-height:1.6;max-width:860px;font-weight:500;" data-i18n="mission.text">
-        At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience.
-        Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security,
-        and autonomous systems. We provide the edge where physics meets code, and where code runs without human intervention.
+        At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience. Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security, and autonomous systems.
     </p>
 </section>
 
 <hr class="hz-line">
 
+<!-- ══ SERVICES BENTO ═════════════════════════════════════════════════════ -->
 <section id="services-section" class="mb-3">
     <div class="hz-label reveal" data-i18n="services.label">CAPABILITIES // SPEC-FIRST</div>
     <h2 class="display-section mb-5 reveal">
         <span data-i18n="services.h1">What We</span><br>
         <span style="color:var(--ember);" data-i18n="services.h2">Engineer</span>
     </h2>
-
     <div class="row g-3">
-
         <div class="col-lg-4 col-md-6 reveal">
-            <div class="hz-card hz-card-body h-100">
+            <div class="hz-card hz-card-body h-100 svc-card" style="position:relative;overflow:hidden;">
+                <div style="position:absolute;top:.75rem;right:.75rem;width:8px;height:8px;border-radius:50%;background:var(--ember);opacity:.3;animation:pulse-ring 2s ease-out infinite;"></div>
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="svc1.tag">01 / WEB & SOFTWARE</div>
                 <h5 style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="svc1.title">Software Development</h5>
                 <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc1.desc">Eliminating dependency on off-the-shelf platforms. Custom backends, web apps, and APIs built to spec.</p>
@@ -102,86 +113,163 @@
                     <tr><td data-i18n="spec.stack">Stack</td><td>Python, Django, REST, PostgreSQL</td></tr>
                     <tr><td data-i18n="spec.latency">Latency Target</td><td>&lt; 200ms p95</td></tr>
                     <tr><td data-i18n="spec.uptime">Uptime SLA</td><td>99.9%</td></tr>
-                    <tr><td data-i18n="spec.deliverable">Deliverable</td><td>Production-ready + runbooks</td></tr>
+                    <tr><td data-i18n="spec.deliverable">Deliverable</td><td>App + runbooks</td></tr>
                 </table>
             </div>
         </div>
-
         <div class="col-lg-4 col-md-6 reveal">
-            <div class="hz-card hz-card-body h-100">
+            <div class="hz-card hz-card-body h-100 svc-card" style="position:relative;overflow:hidden;">
+                <div style="position:absolute;top:.75rem;right:.75rem;width:8px;height:8px;border-radius:50%;background:var(--ember);opacity:.3;animation:pulse-ring 2.4s ease-out infinite;"></div>
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="svc2.tag">02 / AUTOMATION</div>
                 <h5 style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="svc2.title">CRM & Process Automation</h5>
-                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc2.desc">Eliminating manual workflows that consume engineer time. Trigger-based pipelines and tool integrations.</p>
+                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc2.desc">Eliminating manual workflows. Trigger-based pipelines and tool integrations.</p>
                 <table class="spec-table">
                     <tr><td data-i18n="spec.platforms">Platforms</td><td>HubSpot, n8n, custom</td></tr>
                     <tr><td data-i18n="spec.triggers">Trigger Types</td><td>Webhook, schedule, event</td></tr>
-                    <tr><td data-i18n="spec.notification">Notification</td><td>Slack, Telegram, Email</td></tr>
-                    <tr><td data-i18n="spec.roi">ROI Target</td><td>Eliminate 10+ hrs/week manual ops</td></tr>
+                    <tr><td data-i18n="spec.roi">ROI Target</td><td>Eliminate 10+ hrs/week</td></tr>
                 </table>
             </div>
         </div>
-
         <div class="col-lg-4 col-md-6 reveal">
-            <div class="hz-card hz-card-body h-100 hz-card-ember">
+            <div class="hz-card hz-card-body h-100 hz-card-ember svc-card" style="position:relative;overflow:hidden;">
+                <div style="position:absolute;top:.75rem;right:.75rem;width:8px;height:8px;border-radius:50%;background:var(--ember);animation:pulse-ring 1.8s ease-out infinite;"></div>
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="svc3.tag">03 / DEVOPS</div>
                 <h5 style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="svc3.title">DevOps & Cloud Infrastructure</h5>
-                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc3.desc">Eliminating deployment friction and unplanned downtime. CI/CD, IaC, and cloud architecture on AWS.</p>
+                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc3.desc">CI/CD, IaC, and cloud architecture on AWS. Zero unplanned downtime.</p>
                 <table class="spec-table">
                     <tr><td data-i18n="spec.orchestration">Orchestration</td><td>Docker, Kubernetes, k3s</td></tr>
                     <tr><td data-i18n="spec.iac">IaC</td><td>Terraform, Ansible</td></tr>
                     <tr><td data-i18n="spec.cicd">CI/CD</td><td>GitHub Actions, GitLab CI</td></tr>
-                    <tr><td data-i18n="spec.cloud">Cloud</td><td>AWS (primary), Azure, GCP</td></tr>
                 </table>
             </div>
         </div>
-
         <div class="col-lg-4 col-md-6 reveal">
-            <div class="hz-card hz-card-body h-100">
+            <div class="hz-card hz-card-body h-100 svc-card" style="position:relative;overflow:hidden;">
+                <div style="position:absolute;top:.75rem;right:.75rem;width:8px;height:8px;border-radius:50%;background:var(--ember);opacity:.3;animation:pulse-ring 2.8s ease-out infinite;"></div>
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="svc4.tag">04 / API</div>
                 <h5 style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="svc4.title">API & System Integration</h5>
-                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc4.desc">Connecting systems that were never designed to communicate. RESTful APIs, webhooks, legacy modernisation.</p>
+                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc4.desc">RESTful APIs, webhooks, legacy modernisation. Systems that talk to each other.</p>
                 <table class="spec-table">
                     <tr><td data-i18n="spec.architecture">Architecture</td><td>REST, webhook, event-driven</td></tr>
-                    <tr><td data-i18n="spec.auth">Auth</td><td>JWT, OAuth2, API Keys</td></tr>
+                    <tr><td data-i18n="spec.auth">Auth</td><td>JWT, OAuth2, mTLS</td></tr>
                     <tr><td data-i18n="spec.docs">Docs</td><td>OpenAPI / Swagger</td></tr>
-                    <tr><td data-i18n="spec.legacy">Legacy</td><td>API-layer over existing systems</td></tr>
                 </table>
             </div>
         </div>
-
         <div class="col-lg-4 col-md-6 reveal">
-            <div class="hz-card hz-card-body h-100">
+            <div class="hz-card hz-card-body h-100 svc-card" style="position:relative;overflow:hidden;">
+                <div style="position:absolute;top:.75rem;right:.75rem;width:8px;height:8px;border-radius:50%;background:var(--ember);opacity:.3;animation:pulse-ring 2.2s ease-out infinite;"></div>
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="svc5.tag">05 / SECURITY</div>
                 <h5 style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="svc5.title">Security Monitoring & DevSecOps</h5>
-                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc5.desc">Knowing what's happening in your environment before it becomes an incident. SIEM, alerting, blue team.</p>
+                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc5.desc">SIEM, alerting, blue team. Know what's in your environment before it becomes an incident.</p>
                 <table class="spec-table">
-                    <tr><td data-i18n="spec.siem">SIEM</td><td>Wazuh, Splunk, ELK Stack</td></tr>
+                    <tr><td data-i18n="spec.siem">SIEM</td><td>Wazuh, Splunk, ELK</td></tr>
                     <tr><td data-i18n="spec.hardening">Hardening</td><td>CIS Benchmarks</td></tr>
-                    <tr><td data-i18n="spec.compliance">Compliance</td><td>ISO 27001, PCI, GDPR</td></tr>
-                    <tr><td data-i18n="spec.response">Response</td><td>Incident playbooks + blue team</td></tr>
+                    <tr><td data-i18n="spec.compliance">Compliance</td><td>ISO 27001, PCI, GDPR, CBA</td></tr>
                 </table>
             </div>
         </div>
-
         <div class="col-lg-4 col-md-6 reveal">
-            <div class="hz-card hz-card-body h-100">
+            <div class="hz-card hz-card-body h-100 svc-card" style="position:relative;overflow:hidden;">
+                <div style="position:absolute;top:.75rem;right:.75rem;width:8px;height:8px;border-radius:50%;background:var(--ember);opacity:.3;animation:pulse-ring 3s ease-out infinite;"></div>
                 <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ember);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;" data-i18n="svc6.tag">06 / MIGRATION</div>
                 <h5 style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:0.5rem;" data-i18n="svc6.title">Cloud Migration</h5>
-                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc6.desc">Moving infrastructure to cloud with zero data loss. Server-to-server and on-premise to AWS.</p>
+                <p style="font-size:0.83rem;margin-bottom:1.25rem;" data-i18n="svc6.desc">On-premise to AWS. Server-to-server. Zero data loss. We stay through cutover.</p>
                 <table class="spec-table">
                     <tr><td data-i18n="spec.primary">Primary Cloud</td><td>AWS (eu-north-1, us-east-1)</td></tr>
-                    <tr><td data-i18n="spec.strategy">Strategy</td><td>Lift-and-shift / re-architect</td></tr>
-                    <tr><td data-i18n="spec.downtime">Downtime</td><td>Minimised — blue/green deploy</td></tr>
-                    <tr><td data-i18n="spec.postcutover">Post-cutover</td><td>30-day monitoring period</td></tr>
+                    <tr><td data-i18n="spec.downtime">Downtime</td><td>Minimised — blue/green</td></tr>
+                    <tr><td data-i18n="spec.postcutover">Post-cutover</td><td>30-day monitoring</td></tr>
                 </table>
             </div>
         </div>
-
+    </div>
+    <div class="mt-3 text-center reveal">
+        <a href="{% url 'services' %}" class="btn-ghost" style="font-size:.78rem;">View Full Service Specifications →</a>
     </div>
 </section>
 
 <hr class="hz-line">
 
+<!-- ══ TESTIMONIALS ═══════════════════════════════════════════════════════ -->
+<section class="mb-3">
+    <div class="hz-label reveal">SOCIAL PROOF // CLIENT OUTCOMES</div>
+    <h2 class="display-section mb-5 reveal">What Clients<br><span style="color:var(--ember);">Say</span></h2>
+    <div class="row g-4">
+        <div class="col-md-4 reveal">
+            <div class="hz-testimonial h-100">
+                <p style="font-size:.9rem;line-height:1.7;margin-bottom:1.25rem;font-style:italic;">"Secured our 500-endpoint environment in 6 weeks with no operational disruption. Detection time dropped 78%. HZORTECH didn't just deploy a SIEM — they built the playbooks our team actually uses."</p>
+                <div style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.06em;">CISO</div>
+                <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);">Leading Armenian FinTech Firm</div>
+            </div>
+        </div>
+        <div class="col-md-4 reveal">
+            <div class="hz-testimonial h-100">
+                <p style="font-size:.9rem;line-height:1.7;margin-bottom:1.25rem;font-style:italic;">"We went from 2 deploys per week to 15 per day. The CI/CD pipeline they built has had zero failed deployments in 6 months. Real engineers, no account managers, direct communication every step."</p>
+                <div style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.06em;">VP Engineering</div>
+                <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);">SaaS Development Company</div>
+            </div>
+        </div>
+        <div class="col-md-4 reveal">
+            <div class="hz-testimonial h-100">
+                <p style="font-size:.9rem;line-height:1.7;margin-bottom:1.25rem;font-style:italic;">"Full AWS migration of our banking infrastructure — zero downtime cutover, 99.99% uptime since day one. They handed over complete runbooks. Our internal team can maintain everything without calling them."</p>
+                <div style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.06em;">CTO</div>
+                <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);">Regional Banking Institution</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ TECH STACK ICON GRID ═══════════════════════════════════════════════ -->
+<section class="mb-3 reveal">
+    <div class="hz-label" data-i18n="stack.label">STACK // TOOLS WE USE</div>
+    <h2 class="display-section mb-4">
+        <span data-i18n="stack.h1">Technical</span><br>
+        <span style="color:var(--ember);" data-i18n="stack.h2">Arsenal</span>
+    </h2>
+    <p style="font-size:.85rem;margin-bottom:2rem;max-width:600px;">Every tool below has been used in production. No logos added for appearances.</p>
+    <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;" data-i18n="stack.cat2">Infrastructure & Cloud</div>
+    <div class="tech-icon-grid mb-4">
+        <div class="tech-icon-cell"><i class="devicon-amazonwebservices-original colored"></i><span>AWS</span></div>
+        <div class="tech-icon-cell"><i class="devicon-docker-original colored"></i><span>Docker</span></div>
+        <div class="tech-icon-cell"><i class="devicon-kubernetes-original colored"></i><span>Kubernetes</span></div>
+        <div class="tech-icon-cell"><i class="devicon-terraform-original colored"></i><span>Terraform</span></div>
+        <div class="tech-icon-cell"><i class="devicon-ansible-original colored"></i><span>Ansible</span></div>
+        <div class="tech-icon-cell"><i class="devicon-nginx-original colored"></i><span>nginx</span></div>
+        <div class="tech-icon-cell"><i class="devicon-linux-original colored"></i><span>Linux</span></div>
+        <div class="tech-icon-cell"><i class="devicon-github-original" style="color:var(--text)"></i><span>GitHub Actions</span></div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;" data-i18n="stack.cat1">Languages & Frameworks</div>
+    <div class="tech-icon-grid mb-4">
+        <div class="tech-icon-cell"><i class="devicon-python-original colored"></i><span>Python</span></div>
+        <div class="tech-icon-cell"><i class="devicon-django-plain" style="color:var(--text)"></i><span>Django</span></div>
+        <div class="tech-icon-cell"><i class="devicon-postgresql-original colored"></i><span>PostgreSQL</span></div>
+        <div class="tech-icon-cell"><i class="devicon-bash-original" style="color:var(--text)"></i><span>Bash</span></div>
+        <div class="tech-icon-cell"><i class="devicon-javascript-original colored"></i><span>JavaScript</span></div>
+        <div class="tech-icon-cell"><i class="devicon-redis-original colored"></i><span>Redis</span></div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;" data-i18n="stack.cat3">Security & Monitoring</div>
+    <div class="tech-icon-grid">
+        <div class="tech-icon-cell" title="Open-source SIEM — HZORTECH specialisation">
+            <svg viewBox="0 0 32 32" style="width:2rem;height:2rem;"><circle cx="16" cy="16" r="15" fill="none" stroke="#E62127" stroke-width="2"/><path d="M16 5 L16 27 M5 16 L27 16 M9 9 L23 23 M23 9 L9 23" stroke="#E62127" stroke-width="1.5" opacity=".5"/><circle cx="16" cy="16" r="4" fill="#E62127"/></svg>
+            <span>Wazuh</span></div>
+        <div class="tech-icon-cell"><i class="devicon-grafana-original colored"></i><span>Grafana</span></div>
+        <div class="tech-icon-cell" title="ELK Stack">
+            <svg viewBox="0 0 32 32" style="width:2rem;height:2rem;"><rect x="4" y="6" width="24" height="5" rx="2" fill="#F59E0B"/><rect x="4" y="13.5" width="18" height="5" rx="2" fill="#059669"/><rect x="4" y="21" width="21" height="5" rx="2" fill="#3B82F6"/></svg>
+            <span>ELK</span></div>
+        <div class="tech-icon-cell" title="Splunk">
+            <svg viewBox="0 0 32 32" style="width:2rem;height:2rem;"><text x="4" y="22" font-family="monospace" font-size="11" font-weight="bold" fill="#E62127">SPLK</text></svg>
+            <span>Splunk</span></div>
+        <div class="tech-icon-cell" title="Nmap / Burp Suite">
+            <i class="bi bi-shield-fill-exclamation" style="font-size:2rem;color:var(--ember)"></i><span>Pentest</span></div>
+        <div class="tech-icon-cell"><i class="devicon-gitlab-original colored"></i><span>GitLab CI</span></div>
+    </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ PROCESS ════════════════════════════════════════════════════════════ -->
 <section class="mb-3">
     <div class="hz-label reveal" data-i18n="process.label">PROCESS // HOW WE WORK</div>
     <h2 class="display-section mb-5 reveal">
@@ -193,28 +281,28 @@
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--ember);margin-bottom:0.5rem;">01</div>
                 <div style="font-family:var(--sans);font-size:0.9rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem;" data-i18n="process.1.name">Assess</div>
-                <p style="font-size:0.8rem;" data-i18n="process.1.desc">Scope, stack audit, security posture, constraints. We define the problem before touching any code.</p>
+                <p style="font-size:0.8rem;" data-i18n="process.1.desc">Scope, stack audit, security posture. We define the problem before touching any code.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-3 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--ember);margin-bottom:0.5rem;">02</div>
                 <div style="font-family:var(--sans);font-size:0.9rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem;" data-i18n="process.2.name">Architect</div>
-                <p style="font-size:0.8rem;" data-i18n="process.2.desc">Design system architecture, select the right stack, define success metrics. No surprises after go-live.</p>
+                <p style="font-size:0.8rem;" data-i18n="process.2.desc">System architecture, stack selection, success metrics. No surprises after go-live.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-3 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--ember);margin-bottom:0.5rem;">03</div>
                 <div style="font-family:var(--sans);font-size:0.9rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem;" data-i18n="process.3.name">Build & Test</div>
-                <p style="font-size:0.8rem;" data-i18n="process.3.desc">Deliver against spec. Iterative. CI/CD from day one. You see progress, not just the final result.</p>
+                <p style="font-size:0.8rem;" data-i18n="process.3.desc">Iterative. CI/CD from day one. You see real progress, not just the final result.</p>
             </div>
         </div>
         <div class="col-sm-6 col-lg-3 reveal">
             <div class="hz-card hz-card-body text-center h-100">
                 <div style="font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--ember);margin-bottom:0.5rem;">04</div>
                 <div style="font-family:var(--sans);font-size:0.9rem;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem;" data-i18n="process.4.name">Deploy & Hand Over</div>
-                <p style="font-size:0.8rem;" data-i18n="process.4.desc">Production deploy + runbooks + knowledge transfer. Your team can maintain what we build.</p>
+                <p style="font-size:0.8rem;" data-i18n="process.4.desc">Production deploy + runbooks + knowledge transfer. Your team maintains what we build.</p>
             </div>
         </div>
     </div>
@@ -222,32 +310,47 @@
 
 <hr class="hz-line">
 
+<!-- ══ PROOF OF CRAFT — INTERACTIVE TERMINAL ══════════════════════════════ -->
 <section class="mb-3 reveal">
-    <div class="hz-label" data-i18n="stack.label">STACK // TOOLS WE USE</div>
-    <h2 class="display-section mb-4">
-        <span data-i18n="stack.h1">Technical</span><br>
-        <span style="color:var(--ember);" data-i18n="stack.h2">Arsenal</span>
-    </h2>
-    <div class="mb-3">
-        <span style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.5rem;" data-i18n="stack.cat1">Languages & Frameworks</span>
-        <span class="hz-chip">Python</span><span class="hz-chip">Django</span><span class="hz-chip">JavaScript</span><span class="hz-chip">Bash</span><span class="hz-chip">PowerShell</span><span class="hz-chip">SQL</span>
-    </div>
-    <div class="mb-3">
-        <span style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.5rem;" data-i18n="stack.cat2">Infrastructure & Cloud</span>
-        <span class="hz-chip">Docker</span><span class="hz-chip">Kubernetes</span><span class="hz-chip">AWS</span><span class="hz-chip">Terraform</span><span class="hz-chip">Ansible</span><span class="hz-chip">nginx</span><span class="hz-chip">GitHub Actions</span>
-    </div>
-    <div class="mb-3">
-        <span style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.5rem;" data-i18n="stack.cat3">Security & Monitoring</span>
-        <span class="hz-chip hz-chip-ember">Wazuh</span><span class="hz-chip hz-chip-ember">Splunk</span><span class="hz-chip hz-chip-ember">ELK</span><span class="hz-chip hz-chip-ember">Nmap</span><span class="hz-chip hz-chip-ember">Burp Suite</span><span class="hz-chip hz-chip-ember">Wireshark</span>
-    </div>
-    <div>
-        <span style="font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.5rem;" data-i18n="stack.cat4">Automation & CRM</span>
-        <span class="hz-chip">HubSpot</span><span class="hz-chip">n8n</span><span class="hz-chip">Zapier</span><span class="hz-chip">Webhooks</span><span class="hz-chip">Slack API</span><span class="hz-chip">Telegram API</span>
+    <div class="hz-label">PROOF OF CRAFT // INTERACTIVE</div>
+    <h2 class="display-section mb-4">The Work<br><span style="color:var(--ember);">Speaks.</span></h2>
+    <div class="row gy-4 align-items-start">
+        <div class="col-lg-7">
+            <p style="font-size:.88rem;margin-bottom:1.5rem;">Type <code style="background:var(--surface2);padding:.15rem .4rem;border-radius:4px;font-family:var(--mono)">help</code> in the terminal below to explore capabilities. This is how we think about systems.</p>
+            <div class="hz-iterm">
+                <div class="hz-iterm-bar">
+                    <span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span>
+                    <span style="font-family:var(--mono);font-size:.7rem;color:#4A5162;margin-left:.5rem;">hzortech@systems — bash</span>
+                </div>
+                <div class="hz-iterm-body" id="itermOut">
+                    <span class="hz-iterm-line"><span class="cm"># HZORTECH Systems Terminal — type 'help' to start</span></span>
+                    <span class="hz-iterm-line"><span class="cm"># Read-only demonstration environment</span></span>
+                </div>
+                <div class="hz-iterm-input-row" style="padding:.5rem 1.25rem 1rem;border-top:1px solid rgba(255,255,255,.05);">
+                    <span class="pr">hzortech@systems:~$</span>
+                    <input class="hz-iterm-input" id="itermIn" type="text" autocomplete="off" spellcheck="false" placeholder="type a command...">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="hz-card hz-card-body">
+                <div class="hz-label" style="margin-bottom:1rem;">AVAILABLE COMMANDS</div>
+                <div style="display:flex;flex-direction:column;gap:.5rem;">
+                    {% for cmd in "help,services,status,about,stack,contact,whoami"|split:"," %}
+                    <div onclick="runCmd('{{ cmd }}')" style="cursor:pointer;display:flex;gap:.75rem;align-items:center;padding:.4rem .6rem;border-radius:6px;transition:background var(--trans);" onmouseover="this.style.background='var(--ember-dim)'" onmouseout="this.style.background='transparent'">
+                        <span style="font-family:var(--mono);font-size:.78rem;color:var(--ember);">$</span>
+                        <span style="font-family:var(--mono);font-size:.78rem;color:var(--text);">{{ cmd }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <hr class="hz-line">
 
+<!-- ══ CAREERS ════════════════════════════════════════════════════════════ -->
 <section class="mb-3">
     <div class="hz-label reveal" data-i18n="careers.label">CAREERS // ELITE ONLY</div>
     <h2 class="display-section mb-4 reveal">
@@ -256,23 +359,17 @@
     </h2>
     <div class="row gy-3 align-items-start">
         <div class="col-lg-6 reveal">
-            <p style="margin-bottom:1.5rem;" data-i18n="careers.sub">
-                We don't hire generalists. We hire specialists who are already doing the work — on their own machines, in their own time.
-            </p>
+            <p style="margin-bottom:1.5rem;" data-i18n="careers.sub">We don't hire generalists. We hire specialists already doing the work.</p>
             <div class="hz-terminal">
-                <div class="t-bar">
-                    <span class="t-dot red"></span>
-                    <span class="t-dot yellow"></span>
-                    <span class="t-dot green"></span>
-                </div>
+                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
                 <span class="t-line"><span class="t-prompt">hzortech@admin:~$ </span><span class="t-cmd">scan --talent --status=open</span></span>
                 <span class="t-line t-comment"># Scanning talent registry...</span>
                 <span class="t-line t-out">▶ [OPEN]  DevOps Engineer — Terraform, k8s, AWS, CI/CD</span>
+                <span class="t-line t-out">▶ [OPEN]  Security Analyst — Wazuh, SIEM, blue team, IR</span>
                 <span class="t-line t-out">▶ [OPEN]  Backend Developer — Python, Django, REST APIs</span>
-                <span class="t-line t-out">▶ [OPEN]  Security Analyst — SIEM, blue team, incident response</span>
-                <span class="t-line t-out">▶ [OPEN]  Automation Specialist — Python, Bash, workflow design</span>
-                <span class="t-line" style="margin-top:0.5rem;"><span class="t-prompt">hzortech@admin:~$ </span><span class="t-cmd">apply --send-cv shara@hzortech.com</span></span>
-                <span class="t-line" style="animation: blink 1s step-end infinite;color:var(--status);">█</span>
+                <span class="t-line t-out">▶ [OPEN]  Automation Specialist — Python, Bash, n8n</span>
+                <span class="t-line" style="margin-top:.5rem;"><span class="t-prompt">hzortech@admin:~$ </span><span class="t-cmd">apply --send-cv shara@hzortech.com</span></span>
+                <span class="t-line" style="animation:blink 1s step-end infinite;color:var(--status);">█</span>
             </div>
         </div>
         <div class="col-lg-6 reveal">
@@ -280,30 +377,22 @@
                 <div class="hz-label" style="margin-bottom:1rem;" data-i18n="careers.req.label">CANDIDATE REQUIREMENTS</div>
                 <div class="d-flex flex-column gap-3">
                     <div class="d-flex gap-3 align-items-start">
-                        <span style="color:var(--ember);font-family:var(--mono);font-size:0.8rem;flex-shrink:0;">01</span>
-                        <div>
-                            <strong style="font-size:0.85rem;display:block;" data-i18n="careers.r1.title">Ships code independently</strong>
-                            <span style="font-size:0.8rem;" data-i18n="careers.r1.desc">You have projects in production that you built, deployed, and maintain.</span>
-                        </div>
+                        <span style="color:var(--ember);font-family:var(--mono);font-size:.8rem;flex-shrink:0;">01</span>
+                        <div><strong style="font-size:.85rem;display:block;" data-i18n="careers.r1.title">Ships code independently</strong>
+                        <span style="font-size:.8rem;" data-i18n="careers.r1.desc">Production projects you built, deployed, and maintain.</span></div>
                     </div>
                     <div class="d-flex gap-3 align-items-start">
-                        <span style="color:var(--ember);font-family:var(--mono);font-size:0.8rem;flex-shrink:0;">02</span>
-                        <div>
-                            <strong style="font-size:0.85rem;display:block;" data-i18n="careers.r2.title">Thinks in systems</strong>
-                            <span style="font-size:0.8rem;" data-i18n="careers.r2.desc">You consider failure modes, security implications, and operational cost before writing code.</span>
-                        </div>
+                        <span style="color:var(--ember);font-family:var(--mono);font-size:.8rem;flex-shrink:0;">02</span>
+                        <div><strong style="font-size:.85rem;display:block;" data-i18n="careers.r2.title">Thinks in systems</strong>
+                        <span style="font-size:.8rem;" data-i18n="careers.r2.desc">Failure modes, security implications, operational cost — before writing code.</span></div>
                     </div>
                     <div class="d-flex gap-3 align-items-start">
-                        <span style="color:var(--ember);font-family:var(--mono);font-size:0.8rem;flex-shrink:0;">03</span>
-                        <div>
-                            <strong style="font-size:0.85rem;display:block;" data-i18n="careers.r3.title">Documents what you build</strong>
-                            <span style="font-size:0.8rem;" data-i18n="careers.r3.desc">Your commits have messages. Your repos have READMEs. Your systems have runbooks.</span>
-                        </div>
+                        <span style="color:var(--ember);font-family:var(--mono);font-size:.8rem;flex-shrink:0;">03</span>
+                        <div><strong style="font-size:.85rem;display:block;" data-i18n="careers.r3.title">Documents what you build</strong>
+                        <span style="font-size:.8rem;" data-i18n="careers.r3.desc">Commits have messages. Repos have READMEs. Systems have runbooks.</span></div>
                     </div>
                 </div>
-                <div class="mt-3">
-                    <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:0.75rem;" data-i18n="careers.apply">SEND APPLICATION</a>
-                </div>
+                <div class="mt-3"><a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;" data-i18n="careers.apply">SEND APPLICATION</a></div>
             </div>
         </div>
     </div>
@@ -311,59 +400,158 @@
 
 <hr class="hz-line">
 
+<!-- ══ NEWSLETTER ════════════════════════════════════════════════════════ -->
+<section class="mb-3 reveal">
+    <div class="hz-newsletter">
+        <div class="row gy-4 align-items-center">
+            <div class="col-lg-7">
+                <div class="hz-label" style="margin-bottom:.75rem;">SECURITY INTELLIGENCE // FREE BRIEF</div>
+                <h3 style="font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:.75rem;">Get the Monthly<br><span style="color:var(--ember);">Security Health Check</span></h3>
+                <p style="font-size:.85rem;max-width:440px;">One email per month. Cloud cost optimisation tips, SIEM tuning notes, and infrastructure hardening checklists — the same knowledge we use with clients.</p>
+            </div>
+            <div class="col-lg-5">
+                <form action="{% url 'newsletter_signup' %}" method="post" class="d-flex flex-column gap-3">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="your@email.com" required
+                           class="form-control" style="background:var(--surface);border-color:var(--ember-glow);">
+                    <button type="submit" class="btn-ember" style="width:100%;text-align:center;">
+                        Get the Free Brief <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                    <p style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin:0;">// No spam. Unsubscribe instantly.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ CTA ═══════════════════════════════════════════════════════════════ -->
 <section class="text-center py-4 reveal">
     <div class="hz-label" style="justify-content:center;" data-i18n="cta.label">READY TO START</div>
     <h2 class="display-section mb-3">
         <span data-i18n="cta.h1">Have a Problem</span><br>
         <span data-i18n="cta.h2">That Needs</span> <span style="color:var(--ember);" data-i18n="cta.h3">Engineering?</span>
     </h2>
-    <p class="mb-4" style="max-width:520px;margin:0 auto 2rem;" data-i18n="cta.sub">
-        Send a brief. We respond within 48 hours with a direct assessment. No discovery calls. No sales decks.
-    </p>
-    <span class="magnetic-wrap">
-        <a href="{% url 'contact' %}" class="btn-ember" style="font-size:0.85rem;padding:0.75rem 2rem;" data-i18n="cta.btn">INITIALIZE COLLABORATION</a>
-    </span>
+    <p class="mb-4" style="max-width:520px;margin:0 auto 2rem;" data-i18n="cta.sub">Send a brief. We respond within 48 hours with a direct assessment. No discovery calls. No sales decks.</p>
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
+        <span class="magnetic-wrap">
+            <a href="{% url 'contact' %}" class="btn-ember" style="font-size:.85rem;padding:.75rem 2rem;" data-i18n="cta.btn">INITIALIZE COLLABORATION</a>
+        </span>
+        <a href="https://calendly.com/hzortech" target="_blank" rel="noopener" class="btn-ghost" style="font-size:.85rem;padding:.75rem 2rem;">
+            <i class="bi bi-calendar3 me-1"></i>Schedule a 15-min Call
+        </a>
+    </div>
 </section>
 
 {% endblock %}
 
 {% block extra_css %}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-.hz-counter-cell { padding:1.75rem 1.25rem;text-align:center;transition:background var(--trans); }
-.hz-counter-cell:hover { background:var(--ember-dim); }
-.hz-counter { font-family:var(--mono);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--ember);line-height:1;margin-bottom:0.4rem;letter-spacing:-0.02em; }
-.hz-counter-label { font-family:var(--mono);font-size:0.65rem;color:var(--titanium);text-transform:uppercase;letter-spacing:0.08em; }
-@media (max-width:600px) {
-    [style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns:repeat(2,1fr)!important; }
-    .hz-counter-cell:nth-child(2) { border-right:none!important; }
-    .hz-counter-cell:nth-child(1),.hz-counter-cell:nth-child(2) { border-bottom:1px solid var(--border); }
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hz-counter-cell{padding:1.75rem 1.25rem;text-align:center;transition:background var(--trans)}
+.hz-counter-cell:hover{background:var(--ember-dim)}
+.hz-counter{font-family:var(--mono);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--ember);line-height:1;margin-bottom:.4rem;letter-spacing:-.02em}
+.hz-counter-label{font-family:var(--mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:600px){
+  [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr)!important}
+  .hz-counter-cell:nth-child(2){border-right:none!important}
+  .hz-counter-cell:nth-child(1),.hz-counter-cell:nth-child(2){border-bottom:1px solid var(--border)}
 }
 {% endblock %}
 
 {% block extra_js %}
 <script>
-const counters = document.querySelectorAll('.hz-counter');
-const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const display = el.dataset.display;
-        const suffix = el.dataset.suffix || '';
-        if (display) { setTimeout(() => { el.textContent = display; }, 400); counterObserver.unobserve(el); return; }
-        const target = parseInt(el.dataset.target, 10);
-        const duration = 1600;
-        const start = performance.now();
-        function tick(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = Math.round(eased * target) + suffix;
-            if (progress < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-        counterObserver.unobserve(el);
-    });
-}, { threshold: 0.4 });
-counters.forEach(c => counterObserver.observe(c));
+/* Counter animation */
+const cobs=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,d=el.dataset.display,su=el.dataset.suffix||'';if(d){setTimeout(()=>{el.textContent=d},400);cobs.unobserve(el);return}const t=parseInt(el.dataset.target,10),dr=1600,s=performance.now();function tk(n){const p=Math.min((n-s)/dr,1),q=1-Math.pow(1-p,3);el.textContent=Math.round(q*t)+su;if(p<1)requestAnimationFrame(tk)}requestAnimationFrame(tk);cobs.unobserve(el)})},{threshold:.4});
+document.querySelectorAll('.hz-counter').forEach(c=>cobs.observe(c));
+
+/* Interactive terminal */
+const ITERM_CMDS={
+  help:{out:[
+    '  Available commands:',
+    '  services   — list all service domains',
+    '  status     — current system health',
+    '  stack      — full technology arsenal',
+    '  about      — about HZORTECH',
+    '  whoami     — client profile',
+    '  contact    — get in touch',
+  ]},
+  services:{out:[
+    '  01  Software Development    — Python, Django, REST APIs',
+    '  02  CRM & Automation        — HubSpot, n8n, Zapier, Webhooks',
+    '  03  DevOps & Cloud          — AWS, Terraform, Docker, k8s',
+    '  04  API Integration         — REST, OAuth2, webhook pipelines',
+    '  05  Security (DevSecOps)    — Wazuh SIEM, CIS Benchmarks, IR',
+    '  06  Cloud Migration         — Zero-downtime, blue/green',
+    '',
+    '  Full specs → /services/',
+  ]},
+  status:{out:[
+    '  ● SYSTEMS OPERATIONAL',
+    '  ● Response SLA    48h (standard) / same-day (URGENT)',
+    '  ● Current TZ      GMT+4 (Yerevan, Armenia)',
+    '  ● Compliance      ISO 27001 | PCI DSS | GDPR | CBA',
+    '  ● Availability    Mon–Fri 09:00–18:00 GMT+4',
+    '  ● Emergency       24/7 for retainer clients (Sev1)',
+  ]},
+  stack:{out:[
+    '  Cloud     AWS (EC2, RDS, S3, Batch, EKS, IAM)',
+    '  IaC       Terraform + Ansible',
+    '  Containers Docker + Kubernetes + k3s',
+    '  CI/CD     GitHub Actions + GitLab CI',
+    '  Security  Wazuh · ELK · Splunk · Nmap · Burp Suite',
+    '  Backend   Python · Django · PostgreSQL · Redis',
+    '  Automation n8n · HubSpot · Zapier · Webhooks',
+  ]},
+  about:{out:[
+    '  HZORTECH — Cloud & Security Engineering',
+    '  Location  Yerevan, Armenia (GMT+4)',
+    '  Remote    Global client base',
+    '  Model     Direct engineer contact, no account managers',
+    '  Guarantee Full runbook handover on every engagement',
+    '',
+    '  → /about/',
+  ]},
+  whoami:{out:[
+    '  You are a technical decision-maker evaluating a cloud,',
+    '  DevOps, or security partner.',
+    '',
+    '  If you need measurable outcomes, not slide decks,',
+    '  you are in the right place.',
+    '',
+    '  → hzortech.com/contact/',
+  ]},
+  contact:{out:[
+    '  Email (primary)  shara@hzortech.com',
+    '  Email (general)  hello@hzortech.com',
+    '  Phone            +374 77 075 919',
+    '  Form             hzortech.com/contact/',
+    '  Calendar         calendly.com/hzortech',
+    '',
+    '  Include URGENT in subject for same-day triage.',
+  ]},
+};
+
+function addLine(text,cls=''){
+  const out=document.getElementById('itermOut');
+  const sp=document.createElement('span');
+  sp.className='hz-iterm-line'+(cls?' '+cls:'');
+  sp.textContent=text;
+  out.appendChild(sp);
+  out.scrollTop=out.scrollHeight;
+}
+function runCmd(cmd){
+  const c=cmd.trim().toLowerCase();
+  addLine('hzortech@systems:~$ '+c);
+  const r=ITERM_CMDS[c];
+  if(r){r.out.forEach(l=>addLine(l,'out'));}
+  else{addLine('command not found: '+c+'. Try: help','err');}
+  const inp=document.getElementById('itermIn');
+  if(inp)inp.value='';
+}
+const inp=document.getElementById('itermIn');
+if(inp){inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&inp.value.trim()){runCmd(inp.value);inp.value=''}});}
+/* show welcome */
+setTimeout(()=>runCmd('status'),600);
 </script>
 {% endblock %}

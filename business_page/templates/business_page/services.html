@@ -245,6 +245,255 @@
     </p>
 </section>
 
+<!-- ══ SERVICE DEEP-DIVES ════════════════════════════════════════════════ -->
+<hr class="hz-line">
+<section class="mb-4">
+    <div class="hz-label reveal">DEEP-DIVES // HIGH-VALUE SERVICES</div>
+    <h2 class="display-section mb-5 reveal">How We<br><span style="color:var(--ember);">Do the Hard Things</span></h2>
+    <div class="d-flex flex-column gap-3">
+
+        <!-- Deep-dive 1: Cloud Migration -->
+        <div class="reveal">
+            <div class="hz-card hz-card-ember" style="border-radius:var(--radius) var(--radius) 0 0;">
+                <div class="hz-card-body" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+                    <div>
+                        <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;">01 / CLOUD INFRASTRUCTURE MIGRATION</div>
+                        <h4 style="margin:0;font-size:1rem;font-weight:700;color:var(--text);">Zero-Downtime AWS Migration — Our Full Methodology</h4>
+                    </div>
+                    <button class="hz-deepdive-toggle" onclick="toggleDeep(this)" style="min-width:120px;">
+                        <span>Expand</span> <i class="bi bi-chevron-down" style="color:var(--ember)"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hz-deepdive hz-deepdive-body">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <h5 style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1rem;">7-Phase Migration Process</h5>
+                        <div class="d-flex flex-column gap-2">
+                            {% for phase in "Discovery & Inventory,Dependency Mapping,Target Architecture Design,Parallel Environment Build,Data Sync & Validation,Blue/Green Cutover,30-Day Stability Monitoring"|split:"," %}
+                            <div style="display:flex;gap:.75rem;align-items:center;font-size:.83rem;">
+                                <span style="font-family:var(--mono);font-size:.7rem;color:var(--ember);min-width:24px;">0{{ forloop.counter }}</span>
+                                <span>{{ phase }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1rem;">What We Guarantee</h5>
+                        <table class="spec-table">
+                            <tr><td>Downtime</td><td>0 minutes (blue/green switch)</td></tr>
+                            <tr><td>Data Integrity</td><td>SHA-256 checksums before + after</td></tr>
+                            <tr><td>Rollback Time</td><td>&lt; 5 minutes (DNS-level)</td></tr>
+                            <tr><td>Post-Migration</td><td>30-day SLA-backed monitoring</td></tr>
+                            <tr><td>Compliance</td><td>GDPR, CBA, ISO 27001 data handling</td></tr>
+                            <tr><td>Deliverable</td><td>IaC codebase + full runbooks</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-3 hz-terminal" style="font-size:.77rem;">
+                    <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
+                    <span class="t-line"><span class="t-prompt">hzortech@migration:~$ </span><span class="t-cmd">terraform apply -target=module.blue_green_switch</span></span>
+                    <span class="t-line t-out">aws_route53_record.primary: Modifying... [id=Z1D633...]</span>
+                    <span class="t-line t-out">aws_route53_record.primary: Modifications complete after 12s</span>
+                    <span class="t-line t-out">Apply complete! Resources: 1 added, 2 changed, 0 destroyed.</span>
+                    <span class="t-line" style="color:#F59E0B;">⧗ Monitoring health checks for 300s...</span>
+                    <span class="t-line t-out">✓ All 12 health checks passing. Cutover complete.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deep-dive 2: Wazuh SIEM -->
+        <div class="reveal">
+            <div class="hz-card" style="border-top:2px solid var(--ember);border-radius:var(--radius) var(--radius) 0 0;">
+                <div class="hz-card-body" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+                    <div>
+                        <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;">02 / WAZUH SIEM DEPLOYMENT</div>
+                        <h4 style="margin:0;font-size:1rem;font-weight:700;color:var(--text);">Enterprise SIEM from Zero to Operational in 2 Weeks</h4>
+                    </div>
+                    <button class="hz-deepdive-toggle" onclick="toggleDeep(this)" style="min-width:120px;">
+                        <span>Expand</span> <i class="bi bi-chevron-down" style="color:var(--ember)"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hz-deepdive hz-deepdive-body">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <h5 style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1rem;">What We Deploy</h5>
+                        <ul style="font-size:.83rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.4rem;">
+                            <li>Wazuh Manager cluster (HA configuration for &gt;1,000 agents)</li>
+                            <li>Elastic + Kibana dashboard stack</li>
+                            <li>Custom rule sets for your environment (not just defaults)</li>
+                            <li>CIS Benchmark compliance scan integration</li>
+                            <li>Alert routing: PagerDuty / Slack / Email / Telegram</li>
+                            <li>Incident Response playbooks (one per alert severity class)</li>
+                            <li>Agent deployment automation (Ansible)</li>
+                            <li>Retention policy + storage sizing</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1rem;">Typical Outcomes</h5>
+                        <table class="spec-table">
+                            <tr><td>Alert noise reduction</td><td>~80% after tuning</td></tr>
+                            <tr><td>Detection time</td><td>Reduced by 60–78%</td></tr>
+                            <tr><td>Compliance coverage</td><td>ISO 27001, PCI DSS, SOC 2</td></tr>
+                            <tr><td>Endpoints supported</td><td>50 to 5,000+ agents</td></tr>
+                            <tr><td>Handover</td><td>Full admin training + runbooks</td></tr>
+                        </table>
+                        <div style="margin-top:1rem;padding:.75rem 1rem;background:var(--ember-dim);border:1px solid var(--ember-glow);border-radius:8px;font-family:var(--mono);font-size:.72rem;color:var(--ember);">
+                            Reference: 2,000-endpoint deployment for regulated enterprise — detection time reduced by 78%.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deep-dive 3: CI/CD Hardening -->
+        <div class="reveal">
+            <div class="hz-card" style="border-top:2px solid var(--ember);border-radius:var(--radius) var(--radius) 0 0;">
+                <div class="hz-card-body" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;">
+                    <div>
+                        <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;">03 / CI/CD PIPELINE HARDENING</div>
+                        <h4 style="margin:0;font-size:1rem;font-weight:700;color:var(--text);">From 2 Deploys/Week to 15/Day — Without Breaking Production</h4>
+                    </div>
+                    <button class="hz-deepdive-toggle" onclick="toggleDeep(this)" style="min-width:120px;">
+                        <span>Expand</span> <i class="bi bi-chevron-down" style="color:var(--ember)"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hz-deepdive hz-deepdive-body">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <h5 style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1rem;">What We Harden</h5>
+                        <ul style="font-size:.83rem;padding-left:1.2rem;display:flex;flex-direction:column;gap:.4rem;">
+                            <li>GitHub Actions / GitLab CI pipeline architecture</li>
+                            <li>OIDC-based AWS auth (no long-lived keys in secrets)</li>
+                            <li>Image signing and SBOM generation</li>
+                            <li>Automated rollback triggers on health-check failure</li>
+                            <li>Secret scanning + dependency vulnerability gates</li>
+                            <li>Immutable container registry tags (no :latest in prod)</li>
+                            <li>Deployment frequency and DORA metric dashboards</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:1rem;">Security Controls Applied</h5>
+                        <div class="hz-terminal" style="font-size:.75rem;">
+                            <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
+                            <span class="t-line t-comment"># Scoped permissions — enforced</span>
+                            <span class="t-line" style="color:#8E9196;">permissions:</span>
+                            <span class="t-line" style="padding-left:1rem;color:#00CC66;">  contents: read</span>
+                            <span class="t-line" style="padding-left:1rem;color:#00CC66;">  packages: write</span>
+                            <span class="t-line" style="padding-left:1rem;color:#E62127;">  # nothing else</span>
+                            <span class="t-line t-comment"># Pinned action versions</span>
+                            <span class="t-line" style="color:#8E9196;">uses: actions/checkout@v4.2.1</span>
+                            <span class="t-line t-comment"># OIDC — no static keys</span>
+                            <span class="t-line" style="color:#8E9196;">role-to-assume: arn:aws:iam::...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══ INCIDENT RESPONSE FLOWCHART ════════════════════════════════════════ -->
+<hr class="hz-line">
+<section class="mb-4">
+    <div class="hz-label reveal">INCIDENT RESPONSE // WHEN THINGS GO WRONG</div>
+    <h2 class="display-section mb-3 reveal">Severity 1<br><span style="color:var(--ember);">Escalation Flow</span></h2>
+    <p class="reveal" style="max-width:600px;margin-bottom:2rem;font-size:.88rem;">For retainer clients, every alert severity class has a defined response path. No ambiguity. No "let me check and get back to you."</p>
+    <div class="row g-4">
+        <div class="col-lg-4 reveal">
+            <div class="hz-card hz-card-body h-100" style="border-top:3px solid #E62127;">
+                <div style="font-family:var(--mono);font-size:.65rem;color:#E62127;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">⬤ SEVERITY 1 — CRITICAL</div>
+                <div class="d-flex flex-column gap-3">
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev1">01</div>
+                        <div><strong style="font-size:.83rem;display:block;">Alert Fires (Wazuh / PagerDuty)</strong><span style="font-size:.78rem;color:var(--muted);">t=0 — automated detection</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev1">02</div>
+                        <div><strong style="font-size:.83rem;display:block;">Engineer On-Call Notified</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 5min — Telegram + call</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev1">03</div>
+                        <div><strong style="font-size:.83rem;display:block;">Containment Applied</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 15min — isolate, preserve logs</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev1">04</div>
+                        <div><strong style="font-size:.83rem;display:block;">Root Cause + Post-Mortem</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 24h — written report</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 reveal">
+            <div class="hz-card hz-card-body h-100" style="border-top:3px solid #F59E0B;">
+                <div style="font-family:var(--mono);font-size:.65rem;color:#F59E0B;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">◑ SEVERITY 2 — HIGH</div>
+                <div class="d-flex flex-column gap-3">
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev2">01</div>
+                        <div><strong style="font-size:.83rem;display:block;">Alert Queued</strong><span style="font-size:.78rem;color:var(--muted);">t=0 — Slack notification</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev2">02</div>
+                        <div><strong style="font-size:.83rem;display:block;">Triage in Business Hours</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 4h — assessment call</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev2">03</div>
+                        <div><strong style="font-size:.83rem;display:block;">Remediation Plan</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 8h — fix or workaround</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev2">04</div>
+                        <div><strong style="font-size:.83rem;display:block;">Ticket Closed</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 48h — documented</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 reveal">
+            <div class="hz-card hz-card-body h-100" style="border-top:3px solid #059669;">
+                <div style="font-family:var(--mono);font-size:.65rem;color:#059669;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">○ SEVERITY 3 — MEDIUM/LOW</div>
+                <div class="d-flex flex-column gap-3">
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev3">01</div>
+                        <div><strong style="font-size:.83rem;display:block;">Logged & Categorised</strong><span style="font-size:.78rem;color:var(--muted);">Automatic tagging</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev3">02</div>
+                        <div><strong style="font-size:.83rem;display:block;">Weekly Review</strong><span style="font-size:.78rem;color:var(--muted);">Batched into sprint</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev3">03</div>
+                        <div><strong style="font-size:.83rem;display:block;">Planned Fix</strong><span style="font-size:.78rem;color:var(--muted);">t &lt; 2 weeks</span></div>
+                    </div>
+                    <div class="hz-flow-step">
+                        <div class="hz-flow-num hz-flow-sev3">04</div>
+                        <div><strong style="font-size:.83rem;display:block;">Monthly Report</strong><span style="font-size:.78rem;color:var(--muted);">Trend analysis included</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="mt-3 reveal" style="font-family:var(--mono);font-size:.72rem;color:var(--muted);">// Severity levels and response windows defined in engagement contract. No guesswork.</p>
+</section>
+
+<!-- ══ COMPLIANCE COVERAGE ════════════════════════════════════════════════ -->
+<hr class="hz-line">
+<section class="mb-4 reveal">
+    <div class="hz-label">COMPLIANCE // WHAT WE ALIGN TO</div>
+    <h2 class="display-section mb-4">Regulated<br><span style="color:var(--ember);">Environments.</span></h2>
+    <p style="max-width:600px;margin-bottom:2rem;font-size:.88rem;">We work in banking, fintech, and enterprise environments. We know the compliance requirements — and we build to them from day one, not retrofitted before an audit.</p>
+    <div class="row g-3">
+        {% for cert in "ISO 27001,PCI DSS,SOC 2,GDPR,CBA Regulations,CIS Benchmarks"|split:"," %}
+        <div class="col-6 col-md-4 col-lg-2">
+            <div style="border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center;background:var(--surface);transition:all var(--trans);" onmouseover="this.style.borderColor='var(--ember-glow)';this.style.background='var(--ember-dim)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface)'">
+                <i class="bi bi-shield-check" style="font-size:1.4rem;color:var(--ember);display:block;margin-bottom:.5rem;"></i>
+                <span style="font-family:var(--mono);font-size:.68rem;color:var(--text);font-weight:600;">{{ cert }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
 <hr class="hz-line">
 
 <section class="mb-4">
@@ -313,6 +562,16 @@ function toggleFaq(btn) {
     const open = body.style.display === 'block';
     body.style.display = open ? 'none' : 'block';
     icon.style.transform = open ? '' : 'rotate(45deg)';
+}
+function toggleDeep(btn) {
+    const card = btn.closest('.hz-card').parentElement;
+    const body = card.querySelector('.hz-deepdive-body');
+    const icon = btn.querySelector('i');
+    const span = btn.querySelector('span');
+    const open = body.classList.contains('open');
+    body.classList.toggle('open', !open);
+    icon.style.transform = open ? '' : 'rotate(180deg)';
+    span.textContent = open ? 'Expand' : 'Collapse';
 }
 </script>
 {% endblock %}
