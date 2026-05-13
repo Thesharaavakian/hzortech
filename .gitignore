@@ -204,3 +204,6 @@ for-sharas-eyes-only/
 
 # Linux
 *.swp
+
+# Claude Code
+.claude/
