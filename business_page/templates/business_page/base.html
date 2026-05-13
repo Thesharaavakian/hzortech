@@ -224,25 +224,19 @@ footer a:hover{color:var(--ember)}
     {% block extra_css %}{% endblock %}
     </style>
 
-    <!-- ══ META PIXEL ══════════════════════════════════════════════════════════
-         TODO: Replace PIXEL_ID_GOES_HERE with your numeric Pixel ID.
-         Find it at: Meta Events Manager → Data Sources → your Pixel → Settings
-         It is a ~16-digit number, e.g. 1234567890123456
-         The Ad Account ID (4495909797311957) is NOT the Pixel ID.
-    ═══════════════════════════════════════════════════════════════════════════ -->
-    {% if False %}{# Remove "if False" once you have the numeric Pixel ID #}
+    <!-- Meta Pixel Code — Pixel ID: 1301979234631773 -->
     <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
     (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init','PIXEL_ID_GOES_HERE');
+    fbq('init','1301979234631773');
     fbq('track','PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=PIXEL_ID_GOES_HERE&ev=PageView&noscript=1"/></noscript>
-    {% endif %}
+    src="https://www.facebook.com/tr?id=1301979234631773&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
 
