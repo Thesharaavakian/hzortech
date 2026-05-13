@@ -32,21 +32,28 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="hz-card hz-card-ember" style="padding:1.5rem;">
-                <div class="hz-label" style="margin-bottom:1.25rem;" data-i18n="stat.label">OPERATIONAL STATUS</div>
+            <div class="hz-card hz-card-ember" style="padding:1.75rem;position:relative;overflow:hidden;">
+                <div style="position:absolute;inset:0;background:linear-gradient(135deg,var(--ember-dim) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+                <div style="position:relative;z-index:1;">
+                <div class="hz-label" style="margin-bottom:1.5rem;" data-i18n="stat.label">OPERATIONAL STATUS</div>
                 <div class="d-flex flex-column gap-3">
-                    <div>
-                        <div style="font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--text);line-height:1;">6</div>
-                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.domains">Active Service Domains</div>
+                    <div style="display:flex;align-items:baseline;gap:.6rem;border-bottom:1px solid var(--border);padding-bottom:.85rem;">
+                        <div style="font-family:var(--mono);font-size:2.4rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-.03em;">6</div>
+                        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;" data-i18n="stat.domains">Active Service Domains</div>
                     </div>
-                    <div>
-                        <div style="font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--text);line-height:1;">48h</div>
-                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.response">Max Response Time</div>
+                    <div style="display:flex;align-items:baseline;gap:.6rem;border-bottom:1px solid var(--border);padding-bottom:.85rem;">
+                        <div style="font-family:var(--mono);font-size:2.4rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-.03em;">48h</div>
+                        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;" data-i18n="stat.response">Max Response Time</div>
                     </div>
-                    <div>
-                        <div style="font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--ember);line-height:1;">GMT+4</div>
-                        <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;" data-i18n="stat.location">Yerevan / Global Remote</div>
+                    <div style="display:flex;align-items:baseline;gap:.6rem;">
+                        <div style="font-family:var(--mono);font-size:2.4rem;font-weight:700;color:var(--ember);line-height:1;letter-spacing:-.03em;">GMT+4</div>
+                        <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;" data-i18n="stat.location">Yerevan / Global Remote</div>
                     </div>
+                    <div style="margin-top:.25rem;display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.65rem;color:var(--muted);">
+                        <span class="status-dot" style="width:6px;height:6px;flex-shrink:0;"></span>
+                        <span data-i18n="nav.status">SYSTEMS ONLINE</span>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -87,7 +94,7 @@
 <hr class="hz-line">
 
 <!-- ══ MISSION ════════════════════════════════════════════════════════════ -->
-<section class="py-5 mb-3 reveal" style="border-left:2px solid var(--ember);padding-left:2rem !important;">
+<section class="py-5 mb-3 reveal" style="border-left:3px solid var(--ember);padding-left:2rem !important;background:linear-gradient(90deg,var(--ember-dim),transparent 40%);border-radius:0 var(--radius) var(--radius) 0;">
     <div class="hz-label" data-i18n="mission.label">MISSION STATEMENT</div>
     <p style="font-size:clamp(1rem,2vw,1.3rem);color:var(--text);line-height:1.6;max-width:860px;font-weight:500;" data-i18n="mission.text">
         At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience. Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security, and autonomous systems.
@@ -186,37 +193,6 @@
     </div>
     <div class="mt-3 text-center reveal">
         <a href="{% url 'services' %}" class="btn-ghost" style="font-size:.78rem;">View Full Service Specifications →</a>
-    </div>
-</section>
-
-<hr class="hz-line">
-
-<!-- ══ TESTIMONIALS ═══════════════════════════════════════════════════════ -->
-<section class="mb-3">
-    <div class="hz-label reveal">SOCIAL PROOF // CLIENT OUTCOMES</div>
-    <h2 class="display-section mb-5 reveal">What Clients<br><span style="color:var(--ember);">Say</span></h2>
-    <div class="row g-4">
-        <div class="col-md-4 reveal">
-            <div class="hz-testimonial h-100">
-                <p style="font-size:.9rem;line-height:1.7;margin-bottom:1.25rem;font-style:italic;">"Secured our 500-endpoint environment in 6 weeks with no operational disruption. Detection time dropped 78%. HZORTECH didn't just deploy a SIEM — they built the playbooks our team actually uses."</p>
-                <div style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.06em;">CISO</div>
-                <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);">Leading Armenian FinTech Firm</div>
-            </div>
-        </div>
-        <div class="col-md-4 reveal">
-            <div class="hz-testimonial h-100">
-                <p style="font-size:.9rem;line-height:1.7;margin-bottom:1.25rem;font-style:italic;">"We went from 2 deploys per week to 15 per day. The CI/CD pipeline they built has had zero failed deployments in 6 months. Real engineers, no account managers, direct communication every step."</p>
-                <div style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.06em;">VP Engineering</div>
-                <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);">SaaS Development Company</div>
-            </div>
-        </div>
-        <div class="col-md-4 reveal">
-            <div class="hz-testimonial h-100">
-                <p style="font-size:.9rem;line-height:1.7;margin-bottom:1.25rem;font-style:italic;">"Full AWS migration of our banking infrastructure — zero downtime cutover, 99.99% uptime since day one. They handed over complete runbooks. Our internal team can maintain everything without calling them."</p>
-                <div style="font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.06em;">CTO</div>
-                <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);">Regional Banking Institution</div>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -477,7 +453,9 @@
 <hr class="hz-line">
 
 <!-- ══ CTA ═══════════════════════════════════════════════════════════════ -->
-<section class="text-center py-4 reveal">
+<section class="text-center py-5 reveal" style="position:relative;border-radius:var(--radius);padding-left:2rem!important;padding-right:2rem!important;background:linear-gradient(135deg,var(--ember-dim) 0%,transparent 50%);border:1px solid var(--ember-glow);">
+    <div style="position:absolute;inset:0;border-radius:var(--radius);background:radial-gradient(ellipse at 50% 0%,var(--ember-dim) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;">
     <div class="hz-label" style="justify-content:center;" data-i18n="cta.label">READY TO START</div>
     <h2 class="display-section mb-3">
         <span data-i18n="cta.h1">Have a Problem</span><br>
@@ -491,6 +469,7 @@
         <span class="magnetic-wrap">
             <a href="{% url 'services' %}" class="btn-ghost" style="font-size:.85rem;padding:.75rem 2rem;" data-i18n="hero.cta2">View Capabilities</a>
         </span>
+    </div>
     </div>
 </section>
 
@@ -507,12 +486,16 @@
   .hz-counter-cell:nth-child(2){border-right:none!important}
   .hz-counter-cell:nth-child(1),.hz-counter-cell:nth-child(2){border-bottom:1px solid var(--border)}
 }
-.hz-codetabs{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-.hz-codetabs-nav{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);}
-.hz-tab{background:none;border:none;border-right:1px solid var(--border);color:var(--muted);font-family:var(--mono);font-size:.72rem;padding:.6rem 1.1rem;cursor:pointer;transition:all var(--trans);}
-.hz-tab:hover{color:var(--text);background:var(--ember-dim);}
-.hz-tab.active{color:var(--ember);background:var(--bg);border-bottom:2px solid var(--ember);margin-bottom:-1px;}
-.hz-codetabs-body{border-radius:0!important;border:none!important;}
+.hz-codetabs{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg)}
+.hz-codetabs-nav{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,0.07);background:#1A1D24;}
+.hz-tab{background:none;border:none;border-right:1px solid rgba(255,255,255,0.07);color:#6B7280;font-family:var(--mono);font-size:.72rem;padding:.65rem 1.15rem;cursor:pointer;transition:all var(--trans);}
+.hz-tab:hover{color:#C8CDD6;background:rgba(255,255,255,0.04);}
+.hz-tab.active{color:var(--ember);background:#13151B;border-bottom:2px solid var(--ember);margin-bottom:-1px;}
+.hz-codetabs-body{border-radius:0!important;border:none!important;background:#13151B!important;}
+/* ── Hero stat card in light mode ─────────────────────────────────────────── */
+[data-theme="light"] .hz-counter-cell:hover{background:var(--ember-dim)}
+/* ── Bento service cards ──────────────────────────────────────────────────── */
+[data-theme="light"] .svc-card{background:var(--surface)}
 {% endblock %}
 
 {% block extra_js %}

@@ -486,9 +486,9 @@
     <div class="row g-3">
         {% for cert in "ISO 27001,PCI DSS,SOC 2,GDPR,CBA Regulations,CIS Benchmarks"|split:"," %}
         <div class="col-6 col-md-4 col-lg-2">
-            <div style="border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center;background:var(--surface);transition:all var(--trans);" onmouseover="this.style.borderColor='var(--ember-glow)';this.style.background='var(--ember-dim)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface)'">
-                <i class="bi bi-shield-check" style="font-size:1.4rem;color:var(--ember);display:block;margin-bottom:.5rem;"></i>
-                <span style="font-family:var(--mono);font-size:.68rem;color:var(--text);font-weight:600;">{{ cert }}</span>
+            <div class="compliance-badge">
+                <i class="bi bi-shield-check" style="font-size:1.5rem;color:var(--ember);display:block;margin-bottom:.6rem;"></i>
+                <span style="font-family:var(--mono);font-size:.68rem;color:var(--text);font-weight:600;letter-spacing:.03em;">{{ cert }}</span>
             </div>
         </div>
         {% endfor %}
@@ -545,14 +545,30 @@
 
 <hr class="hz-line">
 
-<section class="text-center py-4 reveal">
+<section class="text-center py-5 reveal" style="position:relative;border-radius:var(--radius);padding-left:2rem!important;padding-right:2rem!important;background:linear-gradient(135deg,var(--ember-dim) 0%,transparent 50%);border:1px solid var(--ember-glow);">
+    <div style="position:absolute;inset:0;border-radius:var(--radius);background:radial-gradient(ellipse at 50% 0%,var(--ember-dim) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;">
     <h2 class="display-section mb-3">Not Sure<br>What You <span style="color:var(--ember);">Need?</span></h2>
     <p class="mb-4" style="max-width:480px;margin:0 auto 2rem;">Describe your situation. We'll tell you what's actually required — and if we're not the right fit, we'll say so.</p>
     <span class="magnetic-wrap">
         <a href="{% url 'contact' %}" class="btn-ember" data-i18n="cta.btn">Get in Touch</a>
     </span>
+    </div>
 </section>
 
+{% endblock %}
+
+{% block extra_css %}
+/* ── Spec table light mode refinement ──────────────────────────── */
+[data-theme="light"] .spec-table td:first-child{font-weight:600}
+/* ── Compliance badge hover ────────────────────────────────────── */
+.compliance-badge{border:1px solid var(--border);border-radius:10px;padding:1.1rem .75rem;text-align:center;background:var(--surface);transition:all var(--trans);cursor:default}
+.compliance-badge:hover{border-color:var(--ember-glow);background:var(--ember-dim);transform:translateY(-2px);box-shadow:var(--shadow)}
+[data-theme="light"] .compliance-badge{box-shadow:var(--shadow)}
+/* ── FAQ button hover ──────────────────────────────────────────── */
+.faq-row button:hover{color:var(--ember)!important}
+/* ── Deep-dive toggle button ───────────────────────────────────── */
+[data-theme="light"] .hz-deepdive-toggle{background:var(--surface2)}
 {% endblock %}
 
 {% block extra_js %}
