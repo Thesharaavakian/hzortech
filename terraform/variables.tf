@@ -9,3 +9,4 @@ variable "ssh_public_key" {
   type        = string
   sensitive   = true
 }
+# refreshed Fri 22 May 2026 12:43:22 PM +04
