@@ -147,3 +147,4 @@ resource "aws_eip" "app" {
 
   depends_on = [aws_instance.app]
 }
+
