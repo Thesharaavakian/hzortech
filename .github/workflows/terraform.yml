@@ -73,9 +73,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # k3s takes 2-3 minutes to start on a fresh instance.
+      # Docker takes 2-3 minutes to finish installing on a fresh instance.
       # On an existing server it's already running, so this exits immediately.
-      - name: Wait for k3s API
+      - name: Wait for Docker
         uses: appleboy/ssh-action@v0.1.7
         with:
           host:            ${{ needs.terraform.outputs.public_ip }}
@@ -83,9 +83,9 @@ jobs:
           key:             ${{ secrets.EC2_SSH_KEY }}
           command_timeout: 600s
           script: |
-            echo "Waiting for k3s to be ready..."
+            echo "Waiting for Docker to be ready..."
             for i in $(seq 1 40); do
-              /usr/local/bin/kubectl get nodes 2>/dev/null && echo "k3s ready." && break
+              docker info >/dev/null 2>&1 && echo "Docker ready." && break
               echo "  [$i/40] not ready yet — sleeping 15s..."
               sleep 15
             done
