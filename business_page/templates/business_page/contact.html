@@ -1,5 +1,75 @@
 {% extends "business_page/base.html" %}
-{% block title %}Contact | HZORTECH{% endblock %}
+{% block title %}Hire Software Engineers in Armenia — Contact HZORTECH | Yerevan{% endblock %}
+{% block meta_desc %}Hire software engineers, DevOps specialists, or automation engineers in Armenia. Contact HZORTECH in Yerevan. Send a brief — we respond within 48 hours with a direct technical assessment. No sales calls.{% endblock %}
+{% block og_title %}Contact HZORTECH — Hire Engineers in Armenia | 48h Response{% endblock %}
+{% block og_desc %}Send a brief to HZORTECH. We respond within 48 hours with a direct assessment. No discovery calls. No sales decks. Based in Yerevan, Armenia.{% endblock %}
+{% block meta_keywords %}hire software engineers Armenia, contact software company Yerevan, hire DevOps Armenia, automation engineers Armenia, hire programmers Armenia, software outsourcing Armenia, IT services Yerevan{% endblock %}
+{% block canonical_path %}/contact/{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": "https://hzortech.com/contact/#webpage",
+  "url": "https://hzortech.com/contact/",
+  "name": "Contact HZORTECH — Hire Software Engineers in Armenia",
+  "description": "Contact HZORTECH to hire software engineers, DevOps specialists, or automation engineers in Armenia. Based in Yerevan, GMT+4. 48-hour response guaranteed.",
+  "isPartOf": {"@id": "https://hzortech.com/#website"},
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://hzortech.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://hzortech.com/contact/"}
+    ]
+  },
+  "mainEntity": {
+    "@type": "ContactPoint",
+    "email": "shara@hzortech.com",
+    "contactType": "sales",
+    "availableLanguage": ["English", "Armenian", "Russian"],
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "09:00", "closes": "18:00"
+    }
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How quickly does HZORTECH respond to project inquiries?",
+      "acceptedAnswer": {"@type": "Answer", "text": "We respond to all project briefs within 48 hours with a direct technical assessment. No discovery calls, no sales decks."}
+    },
+    {
+      "@type": "Question",
+      "name": "Do you work with international clients or only in Armenia?",
+      "acceptedAnswer": {"@type": "Answer", "text": "HZORTECH is based in Yerevan, Armenia and works with clients globally. We operate remote-first and serve clients in Europe, the US, the Middle East, and the CIS region."}
+    },
+    {
+      "@type": "Question",
+      "name": "What services does HZORTECH offer?",
+      "acceptedAnswer": {"@type": "Answer", "text": "HZORTECH offers custom software development, DevOps and cloud infrastructure, CRM and business process automation, API integration, security monitoring (DevSecOps), and cloud migration services."}
+    },
+    {
+      "@type": "Question",
+      "name": "Can I hire HZORTECH engineers for a long-term engagement?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. We work on both one-off projects and long-term ongoing engagements. Scope and timeline are agreed before work begins."}
+    },
+    {
+      "@type": "Question",
+      "name": "What languages does HZORTECH communicate in?",
+      "acceptedAnswer": {"@type": "Answer", "text": "We communicate in English, Armenian (Հայeren), and Russian. All technical documentation is delivered in English by default."}
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 

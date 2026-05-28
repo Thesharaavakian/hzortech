@@ -1,6 +1,98 @@
 {% extends "business_page/base.html" %}
 {% load hz_filters %}
-{% block title %}Services | HZORTECH{% endblock %}
+{% block title %}Software Development, DevOps & Automation Services in Armenia | HZORTECH{% endblock %}
+{% block meta_desc %}Software development, DevOps, CRM automation, cloud infrastructure, API integration, and cybersecurity services in Armenia. HZORTECH engineers build production-grade systems for startups and enterprises. Yerevan-based, globally delivered.{% endblock %}
+{% block og_title %}Engineering Services — Software, DevOps, Automation | HZORTECH Armenia{% endblock %}
+{% block og_desc %}Six engineering domains: custom software, CRM automation, DevOps, API integration, security monitoring, cloud migration. Based in Yerevan, Armenia.{% endblock %}
+{% block meta_keywords %}software development Armenia, DevOps services Yerevan, CRM automation Armenia, cloud infrastructure Armenia, API integration Yerevan, cybersecurity Armenia, automation services Armenia, Python development Armenia, backend development Yerevan, cloud migration Armenia{% endblock %}
+{% block canonical_path %}/services/{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://hzortech.com/services/#webpage",
+  "url": "https://hzortech.com/services/",
+  "name": "Software Development, DevOps & Automation Services | HZORTECH Armenia",
+  "description": "Six engineering domains: software development, CRM automation, DevOps, API integration, security monitoring, and cloud migration from Yerevan, Armenia.",
+  "isPartOf": {"@id": "https://hzortech.com/#website"},
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://hzortech.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://hzortech.com/services/"}
+    ]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem", "position": 1,
+        "item": {
+          "@type": "Service",
+          "name": "Custom Software Development",
+          "description": "Full-stack custom software: backends, web apps, and APIs built to spec. Python, Django, REST, PostgreSQL.",
+          "provider": {"@id": "https://hzortech.com/#organization"},
+          "areaServed": "Worldwide",
+          "serviceType": "Software Development"
+        }
+      },
+      {
+        "@type": "ListItem", "position": 2,
+        "item": {
+          "@type": "Service",
+          "name": "CRM & Process Automation",
+          "description": "Eliminate manual workflows. Trigger-based pipelines, HubSpot, n8n, custom automation tools.",
+          "provider": {"@id": "https://hzortech.com/#organization"},
+          "serviceType": "Business Automation"
+        }
+      },
+      {
+        "@type": "ListItem", "position": 3,
+        "item": {
+          "@type": "Service",
+          "name": "DevOps & Cloud Infrastructure",
+          "description": "CI/CD, IaC with Terraform, Docker, Kubernetes, AWS cloud architecture. Zero unplanned downtime.",
+          "provider": {"@id": "https://hzortech.com/#organization"},
+          "serviceType": "DevOps Engineering"
+        }
+      },
+      {
+        "@type": "ListItem", "position": 4,
+        "item": {
+          "@type": "Service",
+          "name": "API & System Integration",
+          "description": "RESTful APIs, webhooks, legacy modernisation. Connect systems that were never designed to communicate.",
+          "provider": {"@id": "https://hzortech.com/#organization"},
+          "serviceType": "System Integration"
+        }
+      },
+      {
+        "@type": "ListItem", "position": 5,
+        "item": {
+          "@type": "Service",
+          "name": "Security Monitoring & DevSecOps",
+          "description": "SIEM (Wazuh, Splunk), blue team ops, CIS hardening, ISO 27001, GDPR, CBA compliance.",
+          "provider": {"@id": "https://hzortech.com/#organization"},
+          "serviceType": "Cybersecurity"
+        }
+      },
+      {
+        "@type": "ListItem", "position": 6,
+        "item": {
+          "@type": "Service",
+          "name": "Cloud Migration",
+          "description": "On-premise to AWS migration with zero data loss. Blue/green deployment with 30-day post-cutover monitoring.",
+          "provider": {"@id": "https://hzortech.com/#organization"},
+          "serviceType": "Cloud Migration"
+        }
+      }
+    ]
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 
@@ -15,6 +107,7 @@
         Six engineering domains. Every deliverable defined by technical specifications,
         not marketing language. You know exactly what you get and how we measure success.
     </p>
+    <p class="visually-hidden">Software engineering, DevOps, CRM automation, cloud infrastructure, API integration, and cybersecurity services. Based in Yerevan, Armenia. Serving clients globally.</p>
 </section>
 
 <hr class="hz-line">

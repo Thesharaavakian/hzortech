@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /newsletter/
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
+
+Sitemap: https://hzortech.com/sitemap.xml
