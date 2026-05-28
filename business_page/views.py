@@ -87,7 +87,7 @@ def newsletter_signup(request):
                         "Your first Security Health Check checklist:\n"
                         "https://hzortech.com/contact/\n\n"
                         "— HZORTECH\n"
-                        "shara@hzortech.com | hzortech.com"
+                        "contact@hzortech.com | hzortech.com"
                     ),
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
@@ -136,7 +136,7 @@ def contact(request):
                         "We have received your message and will respond within 48 hours "
                         "with a direct assessment.\n\n"
                         "— The HZORTECH Team\n"
-                        "shara@hzortech.com | hzortech.com"
+                        "contact@hzortech.com | hzortech.com"
                     ),
                     from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],

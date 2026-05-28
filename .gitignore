@@ -202,6 +202,9 @@ k3s.yaml
 # Private files — never commit these
 for-sharas-eyes-only/
 
+# Outreach tool — contains email credentials and lead data, never commit
+ignore-this-for-contact-only/
+
 # Linux
 *.swp
 
