@@ -29,12 +29,16 @@
     "@type": "ItemList",
     "name": "Engineering Services",
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Software Development", "url": "https://hzortech.com/services/"},
-      {"@type": "ListItem", "position": 2, "name": "CRM & Process Automation", "url": "https://hzortech.com/services/"},
-      {"@type": "ListItem", "position": 3, "name": "DevOps & Cloud Infrastructure", "url": "https://hzortech.com/services/"},
-      {"@type": "ListItem", "position": 4, "name": "API & System Integration", "url": "https://hzortech.com/services/"},
-      {"@type": "ListItem", "position": 5, "name": "Security Monitoring & DevSecOps", "url": "https://hzortech.com/services/"},
-      {"@type": "ListItem", "position": 6, "name": "Cloud Migration", "url": "https://hzortech.com/services/"}
+      {"@type": "ListItem", "position": 1, "name": "Custom Software Development", "url": "https://hzortech.com/services/software-development/"},
+      {"@type": "ListItem", "position": 2, "name": "DevOps & CI/CD Engineering", "url": "https://hzortech.com/services/devops/"},
+      {"@type": "ListItem", "position": 3, "name": "CRM & Business Automation", "url": "https://hzortech.com/services/crm-automation/"},
+      {"@type": "ListItem", "position": 4, "name": "Smart Home & IoT Automation", "url": "https://hzortech.com/services/smart-home-automation/"},
+      {"@type": "ListItem", "position": 5, "name": "Cloud Infrastructure", "url": "https://hzortech.com/services/cloud/"},
+      {"@type": "ListItem", "position": 6, "name": "Python Development", "url": "https://hzortech.com/services/python/"},
+      {"@type": "ListItem", "position": 7, "name": "API & System Integration", "url": "https://hzortech.com/services/api-integration/"},
+      {"@type": "ListItem", "position": 8, "name": "Cybersecurity & DevSecOps", "url": "https://hzortech.com/services/security/"},
+      {"@type": "ListItem", "position": 9, "name": "Cloud Migration", "url": "https://hzortech.com/services/cloud-migration/"},
+      {"@type": "ListItem", "position": 10, "name": "HPC & Linux Systems", "url": "https://hzortech.com/services/hpc-linux/"}
     ]
   }
 }
@@ -231,7 +235,14 @@
         </div>
     </div>
     <div class="mt-3 text-center reveal">
-        <a href="{% url 'services' %}" class="btn-ghost" style="font-size:.78rem;">View Full Service Specifications →</a>
+        <a href="{% url 'services' %}" class="btn-ghost" style="font-size:.78rem;">View All Service Specifications →</a>
+        {% if service_list %}
+        <div class="mt-3 d-flex flex-wrap gap-2">
+          {% for svc in service_list %}
+          <a href="{% url 'service_detail' svc.slug %}" style="font-family:var(--mono);font-size:.63rem;color:var(--dim);border:1px solid var(--border);padding:.2rem .55rem;border-radius:4px;text-decoration:none;transition:color var(--trans)" onmouseover="this.style.color='var(--ember)'" onmouseout="this.style.color='var(--dim)'">{{ svc.nav_label }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </section>
 

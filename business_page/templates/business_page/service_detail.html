@@ -1,0 +1,293 @@
+{% extends "business_page/base.html" %}
+{% load static %}
+
+{% block html_lang %}en{% endblock %}
+{% block title %}{{ svc.title }}{% endblock %}
+{% block meta_desc %}{{ svc.meta_desc }}{% endblock %}
+{% block og_title %}{{ svc.og_title }}{% endblock %}
+{% block og_desc %}{{ svc.og_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block twitter_title %}{{ svc.og_title }}{% endblock %}
+{% block twitter_desc %}{{ svc.og_desc }}{% endblock %}
+{% block meta_keywords %}{{ svc.keywords }}{% endblock %}
+{% block canonical_path %}/services/{{ svc.slug }}/{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://hzortech.com/services/{{ svc.slug }}/#service",
+      "name": "{{ svc.og_title }}",
+      "description": "{{ svc.meta_desc }}",
+      "serviceType": "{{ svc.schema_type }}",
+      "provider": {"@id": "https://hzortech.com/#organization"},
+      "areaServed": [
+        {"@type": "Country", "name": "Armenia"},
+        {"@type": "AdministrativeArea", "name": "Europe"},
+        "Worldwide"
+      ],
+      "url": "https://hzortech.com/services/{{ svc.slug }}/"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://hzortech.com/services/{{ svc.slug }}/#webpage",
+      "url": "https://hzortech.com/services/{{ svc.slug }}/",
+      "name": "{{ svc.title }}",
+      "isPartOf": {"@id": "https://hzortech.com/#website"},
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://hzortech.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://hzortech.com/services/"},
+          {"@type": "ListItem", "position": 3, "name": "{{ svc.nav_label }}", "item": "https://hzortech.com/services/{{ svc.slug }}/"}
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {% for faq in svc.faqs %}
+        {
+          "@type": "Question",
+          "name": "{{ faq.q|escapejs }}",
+          "acceptedAnswer": {"@type": "Answer", "text": "{{ faq.a|escapejs }}"}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.svc-detail-hero{border-left:3px solid var(--ember);padding-left:2rem;background:linear-gradient(90deg,var(--ember-dim),transparent 50%);border-radius:0 var(--radius) var(--radius) 0}
+.svc-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.svc-stat-cell{background:var(--surface);padding:1.25rem 1rem;text-align:center}
+.svc-stat-val{font-family:var(--mono);font-size:1.4rem;font-weight:700;color:var(--ember);line-height:1;margin-bottom:.3rem}
+.svc-stat-lbl{font-family:var(--mono);font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.process-step{display:flex;gap:1.25rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border)}
+.process-step:last-child{border-bottom:none}
+.step-num{font-family:var(--mono);font-size:.68rem;color:var(--ember);letter-spacing:.1em;min-width:2rem;padding-top:.2rem}
+.step-name{font-weight:700;color:var(--text);font-size:.9rem;margin-bottom:.2rem}
+.step-desc{font-size:.84rem;color:var(--muted)}
+.deliverable-list{list-style:none;padding:0;margin:0}
+.deliverable-list li{padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.88rem;display:flex;align-items:baseline;gap:.6rem}
+.deliverable-list li:last-child{border-bottom:none}
+.deliverable-list li::before{content:"→";color:var(--ember);font-family:var(--mono);flex-shrink:0}
+.faq-item{border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem;overflow:hidden}
+.faq-q{font-weight:700;font-size:.9rem;color:var(--text);padding:1rem 1.25rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;background:var(--surface);transition:background var(--trans)}
+.faq-q:hover{background:var(--ember-dim)}
+.faq-q .faq-icon{font-family:var(--mono);font-size:.75rem;color:var(--ember);flex-shrink:0}
+.faq-a{padding:0 1.25rem;max-height:0;overflow:hidden;font-size:.88rem;color:var(--muted);line-height:1.7;transition:max-height .3s ease,padding .3s ease}
+.faq-item.open .faq-a{max-height:300px;padding:.75rem 1.25rem 1rem}
+.faq-item.open .faq-icon::before{content:"−"}
+.faq-icon::before{content:"+"}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;text-decoration:none;transition:border-color var(--trans),background var(--trans)}
+.related-card:hover{border-color:var(--ember);background:var(--ember-dim)}
+.related-card-label{font-family:var(--mono);font-size:.65rem;color:var(--ember);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.related-card-name{font-weight:700;font-size:.88rem;color:var(--text)}
+.breadcrumb-trail{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-bottom:2rem;flex-wrap:wrap}
+.breadcrumb-trail a{color:var(--muted);text-decoration:none}
+.breadcrumb-trail a:hover{color:var(--ember)}
+.breadcrumb-sep{color:var(--dim)}
+@media(max-width:768px){.svc-stat-grid{grid-template-columns:1fr 1fr}.svc-stat-grid .svc-stat-cell:last-child{grid-column:span 2}}
+@media(max-width:480px){.svc-stat-grid{grid-template-columns:1fr}.svc-stat-grid .svc-stat-cell:last-child{grid-column:1}}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ══ BREADCRUMB ══════════════════════════════════════════════════════════ -->
+<nav aria-label="Breadcrumb" class="breadcrumb-trail">
+  <a href="{% url 'home' %}">Home</a>
+  <span class="breadcrumb-sep" aria-hidden="true">/</span>
+  <a href="{% url 'services' %}">Services</a>
+  <span class="breadcrumb-sep" aria-hidden="true">/</span>
+  <span aria-current="page">{{ svc.nav_label }}</span>
+</nav>
+
+<!-- ══ HERO ═══════════════════════════════════════════════════════════════ -->
+<section class="mb-5 reveal svc-detail-hero">
+  <div class="hz-label" style="margin-bottom:1.25rem">{{ svc.label }}</div>
+  <h1 class="display-hero mb-4" style="color:var(--text)">
+    {% for line in svc.h1 %}
+      {% if line == svc.h1_em %}
+        <span style="color:var(--ember)">{{ line }}</span>{% if not forloop.last %}<br>{% endif %}
+      {% else %}
+        <span>{{ line }}</span>{% if not forloop.last %}<br>{% endif %}
+      {% endif %}
+    {% endfor %}
+  </h1>
+  <p style="font-size:1.05rem;max-width:620px;line-height:1.8;margin-bottom:2rem;color:var(--text)">
+    {{ svc.hero }}
+  </p>
+  <div class="d-flex flex-wrap gap-3">
+    <a href="{% url 'contact' %}" class="btn-ember">Start a Project →</a>
+    <a href="{% url 'services' %}" class="btn-ghost">All Services</a>
+  </div>
+</section>
+
+<!-- ══ STATS STRIP ════════════════════════════════════════════════════════ -->
+<section class="mb-5 reveal">
+  <div class="svc-stat-grid">
+    {% for stat in svc.stats %}
+    <div class="svc-stat-cell">
+      <div class="svc-stat-val">{{ stat.val }}</div>
+      <div class="svc-stat-lbl">{{ stat.label }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ PROBLEM / SOLUTION ════════════════════════════════════════════════ -->
+<section class="mb-5">
+  <div class="row gy-4">
+    <div class="col-lg-6 reveal">
+      <div class="hz-card hz-card-body h-100">
+        <div class="hz-label" style="color:var(--muted)">// THE PROBLEM</div>
+        <h2 style="font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:.85rem">{{ svc.problem_title }}</h2>
+        <p style="font-size:.93rem;line-height:1.75">{{ svc.problem }}</p>
+      </div>
+    </div>
+    <div class="col-lg-6 reveal">
+      <div class="hz-card hz-card-body h-100 hz-card-ember">
+        <div class="hz-label">// THE SOLUTION</div>
+        <h2 style="font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:.85rem">{{ svc.solution_title }}</h2>
+        <p style="font-size:.93rem;line-height:1.75">{{ svc.solution }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ TECH STACK + DELIVERABLES ═════════════════════════════════════════ -->
+<section class="mb-5">
+  <div class="row gy-5">
+    <div class="col-lg-6 reveal">
+      <div class="hz-label">TECH STACK</div>
+      <h2 class="display-section mb-4" style="font-size:clamp(1.3rem,3vw,2rem)">
+        Tools &amp; <span style="color:var(--ember)">Technologies</span>
+      </h2>
+      <div class="d-flex flex-wrap gap-2">
+        {% for item in svc.stack %}
+        <span class="hz-chip">{{ item }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-lg-6 reveal">
+      <div class="hz-label">DELIVERABLES</div>
+      <h2 class="display-section mb-4" style="font-size:clamp(1.3rem,3vw,2rem)">
+        What You <span style="color:var(--ember)">Actually Get</span>
+      </h2>
+      <ul class="deliverable-list">
+        {% for item in svc.deliverables %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ PROCESS ═══════════════════════════════════════════════════════════ -->
+<section class="mb-5 reveal">
+  <div class="hz-label">PROCESS // HOW WE WORK</div>
+  <h2 class="display-section mb-4">
+    From Brief to <span style="color:var(--ember)">Production</span>
+  </h2>
+  <div class="hz-card hz-card-body">
+    {% for step in svc.process %}
+    <div class="process-step">
+      <span class="step-num">{{ step.step }}</span>
+      <div>
+        <div class="step-name">{{ step.name }}</div>
+        <div class="step-desc">{{ step.desc }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ FAQ ════════════════════════════════════════════════════════════════ -->
+<section class="mb-5 reveal">
+  <div class="hz-label">FAQ // COMMON QUESTIONS</div>
+  <h2 class="display-section mb-4">
+    Frequently <span style="color:var(--ember)">Asked</span>
+  </h2>
+  <div id="faqList">
+    {% for faq in svc.faqs %}
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)" role="button" aria-expanded="false">
+        <span>{{ faq.q }}</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </div>
+      <div class="faq-a">{{ faq.a }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<hr class="hz-line">
+
+<!-- ══ RELATED SERVICES ══════════════════════════════════════════════════ -->
+{% if related_services %}
+<section class="mb-5 reveal">
+  <div class="hz-label">RELATED SERVICES</div>
+  <h2 class="display-section mb-4" style="font-size:clamp(1.3rem,3vw,2rem)">
+    You May Also <span style="color:var(--ember)">Need</span>
+  </h2>
+  <div class="related-grid">
+    {% for rel in related_services %}
+    <a href="{% url 'service_detail' rel.slug %}" class="related-card" aria-label="{{ rel.nav_label }} service page">
+      <div class="related-card-label">SERVICE</div>
+      <div class="related-card-name">{{ rel.nav_label }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+<hr class="hz-line">
+{% endif %}
+
+<!-- ══ CTA ════════════════════════════════════════════════════════════════ -->
+<section class="py-5 mb-3 reveal" style="border-left:3px solid var(--ember);padding-left:2rem !important;background:linear-gradient(90deg,var(--ember-dim),transparent 40%);border-radius:0 var(--radius) var(--radius) 0">
+  <div class="hz-label">// READY TO START</div>
+  <h2 class="display-section mb-3">
+    Have a Project<br><span style="color:var(--ember)">in Mind?</span>
+  </h2>
+  <p style="max-width:500px;margin-bottom:1.75rem;font-size:.95rem">
+    Send us a brief. We respond within 48 hours with a direct technical assessment.
+    No discovery calls. No sales decks. Just engineering.
+  </p>
+  <div class="d-flex flex-wrap gap-3">
+    <a href="{% url 'contact' %}" class="btn-ember">Send a Brief →</a>
+    <a href="{% url 'projects' %}" class="btn-ghost">View Our Work</a>
+  </div>
+  <p style="font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-top:1rem">
+    // shara@hzortech.com · Yerevan, Armenia · GMT+4
+  </p>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleFaq(el){
+  var item=el.parentElement;
+  var isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');i.querySelector('.faq-q').setAttribute('aria-expanded','false');});
+  if(!isOpen){item.classList.add('open');el.setAttribute('aria-expanded','true');}
+}
+</script>
+{% endblock %}

@@ -3,13 +3,16 @@ from django.urls import path, include
 from django.views.static import serve
 from django.conf import settings
 from django.contrib.sitemaps.views import sitemap
-from business_page.sitemaps import StaticViewSitemap
+from business_page.sitemaps import StaticViewSitemap, ServiceDetailSitemap
 from business_page import urls
 import os
 
 handler404 = 'business_page.views.custom_404'
 
-sitemaps = {'static': StaticViewSitemap}
+sitemaps = {
+    'static': StaticViewSitemap,
+    'services': ServiceDetailSitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -108,6 +108,13 @@
         not marketing language. You know exactly what you get and how we measure success.
     </p>
     <p class="visually-hidden">Software engineering, DevOps, CRM automation, cloud infrastructure, API integration, and cybersecurity services. Based in Yerevan, Armenia. Serving clients globally.</p>
+    {% if service_list %}
+    <nav class="mt-4 d-flex flex-wrap gap-2" aria-label="Service pages">
+      {% for svc in service_list %}
+      <a href="{% url 'service_detail' svc.slug %}" style="font-family:var(--mono);font-size:.68rem;color:var(--muted);border:1px solid var(--border);padding:.25rem .65rem;border-radius:4px;text-decoration:none;transition:all var(--trans)" onmouseover="this.style.borderColor='var(--ember)';this.style.color='var(--ember)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">{{ svc.nav_label }} →</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
 </section>
 
 <hr class="hz-line">

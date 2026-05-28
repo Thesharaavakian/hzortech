@@ -3,20 +3,35 @@ import requests as http_requests
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.http import Http404
 from django.shortcuts import redirect, render
 
 from .forms import ContactForm
 from .models import ContactSubmission
+from .services_data import SERVICES, SERVICE_ORDER
 
 
 def home(request):
-    return render(request, 'business_page/home.html')
+    from .services_data import SERVICES, SERVICE_ORDER
+    service_list = [SERVICES[s] for s in SERVICE_ORDER if s in SERVICES]
+    return render(request, 'business_page/home.html', {'service_list': service_list})
 
 def about(request):
     return render(request, 'business_page/about.html')
 
 def services(request):
-    return render(request, 'business_page/services.html')
+    service_list = [SERVICES[s] for s in SERVICE_ORDER if s in SERVICES]
+    return render(request, 'business_page/services.html', {'service_list': service_list})
+
+def service_detail(request, slug):
+    svc = SERVICES.get(slug)
+    if svc is None:
+        raise Http404
+    related_services = [SERVICES[s] for s in svc.get('related', []) if s in SERVICES]
+    return render(request, 'business_page/service_detail.html', {
+        'svc': svc,
+        'related_services': related_services,
+    })
 
 def projects(request):
     return render(request, 'business_page/projects.html')
