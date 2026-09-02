@@ -43,7 +43,7 @@
 
 {% block content %}
 
-<section class="mb-4 reveal">
+<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:165;--motif-hue2:355">
     <div class="hz-label" data-i18n="about.hero.label">ABOUT // THE TEAM</div>
     <h1 class="display-hero mb-3">
         <span data-i18n="about.h1a">BUILT ON</span><br>
@@ -133,6 +133,10 @@
     <div class="hz-label reveal" data-i18n="about.founder.lbl">FOUNDER</div>
     <div class="row gy-4 align-items-start">
         <div class="col-lg-4 reveal">
+            <!-- Monogram stand-in — swap for a real <img class="hz-founder-photo"
+                 src="..." alt="Shara Avakian"> in this wrapper when a photo is
+                 supplied; no other markup changes needed. -->
+            <div class="hz-founder-avatar" aria-hidden="true">SA</div>
             <h2 style="font-size:1.8rem;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:0.25rem;">Shara Avakian</h2>
             <p style="font-family:var(--mono);font-size:0.72rem;color:var(--ember);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.25rem;" data-i18n="about.founder.role">Principal Engineer & Founder</p>
             <p style="font-size:0.88rem;margin-bottom:1rem;" data-i18n="about.founder.bio1">
@@ -307,4 +311,9 @@
     </span>
 </section>
 
+{% endblock %}
+
+{% block extra_css %}
+.hz-founder-avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--ember-dim),transparent);border:1px solid var(--ember-glow);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:1.6rem;color:var(--ember);letter-spacing:.02em;margin-bottom:1.25rem}
+.hz-founder-photo{width:88px;height:88px;border-radius:50%;object-fit:cover;border:1px solid var(--ember-glow);margin-bottom:1.25rem}
 {% endblock %}

@@ -299,6 +299,19 @@ footer a:hover{color:var(--ember)}
 .tech-icon-cell i{font-size:2rem;color:var(--muted);transition:color var(--trans)}
 .tech-icon-cell:hover i{color:var(--ember)}
 .tech-icon-cell span{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;text-align:center}
+/* ── Hero motif backdrop — CSS-generated "brand still" stand-in ──────────────
+   Purpose-built subtle backdrop for page heroes until real Higgsfield stills
+   exist. Apply .hz-hero-motif to a position:relative section/container and
+   set --motif-hue / --motif-hue2 inline to pick a family (ember ~355,
+   cool-blue ~205, teal-neutral ~165). Swap to a real background-image later
+   and drop the class — no markup restructuring needed. ────────────────────── */
+.hz-hero-motif{position:relative;overflow:hidden}
+.hz-hero-motif::before{content:'';position:absolute;inset:-15%;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 20% 20%,hsla(var(--motif-hue,355),70%,50%,.14) 0%,transparent 45%),
+             radial-gradient(circle at 85% 75%,hsla(var(--motif-hue2,355),70%,45%,.10) 0%,transparent 50%);
+  animation:motifDrift 30s ease-in-out infinite alternate}
+.hz-hero-motif > *{position:relative;z-index:1}
+@keyframes motifDrift{0%{transform:translate(-1.5%,-1%) scale(1)}100%{transform:translate(1.5%,1%) scale(1.05)}}
 /* ── Glassmorphism card ───────────────────────────────────────────────────── */
 .hz-glass{background:rgba(255,255,255,.07);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius)}
 [data-theme="light"] .hz-glass{background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.08)}
@@ -333,7 +346,7 @@ footer a:hover{color:var(--ember)}
 .hz-code-bg{position:relative;overflow:hidden}
 .hz-code-bg-art{position:absolute;inset:0;font-family:var(--mono);font-size:.7rem;line-height:1.8;color:var(--ember);opacity:.04;padding:2rem;pointer-events:none;white-space:pre;overflow:hidden;z-index:0}
 [data-theme="light"] .hz-code-bg-art{opacity:.06}
-.hz-code-bg > *{position:relative;z-index:1}
+.hz-code-bg > *:not(.hz-code-bg-art){position:relative;z-index:1}
 /* ── WhatsApp float button ───────────────────────────────────────────────── */
 #waFloat{position:fixed;bottom:5.5rem;right:1.5rem;z-index:799;width:48px;height:48px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.45);text-decoration:none;transition:transform var(--trans),box-shadow var(--trans);opacity:0;pointer-events:none}
 #waFloat.visible{opacity:1;pointer-events:all}
@@ -343,6 +356,11 @@ footer a:hover{color:var(--ember)}
 [data-theme="light"] .hz-newsletter{background:linear-gradient(135deg,rgba(217,31,37,0.06) 0%,rgba(217,31,37,0.02) 60%,transparent 100%)}
 [data-theme="light"] .hz-ticker-wrap{background:var(--surface);border-color:var(--border)}
 [data-theme="light"] footer{background:var(--surface)!important;border-top:1px solid var(--border)}
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
     {% block extra_css %}{% endblock %}
     </style>
 
@@ -538,9 +556,16 @@ document.addEventListener('DOMContentLoaded',function(){
   if(ic) ic.className=document.documentElement.getAttribute('data-theme')==='dark'?'bi bi-moon-fill':'bi bi-sun-fill';
 });
 
-// SCROLL REVEAL
-var ro=new IntersectionObserver(function(es){es.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},i*70);ro.unobserve(e.target);}});},{threshold:0.07});
+// SCROLL REVEAL — generous rootMargin so fast/jump scrolling (End key,
+// scrollbar drag, fast flicks) can't skip an element's trigger frame and
+// leave it permanently opacity:0; a fixed-delay watchdog force-reveals
+// anything that still slips through as a last-resort safety net, independent
+// of scroll position/pattern.
+var ro=new IntersectionObserver(function(es){es.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},i*70);ro.unobserve(e.target);}});},{threshold:0.07,rootMargin:'200px 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+setTimeout(function(){
+  document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){el.classList.add('visible')});
+},2500);
 
 // FLOATING CTA + WHATSAPP
 var fc=document.getElementById('floatCta');

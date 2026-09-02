@@ -1,0 +1,43 @@
+# Never let secret-bearing or unrelated local dirs into the build context
+for-sharas-eyes-only/
+ignore-this-for-contact-only/
+.git/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# Django local artifacts
+db.sqlite3
+db.sqlite3-journal
+*.log
+staticfiles/
+
+# Terraform / k8s / node — not needed inside the image
+.terraform/
+terraform.tfstate*
+*.tfplan
+tfplan
+node_modules/
+kubeconfig
+*.kubeconfig
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Claude Code / agent tooling — not part of the running app
+.claude/
+.agents/

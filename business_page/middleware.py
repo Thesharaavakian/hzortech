@@ -8,13 +8,14 @@ class SecurityHeadersMiddleware:
             "default-src 'self'; "
             "script-src 'self' 'unsafe-inline' "
             "https://cdn.jsdelivr.net https://unpkg.com "
-            "https://challenges.cloudflare.com; "
+            "https://challenges.cloudflare.com https://connect.facebook.net; "
             "style-src 'self' 'unsafe-inline' "
-            "https://fonts.googleapis.com https://cdn.jsdelivr.net; "
+            "https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com; "
             "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
             "img-src 'self' data: https:; "
+            "media-src 'self'; "
             "frame-src https://challenges.cloudflare.com; "
-            "connect-src 'self'; "
+            "connect-src 'self' https://connect.facebook.net https://www.facebook.com; "
             "base-uri 'self';"
         )
         response['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'

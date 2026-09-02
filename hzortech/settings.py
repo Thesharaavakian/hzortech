@@ -142,6 +142,12 @@ CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'contact@hzortech.com')
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_AUTOREFRESH = DEBUG
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Don't waste collectstatic time re-compressing already-compressed video (defaults + video exts)
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = [
+    'jpg', 'jpeg', 'png', 'gif', 'webp', 'zip', 'gz', 'tgz', 'bz2', 'tbz',
+    'xz', 'br', 'swf', 'flv', 'woff', 'woff2',
+    'mp4', 'webm', 'mov',
+]
 
 # Sitemap protocol
 SITEMAP_PROTOCOL = 'https'

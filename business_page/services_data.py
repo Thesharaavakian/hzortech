@@ -466,6 +466,19 @@ SERVICES = {
     },
 }
 
+# Hero backdrop hue pair per service, grouped by domain family (ember=security,
+# cool-blue=cloud/infra, teal-neutral=software/data). CSS-only stand-in via
+# .hz-hero-motif until real Higgsfield stills exist — see base.html.
+_MOTIF_HUES = {
+    'devops': (205, 355), 'cloud': (205, 165), 'cloud-migration': (205, 15),
+    'smart-home-automation': (205, 165),
+    'security': (355, 15),
+    'software-development': (165, 205), 'python': (165, 355),
+    'api-integration': (165, 205), 'crm-automation': (165, 355), 'hpc-linux': (165, 205),
+}
+for _slug, (_h1, _h2) in _MOTIF_HUES.items():
+    SERVICES[_slug]['motif_hue'], SERVICES[_slug]['motif_hue2'] = _h1, _h2
+
 SERVICE_ORDER = [
     'software-development', 'devops', 'crm-automation', 'smart-home-automation',
     'cloud', 'python', 'api-integration', 'security', 'cloud-migration', 'hpc-linux',

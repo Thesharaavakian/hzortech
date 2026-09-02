@@ -72,6 +72,7 @@
     <!-- ── Project 1: Dr. Mary Lips ──────────────────────────────────── -->
     <div class="col-lg-6 reveal" id="proj-drmarylips">
         <div class="hz-card hz-card-body h-100 hz-proj-card" tabindex="0">
+            <div class="hz-proj-visual" style="--motif-hue:355;--motif-hue2:15" aria-hidden="true"><i class="bi bi-heart-pulse"></i></div>
             <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                 <div class="hz-proj-sector" data-i18n="proj.1.sector">Healthcare / Aesthetics</div>
                 <span class="hz-status-badge hz-status-done" data-i18n="proj.1.badge">✓ Completed</span>
@@ -98,6 +99,7 @@
     <!-- ── Project 2: SmartHome Armenia ──────────────────────────────── -->
     <div class="col-lg-6 reveal" id="proj-smarthome">
         <div class="hz-card hz-card-body h-100 hz-proj-card hz-card-ember" tabindex="0">
+            <div class="hz-proj-visual" style="--motif-hue:205;--motif-hue2:165" aria-hidden="true"><i class="bi bi-house-gear"></i></div>
             <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                 <div class="hz-proj-sector" data-i18n="proj.2.sector">IoT / Smart Home</div>
                 <span class="hz-status-badge hz-status-live" data-i18n="proj.2.badge">● Ongoing</span>
@@ -124,6 +126,7 @@
     <!-- ── Project 3: RA Scientific Research HPC ─────────────────────── -->
     <div class="col-lg-6 reveal" id="proj-hpc">
         <div class="hz-card hz-card-body h-100 hz-proj-card" tabindex="0">
+            <div class="hz-proj-visual" style="--motif-hue:165;--motif-hue2:205" aria-hidden="true"><i class="bi bi-cpu"></i></div>
             <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                 <div class="hz-proj-sector" data-i18n="proj.3.sector">Government / Scientific Research</div>
                 <span class="hz-status-badge hz-status-live" data-i18n="proj.3.badge">● Ongoing</span>
@@ -150,6 +153,10 @@
     <!-- ── Project 4: LabITTech ───────────────────────────────────────── -->
     <div class="col-lg-6 reveal" id="proj-labittech">
         <div class="hz-card hz-card-body h-100 hz-proj-card" tabindex="0">
+            <!-- LabITTech has a public live site (techlabit.com) — swap this
+                 motif for a real <img class="hz-proj-visual-img"> screenshot
+                 inside .hz-proj-visual when one is captured. -->
+            <div class="hz-proj-visual" style="--motif-hue:205;--motif-hue2:355" aria-hidden="true"><i class="bi bi-mortarboard"></i></div>
             <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                 <div class="hz-proj-sector" data-i18n="proj.4.sector">Education / IT Training</div>
                 <span class="hz-status-badge hz-status-done" data-i18n="proj.4.badge">✓ Completed</span>
@@ -183,6 +190,9 @@
     <!-- ── Project 5: DarkSight ───────────────────────────────────────── -->
     <div class="col-lg-6 reveal" id="proj-darksight">
         <div class="hz-card hz-card-body h-100 hz-proj-card hz-card-ember" tabindex="0">
+            <!-- DarkSight has a public live site (darksight.com) — swap this
+                 motif for a real screenshot when one is captured. -->
+            <div class="hz-proj-visual" style="--motif-hue:355;--motif-hue2:205" aria-hidden="true"><i class="bi bi-shield-lock"></i></div>
             <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                 <div class="hz-proj-sector" data-i18n="proj.5.sector">Cybersecurity</div>
                 <span class="hz-status-badge hz-status-done" data-i18n="proj.5.badge">✓ Completed</span>
@@ -216,6 +226,9 @@
     <!-- ── Project 6: RBTEX ───────────────────────────────────────────── -->
     <div class="col-lg-6 reveal" id="proj-rbtex">
         <div class="hz-card hz-card-body h-100 hz-proj-card" tabindex="0">
+            <!-- RBTEX has a public live site (rbtex.com) — swap this motif
+                 for a real screenshot when one is captured. -->
+            <div class="hz-proj-visual" style="--motif-hue:35;--motif-hue2:355" aria-hidden="true"><i class="bi bi-currency-bitcoin"></i></div>
             <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                 <div class="hz-proj-sector" data-i18n="proj.6.sector">FinTech / Blockchain</div>
                 <span class="hz-status-badge hz-status-ended" data-i18n="proj.6.badge">◌ Support Ended</span>
@@ -396,4 +409,14 @@
 }
 [data-theme="light"] .hz-proj-link { background: var(--surface); }
 [data-theme="light"] .spec-table td:first-child { font-weight: 600; }
+/* ── Project visual strip — sector-motif stand-in for a real screenshot ────
+   Full-bleeds to the card edges via negative margin against .hz-card-body's
+   padding. Swap the <i> for a real <img class="hz-proj-visual-img"> (object-
+   fit:cover, same wrapper) once a screenshot/still exists — no other change. */
+.hz-proj-visual{position:relative;height:84px;margin:-1.75rem -1.75rem 1.25rem;overflow:hidden;display:flex;align-items:center;justify-content:flex-end;padding-right:1.5rem;border-bottom:1px solid var(--border)}
+.hz-proj-visual::before{content:'';position:absolute;inset:-40%;pointer-events:none;
+  background:radial-gradient(circle at 25% 30%,hsla(var(--motif-hue,355),70%,50%,.18) 0%,transparent 50%),
+             radial-gradient(circle at 80% 70%,hsla(var(--motif-hue2,355),70%,45%,.13) 0%,transparent 55%)}
+.hz-proj-visual i{position:relative;font-size:2.6rem;color:var(--text);opacity:.14}
+.hz-proj-visual-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 {% endblock %}
