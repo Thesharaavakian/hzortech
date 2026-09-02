@@ -1,4 +1,5 @@
 {% extends "business_page/base.html" %}
+{% load static %}
 {% block title %}Hire Software Engineers in Armenia — Contact HZORTECH | Yerevan{% endblock %}
 {% block meta_desc %}Hire software engineers, DevOps specialists, or automation engineers in Armenia. Contact HZORTECH in Yerevan. Send a brief — we respond within 48 hours with a direct technical assessment. No sales calls.{% endblock %}
 {% block og_title %}Contact HZORTECH — Hire Engineers in Armenia | 48h Response{% endblock %}
@@ -73,7 +74,7 @@
 
 {% block content %}
 
-<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:355;--motif-hue2:15">
+<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:355;--motif-hue2:15;--motif-img:url('{% static 'business_page/img/contact-hero.jpg' %}')">
     <div class="hz-label" data-i18n="contact.hero.lbl">CONTACT // INITIATE</div>
     <h1 class="display-hero mb-3">
         <span data-i18n="contact.h1a">HAVE A</span><br>

@@ -1,5 +1,6 @@
 {% extends "business_page/base.html" %}
 {% load hz_filters %}
+{% load static %}
 {% block title %}Software Development, DevOps & Automation Services in Armenia | HZORTECH{% endblock %}
 {% block meta_desc %}Software development, DevOps, CRM automation, cloud infrastructure, API integration, and cybersecurity services in Armenia. HZORTECH engineers build production-grade systems for startups and enterprises. Yerevan-based, globally delivered.{% endblock %}
 {% block og_title %}Engineering Services — Software, DevOps, Automation | HZORTECH Armenia{% endblock %}
@@ -96,7 +97,7 @@
 
 {% block content %}
 
-<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:205;--motif-hue2:355">
+<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:205;--motif-hue2:355;--motif-img:url('{% static 'business_page/img/services-hero.jpg' %}')">
     <div class="hz-label" data-i18n="servpage.hero.lbl">SERVICES // SPEC-FIRST</div>
     <h1 class="display-hero mb-3">
         <span data-i18n="servpage.h1a">EVERYTHING</span><br>

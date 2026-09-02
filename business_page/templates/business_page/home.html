@@ -1,5 +1,6 @@
 {% extends "business_page/base.html" %}
 {% load hz_filters %}
+{% load static %}
 {% block title %}HZORTECH — Software Engineers & Automation Company | Yerevan, Armenia{% endblock %}
 {% block meta_desc %}HZORTECH is a software engineering and automation company based in Yerevan, Armenia. Custom software development, DevOps, CRM automation, cloud infrastructure, cybersecurity. Serving startups and enterprises globally. 48-hour response.{% endblock %}
 {% block og_title %}HZORTECH — Software Engineers & Automation Company | Armenia{% endblock %}
@@ -64,6 +65,11 @@
   tags = { Env="production" Owner="hzortech" Hardened="true" }
 }</div>
     <div class="cine-stage" aria-hidden="true">
+        <video id="cineVideo" class="cine-video"
+               poster="{% static 'business_page/img/home-hero-poster.jpg' %}"
+               data-src-desktop="{% static 'business_page/video/home-hero.mp4' %}"
+               data-src-mobile="{% static 'business_page/video/home-hero-mobile.mp4' %}"
+               muted playsinline loop preload="none"></video>
         <div class="cine-core">
             <div class="cine-ring cine-ring-1"></div>
             <div class="cine-ring cine-ring-2"></div>
@@ -167,6 +173,11 @@
      and removing the ::before gradient — no structural change needed.
      ═══════════════════════════════════════════════════════════════════ -->
 <section class="py-5 mb-3 reveal mission-cine" style="border-left:3px solid var(--ember);padding-left:2rem !important;background:linear-gradient(90deg,var(--ember-dim),transparent 40%);border-radius:0 var(--radius) var(--radius) 0;">
+    <video class="scene-bg-video" aria-hidden="true"
+           poster="{% static 'business_page/img/home-mission-poster.jpg' %}"
+           data-src-desktop="{% static 'business_page/video/home-mission.mp4' %}"
+           data-src-mobile="{% static 'business_page/video/home-mission-mobile.mp4' %}"
+           muted playsinline loop preload="none"></video>
     <div class="hz-label" data-i18n="mission.label">MISSION STATEMENT</div>
     <p style="font-size:clamp(1rem,2vw,1.3rem);color:var(--text);line-height:1.6;max-width:860px;font-weight:500;" data-i18n="mission.text">
         At HZORTECH, we do not just build software — we engineer the infrastructure of operational resilience. Our mission is the fusion of Armenian engineering precision with the frontier of cloud, security, and autonomous systems.
@@ -289,7 +300,12 @@
 </div>
 
 <!-- ══ TECH STACK ICON GRID ═══════════════════════════════════════════════ -->
-<section class="mb-3 reveal">
+<section class="mb-3 reveal tech-cine">
+    <video class="scene-bg-video" aria-hidden="true"
+           poster="{% static 'business_page/img/home-tech-poster.jpg' %}"
+           data-src-desktop="{% static 'business_page/video/home-tech.mp4' %}"
+           data-src-mobile="{% static 'business_page/video/home-tech-mobile.mp4' %}"
+           muted playsinline loop preload="none"></video>
     <div class="hz-label" data-i18n="stack.label">STACK // TOOLS WE USE</div>
     <h2 class="display-section mb-4">
         <span data-i18n="stack.h1">Technical</span><br>
@@ -577,7 +593,7 @@
 /* ── Cinematic hero (opening beat) ────────────────────────────────────────── */
 .hz-cine-hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:1rem}
 @supports (height:100dvh){.hz-cine-hero{min-height:100dvh}}
-.cine-stage{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:.85}
+.cine-stage{position:absolute!important;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:.85}
 .cine-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cine-core{position:relative;width:min(64vw,620px);height:min(64vw,620px);display:flex;align-items:center;justify-content:center}
 .cine-ring{position:absolute;border-radius:50%;border:1px solid var(--ember-glow)}
@@ -590,18 +606,34 @@
 .cine-particles circle{fill:var(--ember);opacity:.55}
 .cine-scan{position:absolute;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--ember-glow) 50%,transparent);top:8%;animation:cineScan 7s ease-in-out infinite}
 @keyframes cineScan{0%,100%{top:8%}50%{top:88%}}
+.hz-cine-hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(100deg,rgba(6,7,9,.72) 0%,rgba(6,7,9,.42) 42%,rgba(6,7,9,.06) 68%,transparent 100%)}
+[data-theme="light"] .hz-cine-hero::after{background:linear-gradient(100deg,rgba(6,7,9,.5) 0%,rgba(6,7,9,.26) 42%,rgba(6,7,9,.04) 68%,transparent 100%)}
 .cine-content{position:relative;z-index:1;padding:2rem 0}
+.cine-content .display-hero,.cine-content p{text-shadow:0 2px 18px rgba(0,0,0,.35)}
+[data-theme="light"] .cine-content .display-hero{color:#f3f4f6!important}
 .cine-ticker{position:relative;z-index:1;margin-top:2.5rem;background:transparent!important;border-color:var(--border)}
 [data-theme="light"] .cine-ring{border-color:rgba(217,31,37,.24)}
 @media(max-width:768px){.hz-cine-hero{min-height:auto;padding:2.5rem 0}.cine-stage{position:relative;inset:auto;height:220px;margin-bottom:1rem;opacity:.7}.cine-core{width:200px;height:200px}.cine-content{padding:0}}
-/* ── Mission — slow drifting data-flow backdrop ───────────────────────────── */
+/* ── Scene background video — used by Mission + Tech Stack beats ─────────────
+   Real Higgsfield-generated ambient loop, IntersectionObserver-gated play/pause
+   (see extra_js). Sits below the section's existing color-wash ::before and
+   below all real content; a dark scrim keeps text legible over any footage. ── */
+.scene-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;z-index:0!important}
+.mission-cine::after,.tech-cine::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(8,9,12,.55) 0%,rgba(8,9,12,.15) 55%,rgba(8,9,12,.55) 100%)}
+@media (prefers-reduced-motion: reduce){.scene-bg-video{display:none}}
+/* ── Mission — slow drifting data-flow backdrop over the scene video ─────────── */
 .mission-cine{position:relative;overflow:hidden}
 .mission-cine::before{content:'';position:absolute;inset:-20%;background:
   repeating-linear-gradient(115deg,transparent 0 46px,var(--ember-dim) 46px 47px),
   radial-gradient(ellipse at 30% 40%,var(--ember-dim) 0%,transparent 55%);
   animation:missionDrift 26s ease-in-out infinite alternate;pointer-events:none;z-index:0}
-.mission-cine > *{position:relative;z-index:1}
+.mission-cine > *:not(.scene-bg-video){position:relative;z-index:1}
 @keyframes missionDrift{0%{transform:translate(-2%,-1%) scale(1)}100%{transform:translate(2%,1.5%) scale(1.06)}}
+/* ── Tech stack — same scene-video treatment ──────────────────────────────── */
+.tech-cine{position:relative;overflow:hidden;padding:1.5rem;border-radius:var(--radius)}
+.tech-cine > *:not(.scene-bg-video){position:relative;z-index:1}
 /* ── Services bento — network accent ──────────────────────────────────────── */
 .svc-accent{width:100%;height:56px;margin-bottom:1.25rem;opacity:.5}
 .svc-accent line{stroke:var(--ember);stroke-width:1;opacity:.35}
@@ -644,11 +676,46 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
-/* Cinematic hero — pinned scroll-scrub. Desktop/fine-pointer only; skipped
-   entirely under prefers-reduced-motion, in which case the hero renders as
-   plain stacked content with the .cine-stage visible but not scroll-linked. */
+/* Real Higgsfield-generated background videos (hero + mission + tech-stack
+   scenes). Respects prefers-reduced-motion and Save-Data: in either case the
+   <video> elements are left with no src at all, so nothing is downloaded and
+   each section quietly falls back to its poster image / CSS treatment. Where
+   supported, picks the lighter mobile encode below the 900px breakpoint used
+   elsewhere on this page for the same responsive split. Playback is gated by
+   IntersectionObserver so at most the on-screen video is ever decoding. */
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = !!(navigator.connection && navigator.connection.saveData);
+  var videos = Array.prototype.slice.call(document.querySelectorAll('.cine-video, .scene-bg-video'));
+  if(!videos.length || reduceMotion || saveData) return;
+
+  function pickSrc(v){
+    var mobile = window.matchMedia('(max-width: 900px)').matches;
+    return mobile ? v.dataset.srcMobile : v.dataset.srcDesktop;
+  }
+  var vobs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var v = e.target;
+      if(e.isIntersecting){
+        if(!v.src){ v.src = pickSrc(v); v.load(); }
+        v.play().catch(function(){});
+      } else {
+        v.pause();
+      }
+    });
+  }, {threshold:.15, rootMargin:'200px 0px'});
+  videos.forEach(function(v){ vobs.observe(v); });
+})();
+
+/* Cinematic hero — pinned scroll-scrub, and (when the hero video has loaded)
+   scrubs its currentTime forward in lockstep with scroll progress through the
+   pinned section — real scroll-linked video playback, not just a CSS ring
+   animation. Desktop/fine-pointer only; skipped entirely under
+   prefers-reduced-motion, in which case the hero renders as plain stacked
+   content with the .cine-stage visible but not scroll-linked. */
 (function(){
   var hero = document.getElementById('cineHero');
+  var video = document.getElementById('cineVideo');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!hero || reduceMotion || typeof gsap === 'undefined' || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -672,6 +739,15 @@
     if(rings[2]) tl.to(rings[2], {rotation:130, ease:'none'}, 0);
     tl.to('.cine-glow', {scale:1.5, opacity:.3, ease:'none'}, 0);
     tl.to('.cine-content', {opacity:.88, y:-16, ease:'none'}, .55);
+    if(video){
+      var scrub = {t:0};
+      var bindDuration = function(){
+        if(!video.duration) return;
+        tl.to(scrub, {t:video.duration, ease:'none', onUpdate:function(){ video.currentTime = scrub.t; }}, 0);
+      };
+      if(video.readyState >= 1) bindDuration();
+      else video.addEventListener('loadedmetadata', bindDuration, {once:true});
+    }
   });
 })();
 

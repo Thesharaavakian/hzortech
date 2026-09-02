@@ -1,4 +1,5 @@
 {% extends "business_page/base.html" %}
+{% load static %}
 {% block title %}About HZORTECH — Armenian Software Engineering Company | Yerevan{% endblock %}
 {% block meta_desc %}HZORTECH is an Armenian software engineering company built by engineers with backgrounds in cloud infrastructure, banking systems, HPC, and cybersecurity. Based in Yerevan, Armenia. Founder: Shara Avakyan.{% endblock %}
 {% block og_title %}About HZORTECH — Armenian Engineering Company | Yerevan{% endblock %}
@@ -43,7 +44,7 @@
 
 {% block content %}
 
-<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:165;--motif-hue2:355">
+<section class="mb-4 py-3 reveal hz-hero-motif" style="--motif-hue:165;--motif-hue2:355;--motif-img:url('{% static 'business_page/img/about-hero.jpg' %}')">
     <div class="hz-label" data-i18n="about.hero.label">ABOUT // THE TEAM</div>
     <h1 class="display-hero mb-3">
         <span data-i18n="about.h1a">BUILT ON</span><br>

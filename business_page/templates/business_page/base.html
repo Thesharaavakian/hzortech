@@ -299,19 +299,20 @@ footer a:hover{color:var(--ember)}
 .tech-icon-cell i{font-size:2rem;color:var(--muted);transition:color var(--trans)}
 .tech-icon-cell:hover i{color:var(--ember)}
 .tech-icon-cell span{font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;text-align:center}
-/* ── Hero motif backdrop — CSS-generated "brand still" stand-in ──────────────
-   Purpose-built subtle backdrop for page heroes until real Higgsfield stills
-   exist. Apply .hz-hero-motif to a position:relative section/container and
-   set --motif-hue / --motif-hue2 inline to pick a family (ember ~355,
-   cool-blue ~205, teal-neutral ~165). Swap to a real background-image later
-   and drop the class — no markup restructuring needed. ────────────────────── */
-.hz-hero-motif{position:relative;overflow:hidden}
+/* ── Hero motif backdrop ───────────────────────────────────────────────────
+   Apply .hz-hero-motif to a position:relative section/container and set
+   --motif-hue / --motif-hue2 inline to pick a color family (ember ~355,
+   cool-blue ~205, teal-neutral ~165). Set --motif-img:url('...') inline to
+   layer a real generated still underneath a dark scrim + the color wash —
+   omit it and the section falls back to the color wash alone. ─────────────── */
+.hz-hero-motif{position:relative;overflow:hidden;background-image:linear-gradient(180deg,rgba(8,9,12,.45),rgba(8,9,12,.82)),var(--motif-img,none);background-size:cover;background-position:center}
 .hz-hero-motif::before{content:'';position:absolute;inset:-15%;z-index:0;pointer-events:none;
   background:radial-gradient(circle at 20% 20%,hsla(var(--motif-hue,355),70%,50%,.14) 0%,transparent 45%),
              radial-gradient(circle at 85% 75%,hsla(var(--motif-hue2,355),70%,45%,.10) 0%,transparent 50%);
   animation:motifDrift 30s ease-in-out infinite alternate}
 .hz-hero-motif > *{position:relative;z-index:1}
 @keyframes motifDrift{0%{transform:translate(-1.5%,-1%) scale(1)}100%{transform:translate(1.5%,1%) scale(1.05)}}
+@media (prefers-reduced-motion: reduce){.hz-hero-motif::before{animation:none}}
 /* ── Glassmorphism card ───────────────────────────────────────────────────── */
 .hz-glass{background:rgba(255,255,255,.07);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius)}
 [data-theme="light"] .hz-glass{background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.08)}

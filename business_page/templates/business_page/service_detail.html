@@ -113,7 +113,7 @@
 </nav>
 
 <!-- ══ HERO ═══════════════════════════════════════════════════════════════ -->
-<section class="mb-5 py-3 reveal svc-detail-hero hz-hero-motif" style="--motif-hue:{{ svc.motif_hue }};--motif-hue2:{{ svc.motif_hue2 }}">
+<section class="mb-5 py-3 reveal svc-detail-hero hz-hero-motif" style="--motif-hue:{{ svc.motif_hue }};--motif-hue2:{{ svc.motif_hue2 }};--motif-img:url('{% static svc.hero_img %}')">
   <div class="hz-label" style="margin-bottom:1.25rem">{{ svc.label }}</div>
   <h1 class="display-hero mb-4" style="color:var(--text)">
     {% for line in svc.h1 %}

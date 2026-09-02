@@ -49,6 +49,7 @@ SERVICES = {
         ],
         'schema_type': 'DevOps Engineering',
         'related': ['cloud', 'cloud-migration', 'security', 'software-development'],
+        'hero_img': 'business_page/img/devops-hero.jpg',
     },
 
     'software-development': {
@@ -96,6 +97,7 @@ SERVICES = {
         ],
         'schema_type': 'Software Development',
         'related': ['devops', 'api-integration', 'crm-automation', 'python'],
+        'hero_img': 'business_page/img/software-development-hero.jpg',
     },
 
     'crm-automation': {
@@ -142,6 +144,7 @@ SERVICES = {
         ],
         'schema_type': 'Business Process Automation',
         'related': ['software-development', 'api-integration', 'devops', 'smart-home-automation'],
+        'hero_img': 'business_page/img/crm-automation-hero.jpg',
     },
 
     'smart-home-automation': {
@@ -188,6 +191,7 @@ SERVICES = {
         ],
         'schema_type': 'IoT and Smart Home Automation',
         'related': ['software-development', 'crm-automation', 'cloud', 'hpc-linux'],
+        'hero_img': 'business_page/img/smart-home-automation-hero.jpg',
     },
 
     'cloud': {
@@ -234,6 +238,7 @@ SERVICES = {
         ],
         'schema_type': 'Cloud Infrastructure Engineering',
         'related': ['devops', 'cloud-migration', 'security', 'hpc-linux'],
+        'hero_img': 'business_page/img/cloud-hero.jpg',
     },
 
     'python': {
@@ -280,6 +285,7 @@ SERVICES = {
         ],
         'schema_type': 'Python Software Development',
         'related': ['software-development', 'api-integration', 'devops', 'hpc-linux'],
+        'hero_img': 'business_page/img/python-hero.jpg',
     },
 
     'api-integration': {
@@ -325,6 +331,7 @@ SERVICES = {
         ],
         'schema_type': 'System Integration',
         'related': ['software-development', 'crm-automation', 'python', 'devops'],
+        'hero_img': 'business_page/img/api-integration-hero.jpg',
     },
 
     'security': {
@@ -371,6 +378,7 @@ SERVICES = {
         ],
         'schema_type': 'Cybersecurity',
         'related': ['devops', 'cloud', 'software-development', 'hpc-linux'],
+        'hero_img': 'business_page/img/security-hero.jpg',
     },
 
     'cloud-migration': {
@@ -417,6 +425,7 @@ SERVICES = {
         ],
         'schema_type': 'Cloud Migration',
         'related': ['cloud', 'devops', 'security', 'software-development'],
+        'hero_img': 'business_page/img/cloud-migration-hero.jpg',
     },
 
     'hpc-linux': {
@@ -463,6 +472,7 @@ SERVICES = {
         ],
         'schema_type': 'High-Performance Computing Engineering',
         'related': ['cloud', 'python', 'devops', 'software-development'],
+        'hero_img': 'business_page/img/hpc-linux-hero.jpg',
     },
 }
 
