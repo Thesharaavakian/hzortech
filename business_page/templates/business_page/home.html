@@ -88,6 +88,38 @@
         </div>
         <div class="cine-scan"></div>
     </div>
+    <!-- ── Platform-assembly captions — decorative reinforcement of the layer
+         story that ALSO exists as real, always-readable content in the
+         .hz-layer-stack section below. Purely GSAP-driven: aria-hidden,
+         opacity:0 by default, so reduced-motion/mobile/no-JS visitors never
+         see partial/broken state — they just get the real section below. ── -->
+    <div class="cine-layers" aria-hidden="true">
+        <div class="cine-layer-cap" data-cap="1">
+            <span class="cine-layer-tag">LAYER 01 // CUSTOMER-FACING</span>
+            <h3>FRONTEND</h3>
+            <p>What your customers see.</p>
+        </div>
+        <div class="cine-layer-cap" data-cap="2">
+            <span class="cine-layer-tag">LAYER 02 // BUSINESS &amp; SYSTEMS</span>
+            <h3>BACKEND</h3>
+            <p>The logic and data behind it.</p>
+        </div>
+        <div class="cine-layer-cap" data-cap="3">
+            <span class="cine-layer-tag">LAYER 03 // AUTOMATION</span>
+            <h3>AUTOMATION</h3>
+            <p>The work that runs itself.</p>
+        </div>
+        <div class="cine-layer-cap" data-cap="4">
+            <span class="cine-layer-tag">LAYER 04 // INFRASTRUCTURE</span>
+            <h3>INFRASTRUCTURE</h3>
+            <p>What keeps it running, and safe.</p>
+        </div>
+        <div class="cine-layer-cap" data-cap="5">
+            <span class="cine-layer-tag">HZORTECH</span>
+            <h3>ONE CONNECTED SYSTEM.</h3>
+            <p>Not six separate services. One platform, built end to end.</p>
+        </div>
+    </div>
     <div class="cine-content">
     <div class="row align-items-center gy-5">
         <div class="col-lg-8">
@@ -193,14 +225,12 @@
      regrouped so a visitor sees ONE product (a platform) with layers behind
      it, not 6 disconnected services. ═══════════════════════════════════════ -->
 <section id="services-section" class="mb-3">
-    <div class="hz-label reveal">WHAT WE BUILD // ONE CONNECTED SYSTEM</div>
-    <h2 class="display-section mb-3 reveal">
-        <span>Digital Platforms,</span><br>
-        <span style="color:var(--ember);">End to End.</span>
+    <div class="hz-label reveal">THE DETAILS // WHAT EACH LAYER ACTUALLY INCLUDES</div>
+    <h2 class="display-section mb-3 reveal" style="font-size:clamp(1.6rem,3.5vw,2.4rem);">
+        <span>The System You</span> <span style="color:var(--ember);">Just Saw.</span>
     </h2>
     <p class="reveal" style="max-width:680px;font-size:.95rem;line-height:1.7;margin-bottom:2.5rem;">
-        Every project starts with what your customers see — a website, app, or portal. Then we build everything
-        behind it that makes it actually work: the systems, the automation, and the infrastructure it runs on.
+        In technical terms — what's actually in each layer, and the stack we build it with.
     </p>
     <div class="hz-layer-stack">
         <div class="hz-layer reveal">
@@ -270,6 +300,11 @@
 <hr class="hz-line">
 
 <!-- ══ PROOF — real businesses, real platforms ═══════════════════════════════ -->
+<!-- ══ PROOF — cinematic gallery. Mobile/reduced-motion: normal stacked cards
+     (same markup, CSS-only layout). Desktop/fine-pointer: GSAP pins this
+     section and scrubs the track horizontally — one project fills the screen
+     at a time, image/video pans as it comes into focus, then the next
+     project scrolls into place. See extra_js for the pin/scrub logic. ══════ -->
 <section id="proof" class="mb-3">
     <div class="hz-label reveal">PROOF // REAL PLATFORMS, REAL BUSINESSES</div>
     <h2 class="display-section mb-3 reveal">
@@ -279,61 +314,73 @@
     <p class="reveal" style="max-width:680px;font-size:.95rem;line-height:1.7;margin-bottom:2rem;">
         20+ businesses across Armenia and beyond run on systems we built. These aren't mockups — they're live.
     </p>
-    <div class="row g-3">
-        <div class="col-lg-4 col-md-6 reveal">
-            <a href="https://www.techlabit.com/" target="_blank" rel="noopener" class="hz-proof-card">
-                <div class="hz-proof-img" style="background-image:url('{% static 'business_page/img/proj-labittech.jpg' %}')"></div>
-                <div class="hz-proof-body">
-                    <strong>LabITTech</strong><span class="hz-proof-domain">techlabit.com ↗</span>
-                    <p>IT education platform — live, public.</p>
-                </div>
-            </a>
+    <div class="hz-gallery-track-wrap reveal">
+      <div class="hz-gallery-track">
+        <div class="hz-gallery-slide">
+            <div class="hz-gallery-media"><img class="hz-gallery-img" src="{% static 'business_page/img/proj-labittech.jpg' %}" alt="" loading="lazy"></div>
+            <div class="hz-gallery-info">
+                <span class="hz-gallery-num">01 / 06</span>
+                <h3>LabITTech</h3>
+                <p>IT education platform — live, public.</p>
+                <a href="https://www.techlabit.com/" target="_blank" rel="noopener">techlabit.com ↗</a>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 reveal">
-            <a href="https://darksight.com/" target="_blank" rel="noopener" class="hz-proof-card">
-                <div class="hz-proof-img" style="background-image:url('{% static 'business_page/img/proj-darksight.jpg' %}')"></div>
-                <div class="hz-proof-body">
-                    <strong>DarkSight</strong><span class="hz-proof-domain">darksight.com ↗</span>
-                    <p>Cybersecurity infrastructure — live, public.</p>
-                </div>
-            </a>
+        <div class="hz-gallery-slide">
+            <div class="hz-gallery-media">
+                <video class="hz-gallery-video" aria-hidden="true" poster="{% static 'business_page/img/gallery-darksight-poster.jpg' %}"
+                       data-src-desktop="{% static 'business_page/video/gallery-darksight.mp4' %}"
+                       data-src-mobile="{% static 'business_page/video/gallery-darksight-mobile.mp4' %}"
+                       muted playsinline loop preload="none"></video>
+            </div>
+            <div class="hz-gallery-info">
+                <span class="hz-gallery-num">02 / 06</span>
+                <h3>DarkSight</h3>
+                <p>Cybersecurity infrastructure — live, public.</p>
+                <a href="https://darksight.com/" target="_blank" rel="noopener">darksight.com ↗</a>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 reveal">
-            <a href="https://rbtex.com/" target="_blank" rel="noopener" class="hz-proof-card">
-                <div class="hz-proof-img" style="background-image:url('{% static 'business_page/img/proj-rbtex.jpg' %}')"></div>
-                <div class="hz-proof-body">
-                    <strong>RBTEX</strong><span class="hz-proof-domain">rbtex.com ↗</span>
-                    <p>FinTech exchange DevOps — live, public.</p>
-                </div>
-            </a>
+        <div class="hz-gallery-slide">
+            <div class="hz-gallery-media"><img class="hz-gallery-img" src="{% static 'business_page/img/proj-rbtex.jpg' %}" alt="" loading="lazy"></div>
+            <div class="hz-gallery-info">
+                <span class="hz-gallery-num">03 / 06</span>
+                <h3>RBTEX</h3>
+                <p>FinTech exchange DevOps — live, public.</p>
+                <a href="https://rbtex.com/" target="_blank" rel="noopener">rbtex.com ↗</a>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 reveal">
-            <a href="https://gsgcomp.am/" target="_blank" rel="noopener" class="hz-proof-card">
-                <div class="hz-proof-img" style="background-image:url('{% static 'business_page/img/proj-gsg.jpg' %}')"></div>
-                <div class="hz-proof-body">
-                    <strong>GSG Computers</strong><span class="hz-proof-domain">gsgcomp.am ↗</span>
-                    <p>Electronics retail platform — live, public.</p>
-                </div>
-            </a>
+        <div class="hz-gallery-slide">
+            <div class="hz-gallery-media"><img class="hz-gallery-img" src="{% static 'business_page/img/proj-gsg.jpg' %}" alt="" loading="lazy"></div>
+            <div class="hz-gallery-info">
+                <span class="hz-gallery-num">04 / 06</span>
+                <h3>GSG Computers</h3>
+                <p>Electronics retail platform — live, public.</p>
+                <a href="https://gsgcomp.am/" target="_blank" rel="noopener">gsgcomp.am ↗</a>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 reveal">
-            <a href="https://arevmotors.am/" target="_blank" rel="noopener" class="hz-proof-card">
-                <div class="hz-proof-img" style="background-image:url('{% static 'business_page/img/proj-arevmotors.jpg' %}')"></div>
-                <div class="hz-proof-body">
-                    <strong>Arev Motors</strong><span class="hz-proof-domain">arevmotors.am ↗</span>
-                    <p>EV dealership platform — live, public.</p>
-                </div>
-            </a>
+        <div class="hz-gallery-slide">
+            <div class="hz-gallery-media">
+                <video class="hz-gallery-video" aria-hidden="true" poster="{% static 'business_page/img/gallery-arevmotors-poster.jpg' %}"
+                       data-src-desktop="{% static 'business_page/video/gallery-arevmotors.mp4' %}"
+                       data-src-mobile="{% static 'business_page/video/gallery-arevmotors-mobile.mp4' %}"
+                       muted playsinline loop preload="none"></video>
+            </div>
+            <div class="hz-gallery-info">
+                <span class="hz-gallery-num">05 / 06</span>
+                <h3>Arev Motors</h3>
+                <p>EV dealership platform — live, public.</p>
+                <a href="https://arevmotors.am/" target="_blank" rel="noopener">arevmotors.am ↗</a>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 reveal">
-            <a href="{% url 'home' %}" class="hz-proof-card">
-                <div class="hz-proof-img" style="background-image:url('{% static 'business_page/img/home-hero-poster.jpg' %}')"></div>
-                <div class="hz-proof-body">
-                    <strong>HZORTECH</strong><span class="hz-proof-domain">hzortech.com ↗</span>
-                    <p>The platform you're looking at right now.</p>
-                </div>
-            </a>
+        <div class="hz-gallery-slide">
+            <div class="hz-gallery-media"><img class="hz-gallery-img" src="{% static 'business_page/img/home-hero-poster.jpg' %}" alt="" loading="lazy"></div>
+            <div class="hz-gallery-info">
+                <span class="hz-gallery-num">06 / 06</span>
+                <h3>HZORTECH</h3>
+                <p>The platform you're looking at right now.</p>
+                <a href="{% url 'home' %}">hzortech.com ↗</a>
+            </div>
         </div>
+      </div>
     </div>
     <div class="mt-3 text-center reveal">
         <a href="{% url 'projects' %}" class="btn-ghost" style="font-size:.78rem;">See the Full Portfolio →</a>
@@ -695,7 +742,16 @@
 [data-theme="light"] .cine-content .display-hero{color:#f3f4f6!important}
 .cine-ticker{position:relative;z-index:1;margin-top:2.5rem;background:transparent!important;border-color:var(--border)}
 [data-theme="light"] .cine-ring{border-color:rgba(217,31,37,.24)}
-@media(max-width:768px){.hz-cine-hero{min-height:auto;padding:2.5rem 0}.cine-stage{position:relative!important;inset:auto;height:220px;margin-bottom:1rem;opacity:.7}.cine-core{width:200px;height:200px}.cine-content{padding:0}}
+/* ── Platform-assembly captions — GSAP-only overlay, see extra_js ────────────
+   Desktop/fine-pointer only. Each .cine-layer-cap is absolutely stacked in
+   the same spot; GSAP crossfades between them across the extended hero pin. */
+.cine-layers{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.cine-layer-cap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;opacity:0;padding:0 1.5rem}
+.cine-layer-tag{font-family:var(--mono);font-size:.72rem;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
+.cine-layer-cap h3{font-family:var(--sans);font-weight:800;font-size:clamp(2.2rem,7vw,5rem);letter-spacing:-.02em;color:var(--text);text-shadow:0 4px 30px rgba(0,0,0,.5);margin:0}
+[data-theme="light"] .cine-layer-cap h3{color:#f3f4f6}
+.cine-layer-cap p{font-size:1rem;color:var(--muted);max-width:480px;margin:0}
+@media(max-width:768px){.hz-cine-hero{min-height:auto;padding:2.5rem 0}.cine-stage{position:relative!important;inset:auto;height:220px;margin-bottom:1rem;opacity:.7}.cine-core{width:200px;height:200px}.cine-content{padding:0}.cine-layers{display:none}}
 /* ── Scene background video — used by Mission + Tech Stack beats ─────────────
    Real Higgsfield-generated ambient loop, IntersectionObserver-gated play/pause
    (see extra_js). Sits below the section's existing color-wash ::before and
@@ -727,14 +783,33 @@
 .hz-layer-connector span{width:1px;height:22px;background:linear-gradient(180deg,var(--ember-glow),var(--border))}
 .hz-layer-connector i{color:var(--ember);font-size:.85rem}
 @media(max-width:576px){.hz-layer{padding:1.25rem}.hz-layer-num{min-width:34px;font-size:1.3rem}}
-/* ── Proof cards — real client platforms ──────────────────────────────────── */
-.hz-proof-card{display:block;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface);text-decoration:none;height:100%;transition:border-color var(--trans),transform var(--trans)}
-.hz-proof-card:hover{border-color:var(--ember-glow);transform:translateY(-2px)}
-.hz-proof-img{height:120px;background-size:cover;background-position:center;border-bottom:1px solid var(--border)}
-.hz-proof-body{padding:1rem 1.1rem}
-.hz-proof-body strong{color:var(--text);font-size:.95rem;display:inline-block;margin-right:.5rem}
-.hz-proof-domain{font-family:var(--mono);font-size:.65rem;color:var(--ember)}
-.hz-proof-body p{font-size:.8rem;color:var(--muted);margin:.4rem 0 0;}
+/* ── Proof gallery — cinematic on desktop, plain stack on mobile ─────────────
+   Same markup both ways. Mobile-first: a normal vertical stack of cards.
+   At (min-width:900px) and (pointer:fine) — the same gate extra_js uses for
+   the GSAP pin — CSS switches the track to a horizontal row; JS then pins
+   the wrapper and scrubs it. Without JS (or outside that gate) this CSS
+   still renders a perfectly normal, readable stacked gallery — nothing here
+   depends on JS to be usable. ─────────────────────────────────────────────── */
+.hz-gallery-track{display:flex;flex-direction:column;gap:1rem}
+.hz-gallery-slide{position:relative;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.hz-gallery-media{position:relative;height:220px;overflow:hidden}
+.hz-gallery-img,.hz-gallery-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hz-gallery-info{padding:1.25rem 1.5rem}
+.hz-gallery-num{font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.06em}
+.hz-gallery-info h3{margin:.4rem 0;font-size:1.3rem;font-weight:800;color:var(--text)}
+.hz-gallery-info p{font-size:.85rem;color:var(--muted);margin-bottom:.5rem}
+.hz-gallery-info a{font-family:var(--mono);font-size:.72rem;color:var(--ember);text-decoration:none}
+.hz-gallery-info a:hover{text-decoration:underline}
+@media(min-width:900px) and (pointer:fine){
+  .hz-gallery-track-wrap{overflow:hidden}
+  .hz-gallery-track{flex-direction:row;flex-wrap:nowrap;width:600%;gap:0}
+  .hz-gallery-slide{width:calc(100%/6);flex-shrink:0;height:72vh;border-radius:0;border-top:none;border-bottom:none;border-left:none}
+  .hz-gallery-media{position:absolute;inset:0;height:auto}
+  .hz-gallery-info{position:absolute;left:0;right:0;bottom:0;padding:2.5rem 2rem 2rem;
+    background:linear-gradient(0deg,rgba(6,7,9,.92) 0%,rgba(6,7,9,.55) 55%,transparent 100%)}
+  .hz-gallery-info h3{font-size:2.1rem;color:#f3f4f6}
+  .hz-gallery-info p{color:#c8cdd6;font-size:.92rem}
+}
 /* ── Process — flowing connector ──────────────────────────────────────────── */
 .process-connector{height:2px;margin:0 0 1.5rem;background:linear-gradient(90deg,var(--ember) 0%,var(--ember) 25%,var(--border) 25%,var(--border) 50%,var(--ember) 50%,var(--ember) 75%,var(--border) 75%,var(--border) 100%);background-size:8px 2px;opacity:.4;display:none}
 @media(min-width:576px){.process-connector{display:block}}
@@ -777,7 +852,7 @@
 (function(){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
-  var videos = Array.prototype.slice.call(document.querySelectorAll('.cine-video, .scene-bg-video'));
+  var videos = Array.prototype.slice.call(document.querySelectorAll('.cine-video, .scene-bg-video, .hz-gallery-video'));
   if(!videos.length || reduceMotion || saveData) return;
 
   function pickSrc(v){
@@ -798,12 +873,18 @@
   videos.forEach(function(v){ vobs.observe(v); });
 })();
 
-/* Cinematic hero — pinned scroll-scrub, and (when the hero video has loaded)
-   scrubs its currentTime forward in lockstep with scroll progress through the
-   pinned section — real scroll-linked video playback, not just a CSS ring
-   animation. Desktop/fine-pointer only; skipped entirely under
-   prefers-reduced-motion, in which case the hero renders as plain stacked
-   content with the .cine-stage visible but not scroll-linked. */
+/* Cinematic hero — "platform assembly" pinned sequence.
+   Extended pin (desktop/fine-pointer only) that does three things in lockstep
+   with scroll progress: (1) scrubs the hero video's currentTime so the
+   footage itself becomes the animation, not a looping background; (2) fades
+   the opening headline out once its beat is done; (3) crossfades five
+   .cine-layer-cap captions naming each architecture layer, so the visitor
+   watches the platform "assemble" instead of reading a static list. The real,
+   always-accessible version of this same information is the .hz-layer-stack
+   section right after the pin releases — these captions are aria-hidden
+   decoration on top of it, never the only copy of the content. Skipped
+   entirely under prefers-reduced-motion, where the hero is plain stacked
+   content and .hz-layer-stack is the sole source of the layer story. */
 (function(){
   var hero = document.getElementById('cineHero');
   var video = document.getElementById('cineVideo');
@@ -815,30 +896,91 @@
     var navEl = document.querySelector('.navbar');
     var navH = navEl ? navEl.offsetHeight : 0;
     var rings = hero.querySelectorAll('.cine-ring');
+    var caps = gsap.utils.toArray('.cine-layer-cap');
     var tl = gsap.timeline({
       scrollTrigger:{
         trigger: hero,
         start: 'top top+=' + navH,
-        end: '+=80%',
+        end: '+=320%',
         pin: true,
         scrub: 0.6,
         anticipatePin: 1
       }
     });
-    if(rings[0]) tl.to(rings[0], {rotation:70, ease:'none'}, 0);
-    if(rings[1]) tl.to(rings[1], {rotation:-100, ease:'none'}, 0);
-    if(rings[2]) tl.to(rings[2], {rotation:130, ease:'none'}, 0);
-    tl.to('.cine-glow', {scale:1.5, opacity:.3, ease:'none'}, 0);
-    tl.to('.cine-content', {opacity:.88, y:-16, ease:'none'}, .55);
+    // Beat 0 (0 - .12): opening headline holds, rings settle, then clears the stage.
+    if(rings[0]) tl.to(rings[0], {rotation:70, ease:'none', duration:.14}, 0);
+    if(rings[1]) tl.to(rings[1], {rotation:-100, ease:'none', duration:.14}, 0);
+    if(rings[2]) tl.to(rings[2], {rotation:130, ease:'none', duration:.14}, 0);
+    tl.to('.cine-glow', {scale:1.5, opacity:.3, ease:'none', duration:.14}, 0);
+    tl.to('.cine-content', {opacity:0, y:-24, ease:'none', duration:.09, pointerEvents:'none'}, .06);
+    // Beats 1-5 (.12 - 1.0): five layer captions crossfade in sequence.
+    var beatStart = .14, beatSpan = (1 - beatStart) / caps.length;
+    caps.forEach(function(cap, i){
+      var s = beatStart + i * beatSpan;
+      tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .28}, s);
+      tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .44}, s + beatSpan * .28);
+      tl.to(cap, {opacity:0, ease:'none', duration:beatSpan * .28}, s + beatSpan * .72);
+    });
     if(video){
       var scrub = {t:0};
       var bindDuration = function(){
         if(!video.duration) return;
-        tl.to(scrub, {t:video.duration, ease:'none', onUpdate:function(){ video.currentTime = scrub.t; }}, 0);
+        // Video plays through once across the first ~55% of the pin, then
+        // holds its final "fully separated" frame while the remaining
+        // captions finish — clamped, not looped, so the last frame IS the
+        // payoff image for "infrastructure" and the closing beat.
+        tl.to(scrub, {t:video.duration, ease:'none', duration:.55, onUpdate:function(){ video.currentTime = scrub.t; }}, 0);
       };
       if(video.readyState >= 1) bindDuration();
       else video.addEventListener('loadedmetadata', bindDuration, {once:true});
     }
+  });
+})();
+
+/* Proof gallery — pinned horizontal scroll. Desktop/fine-pointer only (the
+   same gate the CSS media query above uses, so JS and layout always agree).
+   Each project fills the screen as its slide comes into focus; still images
+   get a subtle scroll-driven Ken Burns scale via containerAnimation so the
+   image itself visibly responds to scroll, not just the whole track. Under
+   reduced-motion or on mobile, .hz-gallery-track is already a normal CSS
+   vertical stack (see markup comment) — this script simply never runs. */
+(function(){
+  var wrap = document.querySelector('.hz-gallery-track-wrap');
+  var track = document.querySelector('.hz-gallery-track');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!wrap || !track || reduceMotion || typeof gsap === 'undefined' || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var mm = gsap.matchMedia();
+  mm.add('(min-width: 900px) and (pointer: fine)', function(){
+    var navEl = document.querySelector('.navbar');
+    var navH = navEl ? navEl.offsetHeight : 0;
+    var getDistance = function(){ return track.scrollWidth - wrap.offsetWidth; };
+    var scrollTween = gsap.to(track, {
+      x: function(){ return -getDistance(); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: wrap,
+        start: 'top top+=' + navH,
+        end: function(){ return '+=' + getDistance(); },
+        pin: true,
+        scrub: 0.6,
+        invalidateOnRefresh: true
+      }
+    });
+    gsap.utils.toArray('.hz-gallery-slide').forEach(function(slide){
+      var img = slide.querySelector('.hz-gallery-img');
+      if(!img) return;
+      gsap.fromTo(img, {scale:1.12}, {
+        scale: 1, ease: 'none',
+        scrollTrigger: {
+          trigger: slide,
+          containerAnimation: scrollTween,
+          start: 'left right',
+          end: 'right left',
+          scrub: true
+        }
+      });
+    });
   });
 })();
 
