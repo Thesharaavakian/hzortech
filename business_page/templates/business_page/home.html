@@ -64,29 +64,15 @@
   egress  { from_port=0   to_port=0   protocol="-1"  cidr_blocks=["0.0.0.0/0"] }
   tags = { Env="production" Owner="hzortech" Hardened="true" }
 }</div>
+    <!-- ── Real-time WebGL scene (Three.js, desktop/fine-pointer only) replaces
+         the old video texture — an actual rendered object that separates into
+         layers as the user scrolls, not a stretched video clip. img.cine-fallback-poster
+         is the default/reduced-motion/mobile/no-WebGL visual; the canvas fades
+         in on top of it only once a context is successfully created. See
+         extra_js for the scene + scroll integration. ── -->
     <div class="cine-stage" aria-hidden="true">
-        <video id="cineVideo" class="cine-video"
-               poster="{% static 'business_page/img/home-hero-poster.jpg' %}"
-               data-src-desktop="{% static 'business_page/video/home-hero.mp4' %}"
-               data-src-mobile="{% static 'business_page/video/home-hero-mobile.mp4' %}"
-               muted playsinline loop preload="none"></video>
-        <div class="cine-core">
-            <div class="cine-ring cine-ring-1"></div>
-            <div class="cine-ring cine-ring-2"></div>
-            <div class="cine-ring cine-ring-3"></div>
-            <div class="cine-glow"></div>
-            <svg class="cine-particles" viewBox="0 0 400 400">
-                <circle cx="200" cy="20" r="3"></circle>
-                <circle cx="380" cy="200" r="2.5"></circle>
-                <circle cx="200" cy="380" r="3"></circle>
-                <circle cx="20" cy="200" r="2.5"></circle>
-                <circle cx="330" cy="70" r="2"></circle>
-                <circle cx="330" cy="330" r="2"></circle>
-                <circle cx="70" cy="330" r="2"></circle>
-                <circle cx="70" cy="70" r="2"></circle>
-            </svg>
-        </div>
-        <div class="cine-scan"></div>
+        <img class="cine-fallback-poster" src="{% static 'business_page/img/home-hero-poster.jpg' %}" alt="">
+        <canvas id="cineCanvas" class="cine-canvas"></canvas>
     </div>
     <!-- ── Platform-assembly captions — decorative reinforcement of the layer
          story that ALSO exists as real, always-readable content in the
@@ -233,7 +219,7 @@
         In technical terms — what's actually in each layer, and the stack we build it with.
     </p>
     <div class="hz-layer-stack">
-        <div class="hz-layer reveal">
+        <div class="hz-layer reveal hz-tilt">
             <div class="hz-layer-num">L1</div>
             <div class="hz-layer-body">
                 <div class="hz-label" style="margin-bottom:.35rem;">CUSTOMER-FACING</div>
@@ -246,7 +232,7 @@
             </div>
         </div>
         <div class="hz-layer-connector reveal" aria-hidden="true"><span></span><i class="bi bi-chevron-down"></i></div>
-        <div class="hz-layer reveal">
+        <div class="hz-layer reveal hz-tilt">
             <div class="hz-layer-num">L2</div>
             <div class="hz-layer-body">
                 <div class="hz-label" style="margin-bottom:.35rem;">BUSINESS &amp; SYSTEMS</div>
@@ -259,7 +245,7 @@
             </div>
         </div>
         <div class="hz-layer-connector reveal" aria-hidden="true"><span></span><i class="bi bi-chevron-down"></i></div>
-        <div class="hz-layer reveal">
+        <div class="hz-layer reveal hz-tilt">
             <div class="hz-layer-num">L3</div>
             <div class="hz-layer-body">
                 <div class="hz-label" style="margin-bottom:.35rem;">AUTOMATION</div>
@@ -272,7 +258,7 @@
             </div>
         </div>
         <div class="hz-layer-connector reveal" aria-hidden="true"><span></span><i class="bi bi-chevron-down"></i></div>
-        <div class="hz-layer reveal">
+        <div class="hz-layer reveal hz-tilt">
             <div class="hz-layer-num">L4</div>
             <div class="hz-layer-body">
                 <div class="hz-label" style="margin-bottom:.35rem;">INFRASTRUCTURE &amp; SECURITY</div>
@@ -402,7 +388,7 @@
     </p>
     <div class="row g-3">
         <div class="col-md-6">
-            <div class="hz-card hz-card-body d-flex gap-3 align-items-start">
+            <div class="hz-card hz-card-body d-flex gap-3 align-items-start hz-tilt">
                 <div class="hz-founder-avatar" style="margin-bottom:0;flex-shrink:0;" aria-hidden="true">SA</div>
                 <div>
                     <strong style="color:var(--text);display:block;font-size:1.05rem;">Shara Avakian</strong>
@@ -412,7 +398,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="hz-card hz-card-body d-flex gap-3 align-items-start">
+            <div class="hz-card hz-card-body d-flex gap-3 align-items-start hz-tilt">
                 <div class="hz-founder-avatar" style="margin-bottom:0;flex-shrink:0;" aria-hidden="true">MS</div>
                 <div>
                     <strong style="color:var(--text);display:block;font-size:1.05rem;">Marat Sargsyan</strong>
@@ -722,7 +708,15 @@
 .hz-cine-hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:1rem}
 @supports (height:100dvh){.hz-cine-hero{min-height:100dvh}}
 .cine-stage{position:absolute!important;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:.85}
-.cine-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* ── WebGL hero canvas — see extra_js for the Three.js scene. The poster
+   <img> is the default/fallback visual (shown always on mobile/reduced-motion,
+   and on desktop until the canvas has a live frame to show); the canvas
+   fades in on top of it only once WebGL actually initializes. ─────────────── */
+.cine-fallback-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cine-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.1s ease}
+.cine-canvas.is-ready{opacity:1}
+/* .cine-core / .cine-ring / .cine-glow are still used by the CTA section's
+   .cta-echo closing visual further down this file — kept for that reuse. */
 .cine-core{position:relative;width:min(64vw,620px);height:min(64vw,620px);display:flex;align-items:center;justify-content:center}
 .cine-ring{position:absolute;border-radius:50%;border:1px solid var(--ember-glow)}
 .cine-ring-1{inset:0}
@@ -730,10 +724,6 @@
 .cine-ring-3{inset:26%;border-style:dashed;border-color:rgba(217,31,37,.22)}
 .cine-glow{position:absolute;inset:36%;border-radius:50%;background:radial-gradient(circle,var(--ember-glow) 0%,transparent 70%);filter:blur(6px);animation:cineGlow 4s ease-in-out infinite}
 @keyframes cineGlow{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.06)}}
-.cine-particles{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.cine-particles circle{fill:var(--ember);opacity:.55}
-.cine-scan{position:absolute;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--ember-glow) 50%,transparent);top:8%;animation:cineScan 7s ease-in-out infinite}
-@keyframes cineScan{0%,100%{top:8%}50%{top:88%}}
 .hz-cine-hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
   background:linear-gradient(100deg,rgba(6,7,9,.72) 0%,rgba(6,7,9,.42) 42%,rgba(6,7,9,.06) 68%,transparent 100%)}
 [data-theme="light"] .hz-cine-hero::after{background:linear-gradient(100deg,rgba(6,7,9,.5) 0%,rgba(6,7,9,.26) 42%,rgba(6,7,9,.04) 68%,transparent 100%)}
@@ -841,6 +831,17 @@
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<!-- Three.js — ES modules straight from a CDN, no bundler. Only ever imported
+     by the hero scene module below, which itself only runs on desktop/
+     fine-pointer/no-reduced-motion — nothing here loads or executes on mobile. -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
 <script>
 /* Real Higgsfield-generated background videos (hero + mission + tech-stack
    scenes). Respects prefers-reduced-motion and Save-Data: in either case the
@@ -852,7 +853,7 @@
 (function(){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
-  var videos = Array.prototype.slice.call(document.querySelectorAll('.cine-video, .scene-bg-video, .hz-gallery-video'));
+  var videos = Array.prototype.slice.call(document.querySelectorAll('.scene-bg-video, .hz-gallery-video'));
   if(!videos.length || reduceMotion || saveData) return;
 
   function pickSrc(v){
@@ -873,21 +874,22 @@
   videos.forEach(function(v){ vobs.observe(v); });
 })();
 
-/* Cinematic hero — "platform assembly" pinned sequence.
-   Extended pin (desktop/fine-pointer only) that does three things in lockstep
-   with scroll progress: (1) scrubs the hero video's currentTime so the
-   footage itself becomes the animation, not a looping background; (2) fades
-   the opening headline out once its beat is done; (3) crossfades five
-   .cine-layer-cap captions naming each architecture layer, so the visitor
-   watches the platform "assemble" instead of reading a static list. The real,
-   always-accessible version of this same information is the .hz-layer-stack
-   section right after the pin releases — these captions are aria-hidden
-   decoration on top of it, never the only copy of the content. Skipped
-   entirely under prefers-reduced-motion, where the hero is plain stacked
-   content and .hz-layer-stack is the sole source of the layer story. */
+/* Cinematic hero — "platform assembly" pinned sequence, driven by a real
+   Three.js WebGL scene instead of a video texture. Extended pin (desktop/
+   fine-pointer only) that (1) renders a unified object that visibly
+   separates into four layers as the user scrolls — an actual 3D scene
+   responding to scroll, not a stretched clip; (2) fades the opening headline
+   out once its beat is done; (3) crossfades five .cine-layer-cap captions
+   naming each architecture layer. The real, always-accessible version of
+   this same information is the .hz-layer-stack section right after the pin
+   releases — these captions are aria-hidden decoration on top of it, never
+   the only copy of the content. Skipped entirely under prefers-reduced-
+   motion or outside the desktop/fine-pointer gate, where the hero is plain
+   stacked content over the static poster image and .hz-layer-stack is the
+   sole source of the layer story — the WebGL module is never even loaded
+   in the module-script sense of "not imported/executed" there. */
 (function(){
   var hero = document.getElementById('cineHero');
-  var video = document.getElementById('cineVideo');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!hero || reduceMotion || typeof gsap === 'undefined' || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -895,7 +897,6 @@
   mm.add('(min-width: 900px) and (pointer: fine)', function(){
     var navEl = document.querySelector('.navbar');
     var navH = navEl ? navEl.offsetHeight : 0;
-    var rings = hero.querySelectorAll('.cine-ring');
     var caps = gsap.utils.toArray('.cine-layer-cap');
     var tl = gsap.timeline({
       scrollTrigger:{
@@ -907,11 +908,7 @@
         anticipatePin: 1
       }
     });
-    // Beat 0 (0 - .12): opening headline holds, rings settle, then clears the stage.
-    if(rings[0]) tl.to(rings[0], {rotation:70, ease:'none', duration:.14}, 0);
-    if(rings[1]) tl.to(rings[1], {rotation:-100, ease:'none', duration:.14}, 0);
-    if(rings[2]) tl.to(rings[2], {rotation:130, ease:'none', duration:.14}, 0);
-    tl.to('.cine-glow', {scale:1.5, opacity:.3, ease:'none', duration:.14}, 0);
+    // Beat 0 (0 - .12): opening headline holds, then clears the stage.
     tl.to('.cine-content', {opacity:0, y:-24, ease:'none', duration:.09, pointerEvents:'none'}, .06);
     // Beats 1-5 (.12 - 1.0): five layer captions crossfade in sequence.
     var beatStart = .14, beatSpan = (1 - beatStart) / caps.length;
@@ -921,19 +918,10 @@
       tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .44}, s + beatSpan * .28);
       tl.to(cap, {opacity:0, ease:'none', duration:beatSpan * .28}, s + beatSpan * .72);
     });
-    if(video){
-      var scrub = {t:0};
-      var bindDuration = function(){
-        if(!video.duration) return;
-        // Video plays through once across the first ~55% of the pin, then
-        // holds its final "fully separated" frame while the remaining
-        // captions finish — clamped, not looped, so the last frame IS the
-        // payoff image for "infrastructure" and the closing beat.
-        tl.to(scrub, {t:video.duration, ease:'none', duration:.55, onUpdate:function(){ video.currentTime = scrub.t; }}, 0);
-      };
-      if(video.readyState >= 1) bindDuration();
-      else video.addEventListener('loadedmetadata', bindDuration, {once:true});
-    }
+    // Expose the live ScrollTrigger to the WebGL scene module (loaded
+    // separately below) so its render loop can read hero scroll progress
+    // every animation frame without a redundant GSAP tween in between.
+    window.__hzHeroScrollTrigger = tl.scrollTrigger;
   });
 })();
 
@@ -995,5 +983,175 @@ function switchTab(btn,id){
   btn.classList.add('active');
   document.getElementById(id).style.display='block';
 }
+</script>
+
+<!-- ══ HERO WEBGL SCENE ═══════════════════════════════════════════════════
+     Real-time Three.js scene: a metallic ring "stack" that starts collapsed
+     (reads as one unified object) and separates into 4 distinct layers as
+     hero scroll-progress goes 0→1, driven by the ScrollTrigger instance the
+     classic script above exposes on window.__hzHeroScrollTrigger. Desktop/
+     fine-pointer/no-reduced-motion only — this whole module no-ops (and the
+     static poster <img> stays the only visual) everywhere else, including
+     any WebGL-unsupported browser (wrapped in try/catch). ═══════════════════ -->
+<script type="module">
+(async function(){
+  var canvas = document.getElementById('cineCanvas');
+  var stage = document.querySelector('.cine-stage');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var desktopCapable = window.matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+  if(!canvas || !stage || reduceMotion || !desktopCapable) return;
+
+  var THREE, EffectComposer, RenderPass, UnrealBloomPass;
+  try {
+    var mod = await import('three');
+    THREE = mod;
+    EffectComposer = (await import('three/addons/postprocessing/EffectComposer.js')).EffectComposer;
+    RenderPass = (await import('three/addons/postprocessing/RenderPass.js')).RenderPass;
+    UnrealBloomPass = (await import('three/addons/postprocessing/UnrealBloomPass.js')).UnrealBloomPass;
+  } catch(e) { return; } // Module/network failure — poster image stays visible, nothing else to do.
+
+  // Re-check the gates after the async import — the viewport or motion
+  // preference could theoretically have changed while the modules loaded.
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!window.matchMedia('(min-width: 900px) and (pointer: fine)').matches) return;
+
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true, powerPreference: 'high-performance'});
+  } catch(e) { return; } // No WebGL support — poster image stays visible.
+
+  var EMBER = 0xE62127, COOL = 0x4aa8ff, STEEL = 0x8891a0;
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  camera.position.set(0, 1.7, 7.2);
+  camera.lookAt(0, 0, 0);
+
+  function size(){
+    var r = stage.getBoundingClientRect();
+    return {w: Math.max(r.width, 1), h: Math.max(r.height, 1)};
+  }
+  var s0 = size();
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(s0.w, s0.h, false);
+  camera.aspect = s0.w / s0.h;
+  camera.updateProjectionMatrix();
+
+  // Lighting: ember key light (front) + cool-blue rim light (back) — the
+  // same two-tone language as the rest of the site, produced by real
+  // lighting on a neutral steel material rather than flat-colored meshes.
+  scene.add(new THREE.AmbientLight(0x30363f, 1.4));
+  var keyLight = new THREE.PointLight(EMBER, 55, 20, 2);
+  keyLight.position.set(3, 2.2, 4);
+  scene.add(keyLight);
+  var rimLight = new THREE.PointLight(COOL, 42, 20, 2);
+  rimLight.position.set(-3.2, -1.2, -3.5);
+  scene.add(rimLight);
+
+  var group = new THREE.Group();
+  scene.add(group);
+
+  // Core — small persistent wireframe icosahedron, the "unified identity"
+  // the four layers are exploded views of.
+  var core = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(0.5, 1),
+    new THREE.MeshBasicMaterial({color: EMBER, wireframe: true, transparent: true, opacity: 0.5})
+  );
+  group.add(core);
+
+  // Four layer rings — start nearly coincident (reads as one object), fan
+  // out above/below center as scroll progress increases.
+  var ringMat = function(){
+    return new THREE.MeshStandardMaterial({color: STEEL, emissive: EMBER, emissiveIntensity: 0.32, metalness: 0.78, roughness: 0.3});
+  };
+  var ringDefs = [
+    {radius: 1.15, startY: -0.06, targetY: -1.55},
+    {radius: 1.42, startY: -0.02, targetY: -0.52},
+    {radius: 1.7,  startY:  0.02, targetY:  0.52},
+    {radius: 1.98, startY:  0.06, targetY:  1.55}
+  ];
+  var rings = ringDefs.map(function(d){
+    var mesh = new THREE.Mesh(new THREE.TorusGeometry(d.radius, 0.03, 14, 72), ringMat());
+    mesh.rotation.x = Math.PI / 2;
+    mesh.position.y = d.startY;
+    mesh.userData = d;
+    group.add(mesh);
+    return mesh;
+  });
+
+  // Ambient particle field — dust/stardust atmosphere, independent of scroll.
+  var PARTICLE_COUNT = 900;
+  var positions = new Float32Array(PARTICLE_COUNT * 3);
+  for(var i = 0; i < PARTICLE_COUNT; i++){
+    var r = 2.6 + Math.random() * 2.2;
+    var theta = Math.random() * Math.PI * 2;
+    var phi = Math.acos((Math.random() * 2) - 1);
+    positions[i*3]   = r * Math.sin(phi) * Math.cos(theta);
+    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta);
+    positions[i*3+2] = r * Math.cos(phi);
+  }
+  var particleGeo = new THREE.BufferGeometry();
+  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  var particles = new THREE.Points(particleGeo, new THREE.PointsMaterial({color: 0xffffff, size: 0.022, transparent: true, opacity: 0.45, sizeAttenuation: true}));
+  scene.add(particles);
+
+  var composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  var bloom = new UnrealBloomPass(new THREE.Vector2(s0.w, s0.h), 0.65, 0.5, 0.18);
+  composer.addPass(bloom);
+  composer.setSize(s0.w, s0.h);
+
+  function onResize(){
+    var sz = size();
+    renderer.setSize(sz.w, sz.h, false);
+    composer.setSize(sz.w, sz.h);
+    camera.aspect = sz.w / sz.h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', onResize);
+
+  // Only render while the hero is actually on-screen — this pin can be
+  // scrolled thousands of pixels past, no reason to keep rendering then.
+  var running = true;
+  new IntersectionObserver(function(entries){
+    running = entries[0].isIntersecting;
+  }, {threshold: 0}).observe(document.getElementById('cineHero'));
+
+  function getProgress(){
+    var st = window.__hzHeroScrollTrigger;
+    return st ? st.progress : 0;
+  }
+
+  var clock = new THREE.Clock();
+  var readyFired = false;
+  (function tick(){
+    requestAnimationFrame(tick);
+    if(!running) return;
+    var dt = clock.getDelta();
+    var p = getProgress();
+
+    rings.forEach(function(ring, i){
+      var d = ring.userData;
+      ring.position.y = d.startY + (d.targetY - d.startY) * p;
+      ring.rotation.z += dt * (0.05 + i * 0.02);
+    });
+    core.rotation.y += dt * 0.15;
+    core.rotation.x += dt * 0.06;
+    group.rotation.y += dt * 0.05 + dt * p * 0.12;
+    particles.rotation.y += dt * 0.02;
+    camera.position.z = 7.2 - p * 1.9;
+    bloom.strength = 0.65 + p * 0.3;
+
+    composer.render();
+    if(!readyFired){
+      readyFired = true;
+      canvas.classList.add('is-ready');
+    }
+  })();
+
+  // If the hero pin's ScrollTrigger wasn't ready yet when this module
+  // finished loading (async import can race the classic script), the RAF
+  // loop above just reads progress:0 until window.__hzHeroScrollTrigger
+  // appears — no listener needed since getProgress() re-reads it live.
+})();
 </script>
 {% endblock %}

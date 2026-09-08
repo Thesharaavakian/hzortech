@@ -252,6 +252,8 @@ textarea.form-control{resize:vertical;min-height:130px}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 .magnetic-wrap{display:inline-block;position:relative}
+.hz-tilt{transition:transform .15s ease-out;will-change:transform;transform-style:preserve-3d}
+@media (prefers-reduced-motion: reduce){.hz-tilt{transition:none!important}}
 #floatCta{position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
 #floatCta.visible{opacity:1;transform:translateY(0);pointer-events:all}
 #floatCta .btn-ember{box-shadow:0 8px 24px var(--ember-glow);font-size:.75rem;padding:.6rem 1.2rem}
@@ -583,6 +585,24 @@ document.querySelectorAll('.nav-link').forEach(function(l){
     if((lp==='/'&&cp==='/')||(lp!=='/'&&cp.startsWith(lp))) l.classList.add('active');
   }catch(e){}
 });
+
+// CARD TILT — subtle cursor-following 3D perspective tilt. Apply .hz-tilt to
+// any card. Desktop/fine-pointer only; no-ops entirely under reduced-motion.
+if(window.matchMedia('(pointer:fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  document.querySelectorAll('.hz-tilt').forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = 'perspective(900px) rotateX(' + (py * -5) + 'deg) rotateY(' + (px * 5) + 'deg) translateZ(2px)';
+    });
+    card.addEventListener('mouseleave', function(){
+      card.style.transition = 'transform .5s cubic-bezier(.34,1.56,.64,1)';
+      card.style.transform = '';
+      setTimeout(function(){ card.style.transition = ''; }, 500);
+    });
+  });
+}
 
 // MAGNETIC
 document.querySelectorAll('.magnetic-wrap').forEach(function(w){
