@@ -705,7 +705,14 @@
 
 {% block extra_css %}
 /* ── Cinematic hero (opening beat) ────────────────────────────────────────── */
-.hz-cine-hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:1rem}
+/* Full-bleed breakout — the hero (and the WebGL scene inside it) fills the
+   actual viewport width regardless of the .container it sits inside, so a
+   large monitor gets an immersive edge-to-edge scene instead of a scene
+   trapped in a ~1300px column with dead space on both sides. Text content
+   stays readable via its own inner padding, not the container's. */
+.hz-cine-hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:1rem;
+  width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+  padding-left:clamp(1.5rem,6vw,7rem);padding-right:clamp(1.5rem,6vw,7rem)}
 @supports (height:100dvh){.hz-cine-hero{min-height:100dvh}}
 .cine-stage{position:absolute!important;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:.85}
 /* ── WebGL hero canvas — see extra_js for the Three.js scene. The poster
@@ -730,7 +737,9 @@
 .cine-content{position:relative;z-index:1;padding:2rem 0}
 .cine-content .display-hero,.cine-content p{text-shadow:0 2px 18px rgba(0,0,0,.35)}
 [data-theme="light"] .cine-content .display-hero{color:#f3f4f6!important}
-.cine-ticker{position:relative;z-index:1;margin-top:2.5rem;background:transparent!important;border-color:var(--border)}
+.cine-ticker{position:relative;z-index:1;margin-top:2.5rem;background:transparent!important;border-color:var(--border);
+  margin-left:calc(-1 * clamp(1.5rem,6vw,7rem));margin-right:calc(-1 * clamp(1.5rem,6vw,7rem));
+  padding-left:clamp(1.5rem,6vw,7rem);padding-right:clamp(1.5rem,6vw,7rem)}
 [data-theme="light"] .cine-ring{border-color:rgba(217,31,37,.24)}
 /* ── Platform-assembly captions — GSAP-only overlay, see extra_js ────────────
    Desktop/fine-pointer only. Each .cine-layer-cap is absolutely stacked in
@@ -791,7 +800,11 @@
 .hz-gallery-info a{font-family:var(--mono);font-size:.72rem;color:var(--ember);text-decoration:none}
 .hz-gallery-info a:hover{text-decoration:underline}
 @media(min-width:900px) and (pointer:fine){
-  .hz-gallery-track-wrap{overflow:hidden}
+  /* Full-bleed breakout — same technique as the hero, so each project slide
+     fills the actual viewport width during the horizontal scroll instead of
+     being capped at the .container width. getDistance() in extra_js reads
+     wrap.offsetWidth live, so it adapts automatically — no JS change needed. */
+  .hz-gallery-track-wrap{overflow:hidden;width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
   .hz-gallery-track{flex-direction:row;flex-wrap:nowrap;width:600%;gap:0}
   .hz-gallery-slide{width:calc(100%/6);flex-shrink:0;height:72vh;border-radius:0;border-top:none;border-bottom:none;border-left:none}
   .hz-gallery-media{position:absolute;inset:0;height:auto}
@@ -840,6 +853,32 @@
     "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
   }
+}
+</script>
+<script>
+/* ScrollTrigger stability — fixes the root cause of scroll "stuck then
+   jump" behavior on this page. GSAP calculates every pin/scrub start-end
+   position from the page's layout at the time of the last refresh(); this
+   page has two things that change layout AFTER that initial calculation:
+   (1) the non-blocking Google Fonts swap (loaded via rel=preload+onload, so
+   text renders in a fallback font first and reflows when Inter Tight/
+   JetBrains Mono actually apply — display-hero uses a huge clamp() font-size,
+   so this reflow is not small), and (2) any other late image/layout change.
+   If a user scrolls into a pinned section between the stale calculation and
+   the font swap, GSAP's internal position and the browser's real scrollable
+   height disagree — and the next refresh (or the pin's own boundary check)
+   visibly snaps the page to reconcile them. That snap IS the reported jump.
+   ignoreMobileResize stops a second, mobile-specific cause: iOS Safari's
+   dynamic address bar changes window.innerHeight continuously while
+   scrolling, and without this flag GSAP treats each of those as a real
+   resize and refreshes mid-scroll. */
+if(typeof gsap !== 'undefined' && window.ScrollTrigger){
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ignoreMobileResize: true});
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ ScrollTrigger.refresh(); });
+  }
+  window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
 }
 </script>
 <script>
@@ -988,42 +1027,65 @@ function switchTab(btn,id){
 <!-- ══ HERO WEBGL SCENE ═══════════════════════════════════════════════════
      Real-time Three.js scene: a metallic ring "stack" that starts collapsed
      (reads as one unified object) and separates into 4 distinct layers as
-     hero scroll-progress goes 0→1, driven by the ScrollTrigger instance the
-     classic script above exposes on window.__hzHeroScrollTrigger. Desktop/
-     fine-pointer/no-reduced-motion only — this whole module no-ops (and the
-     static poster <img> stays the only visual) everywhere else, including
-     any WebGL-unsupported browser (wrapped in try/catch). ═══════════════════ -->
+     scroll progress goes 0→1. Runs on EVERY device capable of WebGL, not
+     just desktop — same design language everywhere, adapted implementation:
+
+     Desktop/fine-pointer (matches the hero's GSAP pin/caption sequence):
+       - progress comes from window.__hzHeroScrollTrigger.progress (the pin)
+       - full particle count, EffectComposer + UnrealBloomPass, DPR up to 2
+
+     Mobile/coarse-pointer/narrow (no pin exists at this breakpoint — see the
+     hero's own @media(max-width:768px) CSS, which intentionally never pins
+     on mobile: a 320%-viewport pin fighting Safari's dynamic address bar is
+     a worse experience than no pin at all):
+       - progress is computed locally each rendered frame from the hero's
+         own scroll-through position (getBoundingClientRect, read once per
+         RAF tick — never in a scroll listener, so this can't itself cause
+         scroll jank), so the scene still visibly responds to touch/scroll
+       - reduced particle count, no post-processing (plain renderer.render),
+         DPR capped lower, antialias off, smaller separation spread to suit
+         the compact mobile hero — these are the genuinely expensive knobs
+         on mobile GPUs (fill-rate/overdraw), not geometry — the geometry
+         here is already cheap enough that reducing it wouldn't save much
+
+     Only prefers-reduced-motion and actual WebGL-unavailability turn this
+     off entirely (try/catch around both the import and the renderer) — in
+     both cases the static poster <img> is the whole visual, no broken
+     partial state. ════════════════════════════════════════════════════════ -->
 <script type="module">
 (async function(){
   var canvas = document.getElementById('cineCanvas');
   var stage = document.querySelector('.cine-stage');
+  var hero = document.getElementById('cineHero');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var desktopCapable = window.matchMedia('(min-width: 900px) and (pointer: fine)').matches;
-  if(!canvas || !stage || reduceMotion || !desktopCapable) return;
+  if(!canvas || !stage || !hero || reduceMotion) return;
+
+  var desktopMQ = window.matchMedia('(min-width: 900px) and (pointer: fine)');
+  var isDesktop = desktopMQ.matches;
 
   var THREE, EffectComposer, RenderPass, UnrealBloomPass;
   try {
     var mod = await import('three');
     THREE = mod;
-    EffectComposer = (await import('three/addons/postprocessing/EffectComposer.js')).EffectComposer;
-    RenderPass = (await import('three/addons/postprocessing/RenderPass.js')).RenderPass;
-    UnrealBloomPass = (await import('three/addons/postprocessing/UnrealBloomPass.js')).UnrealBloomPass;
+    if(isDesktop){
+      EffectComposer = (await import('three/addons/postprocessing/EffectComposer.js')).EffectComposer;
+      RenderPass = (await import('three/addons/postprocessing/RenderPass.js')).RenderPass;
+      UnrealBloomPass = (await import('three/addons/postprocessing/UnrealBloomPass.js')).UnrealBloomPass;
+    }
   } catch(e) { return; } // Module/network failure — poster image stays visible, nothing else to do.
 
-  // Re-check the gates after the async import — the viewport or motion
-  // preference could theoretically have changed while the modules loaded.
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(!window.matchMedia('(min-width: 900px) and (pointer: fine)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return; // could change during the await
 
   var renderer;
   try {
-    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true, powerPreference: 'high-performance'});
+    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: isDesktop, alpha: true, powerPreference: isDesktop ? 'high-performance' : 'low-power'});
   } catch(e) { return; } // No WebGL support — poster image stays visible.
 
   var EMBER = 0xE62127, COOL = 0x4aa8ff, STEEL = 0x8891a0;
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 1.7, 7.2);
+  var camZ0 = isDesktop ? 7.2 : 6.2;
+  camera.position.set(0, isDesktop ? 1.7 : 0.9, camZ0);
   camera.lookAt(0, 0, 0);
 
   function size(){
@@ -1031,7 +1093,8 @@ function switchTab(btn,id){
     return {w: Math.max(r.width, 1), h: Math.max(r.height, 1)};
   }
   var s0 = size();
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  var dprCap = isDesktop ? 2 : 1.5;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprCap));
   renderer.setSize(s0.w, s0.h, false);
   camera.aspect = s0.w / s0.h;
   camera.updateProjectionMatrix();
@@ -1059,18 +1122,23 @@ function switchTab(btn,id){
   group.add(core);
 
   // Four layer rings — start nearly coincident (reads as one object), fan
-  // out above/below center as scroll progress increases.
+  // out above/below center as progress increases. Mobile gets a smaller
+  // spread (no post-process glow to soften wide-open gaps, and less vertical
+  // room in the compact 220px mobile hero) and a boosted emissive to read as
+  // "glowing" without a bloom pass. Same four radii, same design either way.
+  var spread = isDesktop ? 1 : 0.62;
   var ringMat = function(){
-    return new THREE.MeshStandardMaterial({color: STEEL, emissive: EMBER, emissiveIntensity: 0.32, metalness: 0.78, roughness: 0.3});
+    return new THREE.MeshStandardMaterial({color: STEEL, emissive: EMBER, emissiveIntensity: isDesktop ? 0.32 : 0.55, metalness: 0.78, roughness: 0.3});
   };
   var ringDefs = [
-    {radius: 1.15, startY: -0.06, targetY: -1.55},
-    {radius: 1.42, startY: -0.02, targetY: -0.52},
-    {radius: 1.7,  startY:  0.02, targetY:  0.52},
-    {radius: 1.98, startY:  0.06, targetY:  1.55}
+    {radius: 1.15, startY: -0.06, targetY: -1.55 * spread},
+    {radius: 1.42, startY: -0.02, targetY: -0.52 * spread},
+    {radius: 1.7,  startY:  0.02, targetY:  0.52 * spread},
+    {radius: 1.98, startY:  0.06, targetY:  1.55 * spread}
   ];
+  var tubularSegments = isDesktop ? 72 : 48;
   var rings = ringDefs.map(function(d){
-    var mesh = new THREE.Mesh(new THREE.TorusGeometry(d.radius, 0.03, 14, 72), ringMat());
+    var mesh = new THREE.Mesh(new THREE.TorusGeometry(d.radius, 0.03, 14, tubularSegments), ringMat());
     mesh.rotation.x = Math.PI / 2;
     mesh.position.y = d.startY;
     mesh.userData = d;
@@ -1079,7 +1147,7 @@ function switchTab(btn,id){
   });
 
   // Ambient particle field — dust/stardust atmosphere, independent of scroll.
-  var PARTICLE_COUNT = 900;
+  var PARTICLE_COUNT = isDesktop ? 900 : 260;
   var positions = new Float32Array(PARTICLE_COUNT * 3);
   for(var i = 0; i < PARTICLE_COUNT; i++){
     var r = 2.6 + Math.random() * 2.2;
@@ -1094,31 +1162,76 @@ function switchTab(btn,id){
   var particles = new THREE.Points(particleGeo, new THREE.PointsMaterial({color: 0xffffff, size: 0.022, transparent: true, opacity: 0.45, sizeAttenuation: true}));
   scene.add(particles);
 
-  var composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene, camera));
-  var bloom = new UnrealBloomPass(new THREE.Vector2(s0.w, s0.h), 0.65, 0.5, 0.18);
-  composer.addPass(bloom);
-  composer.setSize(s0.w, s0.h);
+  // Bloom is by far the most expensive part of this scene (multiple
+  // downsample/blur passes per frame) — during the hero's long scrub, that
+  // cost competes with ScrollTrigger's own per-scroll recalculation for
+  // main-thread/GPU time, and on mid/lower-tier GPUs that contention is a
+  // real, well-documented cause of a scrubbed animation visually falling
+  // behind and then "catching up" in a jump once a frame finally lands.
+  // Run bloom's internal blur passes at half resolution (bloom is inherently
+  // soft/blurry, so this costs ~4x less compute for effectively no visible
+  // quality loss) rather than the full framebuffer size EffectComposer would
+  // default it to.
+  var composer = null, bloom = null;
+  function bloomSize(w, h){ return {w: Math.max(1, Math.round(w * 0.5)), h: Math.max(1, Math.round(h * 0.5))}; }
+  if(isDesktop){
+    composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    var bs0 = bloomSize(s0.w, s0.h);
+    bloom = new UnrealBloomPass(new THREE.Vector2(bs0.w, bs0.h), 0.65, 0.5, 0.18);
+    composer.addPass(bloom);
+    composer.setSize(s0.w, s0.h);
+    bloom.setSize(bs0.w, bs0.h); // re-apply after composer.setSize, which would otherwise reset it to full res
+  }
 
-  function onResize(){
+  // Debounced resize/orientation handling — a raw resize listener fires
+  // repeatedly during an orientation change or (on iOS) the address bar
+  // hiding/showing; coalesce to one recalculation per animation frame
+  // instead of doing full renderer/composer resizes on every intermediate
+  // event.
+  var resizePending = false;
+  function applyResize(){
+    resizePending = false;
     var sz = size();
     renderer.setSize(sz.w, sz.h, false);
-    composer.setSize(sz.w, sz.h);
+    if(composer){
+      composer.setSize(sz.w, sz.h);
+      var bs = bloomSize(sz.w, sz.h);
+      bloom.setSize(bs.w, bs.h);
+    }
     camera.aspect = sz.w / sz.h;
     camera.updateProjectionMatrix();
   }
+  function onResize(){
+    if(resizePending) return;
+    resizePending = true;
+    requestAnimationFrame(applyResize);
+  }
   window.addEventListener('resize', onResize);
+  window.addEventListener('orientationchange', onResize);
 
-  // Only render while the hero is actually on-screen — this pin can be
-  // scrolled thousands of pixels past, no reason to keep rendering then.
+  // Only render while the hero is actually on-screen.
   var running = true;
   new IntersectionObserver(function(entries){
     running = entries[0].isIntersecting;
-  }, {threshold: 0}).observe(document.getElementById('cineHero'));
+  }, {threshold: 0}).observe(hero);
 
+  // Desktop: read the pin's live scroll progress (set by the classic script
+  // above). Mobile: no pin exists, so compute a simple 0→1 "how far has the
+  // hero scrolled through the viewport" value directly from layout — read
+  // once per rendered frame inside the RAF loop below, never from a scroll
+  // event listener, so this cannot itself contribute to scroll jank.
   function getProgress(){
-    var st = window.__hzHeroScrollTrigger;
-    return st ? st.progress : 0;
+    if(isDesktop){
+      var st = window.__hzHeroScrollTrigger;
+      return st ? st.progress : 0;
+    }
+    var r = hero.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var total = r.height + vh;
+    if(total <= 0) return 0;
+    var p = (vh - r.top) / total;
+    return Math.max(0, Math.min(1, p));
   }
 
   var clock = new THREE.Clock();
@@ -1138,20 +1251,15 @@ function switchTab(btn,id){
     core.rotation.x += dt * 0.06;
     group.rotation.y += dt * 0.05 + dt * p * 0.12;
     particles.rotation.y += dt * 0.02;
-    camera.position.z = 7.2 - p * 1.9;
-    bloom.strength = 0.65 + p * 0.3;
+    camera.position.z = camZ0 - p * (isDesktop ? 1.9 : 1.1);
+    if(bloom) bloom.strength = 0.65 + p * 0.3;
 
-    composer.render();
+    if(composer) composer.render(); else renderer.render(scene, camera);
     if(!readyFired){
       readyFired = true;
       canvas.classList.add('is-ready');
     }
   })();
-
-  // If the hero pin's ScrollTrigger wasn't ready yet when this module
-  // finished loading (async import can race the classic script), the RAF
-  // loop above just reads progress:0 until window.__hzHeroScrollTrigger
-  // appears — no listener needed since getProgress() re-reads it live.
 })();
 </script>
 {% endblock %}

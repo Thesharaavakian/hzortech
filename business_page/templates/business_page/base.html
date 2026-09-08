@@ -186,7 +186,26 @@
     background-size:40px 40px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+html{font-size:16px}
+/* Defensive guard for the full-bleed hero/gallery breakout (100vw + negative
+   margins, in home.html): on a browser with a classic (non-overlay)
+   scrollbar, 100vw is measured BEFORE the scrollbar is subtracted, so it can
+   be a few pixels wider than the actually-visible viewport — enough to
+   create a hairline horizontal scrollbar of its own. This is standard,
+   low-risk hardening for that specific technique, not a general overflow
+   fix — nothing on this site relies on horizontal scroll except the
+   intentionally-transformed .hz-gallery-track, which this does not affect. */
+html,body{overflow-x:hidden}
+/* ── Container width — Bootstrap's default xxl max-width (1320px) was the
+   ONLY width constraint on the entire site, applied uniformly regardless of
+   viewport, so a 1920px+ monitor showed 600px of empty margin on each side
+   even inside the WebGL hero. Widen the container progressively on large
+   screens; text-measure-sensitive content (paragraphs, forms) still reads
+   fine at these widths since it's constrained by its own max-width, not the
+   container. ─────────────────────────────────────────────────────────────── */
+@media(min-width:1400px){.container{max-width:1520px}}
+@media(min-width:1700px){.container{max-width:1760px}}
+@media(min-width:2000px){.container{max-width:1960px}}
 body{font-family:var(--sans);background:var(--bg);background-image:linear-gradient(rgba(217,31,37,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(217,31,37,0.028) 1px,transparent 1px);background-size:52px 52px;color:var(--muted);line-height:1.65;
   -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;
   transition:background var(--trans),color var(--trans)}
