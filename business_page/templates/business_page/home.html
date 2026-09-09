@@ -719,8 +719,13 @@
    <img> is the default/fallback visual (shown always on mobile/reduced-motion,
    and on desktop until the canvas has a live frame to show); the canvas
    fades in on top of it only once WebGL actually initializes. ─────────────── */
-.cine-fallback-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cine-fallback-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 1.1s ease}
 .cine-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.1s ease}
+/* Once the WebGL scene has a real frame rendered, the poster's job is done —
+   fade it out rather than leaving a frozen old video-frame visible through
+   the canvas's transparent gaps forever, fighting the live scene on top of
+   it (see the JS comment where .webgl-ready is added for the full story). */
+.cine-stage.webgl-ready .cine-fallback-poster{opacity:0}
 .cine-canvas.is-ready{opacity:1}
 /* .cine-core / .cine-ring / .cine-glow are still used by the CTA section's
    .cta-echo closing visual further down this file — kept for that reuse. */
@@ -1278,6 +1283,17 @@ function switchTab(btn,id){
     if(!readyFired){
       readyFired = true;
       canvas.classList.add('is-ready');
+      // The renderer is alpha:true (transparent where nothing is drawn) so
+      // sparse geometry — rings, particles — doesn't leave hard edges. That
+      // also means the static poster image (a frozen frame of the retired
+      // hero video, showing the sphere in its CLOSED state) stays visible
+      // through every gap forever if never hidden — combined with the live
+      // WebGL rings actually separating as you scroll, that reads as two
+      // different, misaligned visuals stacked on top of each other. Once
+      // WebGL has a real rendered frame on screen, the poster's only job
+      // (pre-WebGL fallback) is done — hide it instead of leaving it as a
+      // permanent, increasingly-mismatched background layer.
+      stage.classList.add('webgl-ready');
     }
   })();
 })();
