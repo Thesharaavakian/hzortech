@@ -742,15 +742,23 @@
   padding-left:clamp(1.5rem,6vw,7rem);padding-right:clamp(1.5rem,6vw,7rem)}
 [data-theme="light"] .cine-ring{border-color:rgba(217,31,37,.24)}
 /* ── Platform-assembly captions — GSAP-only overlay, see extra_js ────────────
-   Desktop/fine-pointer only. Each .cine-layer-cap is absolutely stacked in
-   the same spot; GSAP crossfades between them across the extended hero pin. */
+   Runs on every device now (see extra_js: the pin/caption timeline is no
+   longer desktop-gated, since ScrollTrigger.config({ignoreMobileResize})
+   is what actually causes iOS's dynamic-address-bar pin jank, and that fix
+   already shipped — pinning was excluded pre-emptively out of caution before
+   that fix existed, not because mobile pinning is inherently broken). Each
+   .cine-layer-cap is absolutely stacked in the same spot; GSAP crossfades
+   between them across the extended hero pin. */
 .cine-layers{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none}
 .cine-layer-cap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;opacity:0;padding:0 1.5rem}
 .cine-layer-tag{font-family:var(--mono);font-size:.72rem;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
 .cine-layer-cap h3{font-family:var(--sans);font-weight:800;font-size:clamp(2.2rem,7vw,5rem);letter-spacing:-.02em;color:var(--text);text-shadow:0 4px 30px rgba(0,0,0,.5);margin:0}
 [data-theme="light"] .cine-layer-cap h3{color:#f3f4f6}
 .cine-layer-cap p{font-size:1rem;color:var(--muted);max-width:480px;margin:0}
-@media(max-width:768px){.hz-cine-hero{min-height:auto;padding:2.5rem 0}.cine-stage{position:relative!important;inset:auto;height:220px;margin-bottom:1rem;opacity:.7}.cine-core{width:200px;height:200px}.cine-content{padding:0}.cine-layers{display:none}}
+/* Mobile keeps the SAME full-viewport pinned layout as desktop now — only
+   typography/padding scale down, the structure (full-bleed stage, visible
+   captions) matches. */
+@media(max-width:768px){.cine-layer-cap h3{font-size:clamp(1.8rem,9vw,3rem)}.cine-layer-cap p{font-size:.85rem;padding:0 .5rem}.cine-content{padding:0}}
 /* ── Scene background video — used by Mission + Tech Stack beats ─────────────
    Real Higgsfield-generated ambient loop, IntersectionObserver-gated play/pause
    (see extra_js). Sits below the section's existing color-wash ::before and
@@ -914,54 +922,58 @@ if(typeof gsap !== 'undefined' && window.ScrollTrigger){
 })();
 
 /* Cinematic hero — "platform assembly" pinned sequence, driven by a real
-   Three.js WebGL scene instead of a video texture. Extended pin (desktop/
-   fine-pointer only) that (1) renders a unified object that visibly
-   separates into four layers as the user scrolls — an actual 3D scene
-   responding to scroll, not a stretched clip; (2) fades the opening headline
-   out once its beat is done; (3) crossfades five .cine-layer-cap captions
-   naming each architecture layer. The real, always-accessible version of
-   this same information is the .hz-layer-stack section right after the pin
-   releases — these captions are aria-hidden decoration on top of it, never
-   the only copy of the content. Skipped entirely under prefers-reduced-
-   motion or outside the desktop/fine-pointer gate, where the hero is plain
-   stacked content over the static poster image and .hz-layer-stack is the
-   sole source of the layer story — the WebGL module is never even loaded
-   in the module-script sense of "not imported/executed" there. */
+   Three.js WebGL scene instead of a video texture. Runs on EVERY device now
+   (desktop AND mobile — previously desktop/fine-pointer only): (1) renders a
+   unified object that visibly separates into four layers as the user
+   scrolls — an actual 3D scene responding to scroll, not a stretched clip;
+   (2) fades the opening headline out once its beat is done; (3) crossfades
+   five .cine-layer-cap captions naming each architecture layer. The real,
+   always-accessible version of this same information is the .hz-layer-stack
+   section right after the pin releases — these captions are aria-hidden
+   decoration on top of it, never the only copy of the content.
+
+   Mobile pinning was originally excluded out of caution (pin + iOS's dynamic
+   address bar is a well-documented jank source), but that specific failure
+   mode is what ScrollTrigger.config({ignoreMobileResize:true}) exists to
+   prevent — and that config is already set (see the ScrollTrigger stability
+   script above). With it in place, pinning on mobile is safe enough to
+   enable, and doing so gives mobile the same narrative beat desktop gets
+   instead of silently skipping straight past it. Only prefers-reduced-motion
+   turns this off entirely, in which case the hero is plain stacked content
+   over the static poster and .hz-layer-stack is the sole source of the
+   layer story. */
 (function(){
   var hero = document.getElementById('cineHero');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!hero || reduceMotion || typeof gsap === 'undefined' || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
-  var mm = gsap.matchMedia();
-  mm.add('(min-width: 900px) and (pointer: fine)', function(){
-    var navEl = document.querySelector('.navbar');
-    var navH = navEl ? navEl.offsetHeight : 0;
-    var caps = gsap.utils.toArray('.cine-layer-cap');
-    var tl = gsap.timeline({
-      scrollTrigger:{
-        trigger: hero,
-        start: 'top top+=' + navH,
-        end: '+=320%',
-        pin: true,
-        scrub: 0.6,
-        anticipatePin: 1
-      }
-    });
-    // Beat 0 (0 - .12): opening headline holds, then clears the stage.
-    tl.to('.cine-content', {opacity:0, y:-24, ease:'none', duration:.09, pointerEvents:'none'}, .06);
-    // Beats 1-5 (.12 - 1.0): five layer captions crossfade in sequence.
-    var beatStart = .14, beatSpan = (1 - beatStart) / caps.length;
-    caps.forEach(function(cap, i){
-      var s = beatStart + i * beatSpan;
-      tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .28}, s);
-      tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .44}, s + beatSpan * .28);
-      tl.to(cap, {opacity:0, ease:'none', duration:beatSpan * .28}, s + beatSpan * .72);
-    });
-    // Expose the live ScrollTrigger to the WebGL scene module (loaded
-    // separately below) so its render loop can read hero scroll progress
-    // every animation frame without a redundant GSAP tween in between.
-    window.__hzHeroScrollTrigger = tl.scrollTrigger;
+  var navEl = document.querySelector('.navbar');
+  var navH = navEl ? navEl.offsetHeight : 0;
+  var caps = gsap.utils.toArray('.cine-layer-cap');
+  var tl = gsap.timeline({
+    scrollTrigger:{
+      trigger: hero,
+      start: 'top top+=' + navH,
+      end: '+=320%',
+      pin: true,
+      scrub: 0.6,
+      anticipatePin: 1
+    }
   });
+  // Beat 0 (0 - .12): opening headline holds, then clears the stage.
+  tl.to('.cine-content', {opacity:0, y:-24, ease:'none', duration:.09, pointerEvents:'none'}, .06);
+  // Beats 1-5 (.12 - 1.0): five layer captions crossfade in sequence.
+  var beatStart = .14, beatSpan = (1 - beatStart) / caps.length;
+  caps.forEach(function(cap, i){
+    var s = beatStart + i * beatSpan;
+    tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .28}, s);
+    tl.to(cap, {opacity:1, ease:'none', duration:beatSpan * .44}, s + beatSpan * .28);
+    tl.to(cap, {opacity:0, ease:'none', duration:beatSpan * .28}, s + beatSpan * .72);
+  });
+  // Expose the live ScrollTrigger to the WebGL scene module (loaded
+  // separately below) so its render loop can read hero scroll progress
+  // every animation frame without a redundant GSAP tween in between.
+  window.__hzHeroScrollTrigger = tl.scrollTrigger;
 })();
 
 /* Proof gallery — pinned horizontal scroll. Desktop/fine-pointer only (the
@@ -1043,10 +1055,14 @@ function switchTab(btn,id){
          RAF tick — never in a scroll listener, so this can't itself cause
          scroll jank), so the scene still visibly responds to touch/scroll
        - reduced particle count, no post-processing (plain renderer.render),
-         DPR capped lower, antialias off, smaller separation spread to suit
-         the compact mobile hero — these are the genuinely expensive knobs
-         on mobile GPUs (fill-rate/overdraw), not geometry — the geometry
-         here is already cheap enough that reducing it wouldn't save much
+         DPR capped lower, antialias off — these are the genuinely expensive
+         knobs on mobile GPUs (fill-rate/overdraw), not geometry — the
+         geometry here is already cheap enough that reducing it wouldn't
+         save much, and not composition: mobile now gets the SAME full-
+         viewport pinned stage as desktop (see extra_js hero pin comment and
+         the hero's own CSS), so it uses the SAME ring-separation spread and
+         camera framing as desktop — only render COST is tiered by device,
+         never the visual design.
 
      Only prefers-reduced-motion and actual WebGL-unavailability turn this
      off entirely (try/catch around both the import and the renderer) — in
@@ -1060,14 +1076,18 @@ function switchTab(btn,id){
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!canvas || !stage || !hero || reduceMotion) return;
 
-  var desktopMQ = window.matchMedia('(min-width: 900px) and (pointer: fine)');
-  var isDesktop = desktopMQ.matches;
+  // Performance tier ONLY — no longer used for pin/composition decisions,
+  // both of which are now identical on every device. This purely gates the
+  // expensive rendering knobs (bloom, antialias, DPR, particle count) by a
+  // decent proxy for GPU/thermal headroom.
+  var highFiMQ = window.matchMedia('(min-width: 900px) and (pointer: fine)');
+  var isHighFidelity = highFiMQ.matches;
 
   var THREE, EffectComposer, RenderPass, UnrealBloomPass;
   try {
     var mod = await import('three');
     THREE = mod;
-    if(isDesktop){
+    if(isHighFidelity){
       EffectComposer = (await import('three/addons/postprocessing/EffectComposer.js')).EffectComposer;
       RenderPass = (await import('three/addons/postprocessing/RenderPass.js')).RenderPass;
       UnrealBloomPass = (await import('three/addons/postprocessing/UnrealBloomPass.js')).UnrealBloomPass;
@@ -1078,14 +1098,14 @@ function switchTab(btn,id){
 
   var renderer;
   try {
-    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: isDesktop, alpha: true, powerPreference: isDesktop ? 'high-performance' : 'low-power'});
+    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: isHighFidelity, alpha: true, powerPreference: isHighFidelity ? 'high-performance' : 'low-power'});
   } catch(e) { return; } // No WebGL support — poster image stays visible.
 
   var EMBER = 0xE62127, COOL = 0x4aa8ff, STEEL = 0x8891a0;
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  var camZ0 = isDesktop ? 7.2 : 6.2;
-  camera.position.set(0, isDesktop ? 1.7 : 0.9, camZ0);
+  var camZ0 = 7.2;
+  camera.position.set(0, 1.7, camZ0);
   camera.lookAt(0, 0, 0);
 
   function size(){
@@ -1093,7 +1113,7 @@ function switchTab(btn,id){
     return {w: Math.max(r.width, 1), h: Math.max(r.height, 1)};
   }
   var s0 = size();
-  var dprCap = isDesktop ? 2 : 1.5;
+  var dprCap = isHighFidelity ? 2 : 1.5;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprCap));
   renderer.setSize(s0.w, s0.h, false);
   camera.aspect = s0.w / s0.h;
@@ -1122,21 +1142,20 @@ function switchTab(btn,id){
   group.add(core);
 
   // Four layer rings — start nearly coincident (reads as one object), fan
-  // out above/below center as progress increases. Mobile gets a smaller
-  // spread (no post-process glow to soften wide-open gaps, and less vertical
-  // room in the compact 220px mobile hero) and a boosted emissive to read as
-  // "glowing" without a bloom pass. Same four radii, same design either way.
-  var spread = isDesktop ? 1 : 0.62;
+  // out above/below center as progress increases. Same spread on every
+  // device now (mobile has the same size stage to work with); mobile's
+  // emissiveIntensity is boosted since it skips the bloom pass, so it still
+  // reads as "glowing" without the post-process glow.
   var ringMat = function(){
-    return new THREE.MeshStandardMaterial({color: STEEL, emissive: EMBER, emissiveIntensity: isDesktop ? 0.32 : 0.55, metalness: 0.78, roughness: 0.3});
+    return new THREE.MeshStandardMaterial({color: STEEL, emissive: EMBER, emissiveIntensity: isHighFidelity ? 0.32 : 0.55, metalness: 0.78, roughness: 0.3});
   };
   var ringDefs = [
-    {radius: 1.15, startY: -0.06, targetY: -1.55 * spread},
-    {radius: 1.42, startY: -0.02, targetY: -0.52 * spread},
-    {radius: 1.7,  startY:  0.02, targetY:  0.52 * spread},
-    {radius: 1.98, startY:  0.06, targetY:  1.55 * spread}
+    {radius: 1.15, startY: -0.06, targetY: -1.55},
+    {radius: 1.42, startY: -0.02, targetY: -0.52},
+    {radius: 1.7,  startY:  0.02, targetY:  0.52},
+    {radius: 1.98, startY:  0.06, targetY:  1.55}
   ];
-  var tubularSegments = isDesktop ? 72 : 48;
+  var tubularSegments = isHighFidelity ? 72 : 48;
   var rings = ringDefs.map(function(d){
     var mesh = new THREE.Mesh(new THREE.TorusGeometry(d.radius, 0.03, 14, tubularSegments), ringMat());
     mesh.rotation.x = Math.PI / 2;
@@ -1147,7 +1166,7 @@ function switchTab(btn,id){
   });
 
   // Ambient particle field — dust/stardust atmosphere, independent of scroll.
-  var PARTICLE_COUNT = isDesktop ? 900 : 260;
+  var PARTICLE_COUNT = isHighFidelity ? 900 : 260;
   var positions = new Float32Array(PARTICLE_COUNT * 3);
   for(var i = 0; i < PARTICLE_COUNT; i++){
     var r = 2.6 + Math.random() * 2.2;
@@ -1174,7 +1193,7 @@ function switchTab(btn,id){
   // default it to.
   var composer = null, bloom = null;
   function bloomSize(w, h){ return {w: Math.max(1, Math.round(w * 0.5)), h: Math.max(1, Math.round(h * 0.5))}; }
-  if(isDesktop){
+  if(isHighFidelity){
     composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
     var bs0 = bloomSize(s0.w, s0.h);
@@ -1216,16 +1235,17 @@ function switchTab(btn,id){
     running = entries[0].isIntersecting;
   }, {threshold: 0}).observe(hero);
 
-  // Desktop: read the pin's live scroll progress (set by the classic script
-  // above). Mobile: no pin exists, so compute a simple 0→1 "how far has the
-  // hero scrolled through the viewport" value directly from layout — read
-  // once per rendered frame inside the RAF loop below, never from a scroll
-  // event listener, so this cannot itself contribute to scroll jank.
+  // The pin now exists on every device (see the hero pin script above), so
+  // its live ScrollTrigger is the primary progress source everywhere. The
+  // manual getBoundingClientRect-based calculation only serves as a graceful
+  // fallback for the brief window before that ScrollTrigger exists (this
+  // module's Three.js import is async and can resolve before or after the
+  // classic pin script runs) — read once per rendered frame inside the RAF
+  // loop below, never from a scroll event listener, so this cannot itself
+  // contribute to scroll jank either way.
   function getProgress(){
-    if(isDesktop){
-      var st = window.__hzHeroScrollTrigger;
-      return st ? st.progress : 0;
-    }
+    var st = window.__hzHeroScrollTrigger;
+    if(st) return st.progress;
     var r = hero.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
     var total = r.height + vh;
@@ -1251,7 +1271,7 @@ function switchTab(btn,id){
     core.rotation.x += dt * 0.06;
     group.rotation.y += dt * 0.05 + dt * p * 0.12;
     particles.rotation.y += dt * 0.02;
-    camera.position.z = camZ0 - p * (isDesktop ? 1.9 : 1.1);
+    camera.position.z = camZ0 - p * 1.9;
     if(bloom) bloom.strength = 0.65 + p * 0.3;
 
     if(composer) composer.render(); else renderer.render(scene, camera);
