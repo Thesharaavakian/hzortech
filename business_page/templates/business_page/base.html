@@ -28,7 +28,7 @@
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="hy_AM">
     <meta property="og:locale:alternate" content="ru_RU">
-    <meta property="og:image" content="https://hzortech.com{% static 'business_page/img/og-image.svg' %}">
+    <meta property="og:image" content="https://hzortech.com{% static 'business_page/img/og-image.png' %}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="HZORTECH — Software Engineering & Automation Company, Yerevan Armenia">
@@ -39,7 +39,7 @@
     <meta name="twitter:creator" content="@hzortech">
     <meta name="twitter:title" content="{% block twitter_title %}HZORTECH — Software Engineering & Automation{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_desc %}Custom software, DevOps, CRM automation from Yerevan, Armenia. Elite engineers.{% endblock %}">
-    <meta name="twitter:image" content="https://hzortech.com{% static 'business_page/img/og-image.svg' %}">
+    <meta name="twitter:image" content="https://hzortech.com{% static 'business_page/img/og-image.png' %}">
 
     <!-- ══ HREFLANG ═══════════════════════════════════════════════════════ -->
     <link rel="alternate" hreflang="en" href="https://hzortech.com{{ request.path }}">
@@ -60,11 +60,11 @@
           "url": "https://hzortech.com",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://hzortech.com{% static 'business_page/img/favicon.svg' %}",
+            "url": "https://hzortech.com{% static 'business_page/img/logo-tile-512.png' %}",
             "width": 512,
             "height": 512
           },
-          "image": "https://hzortech.com{% static 'business_page/img/og-image.svg' %}",
+          "image": "https://hzortech.com{% static 'business_page/img/og-image.png' %}",
           "description": "Custom software development, DevOps, CRM automation, cloud engineering, and cybersecurity services. Based in Yerevan, Armenia, serving clients globally.",
           "email": "contact@hzortech.com",
           "telephone": "+37477075919",
@@ -137,9 +137,12 @@
     {% block schema %}{% endblock %}
 
     <!-- ══ FAVICONS ═══════════════════════════════════════════════════════ -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'business_page/img/favicon.svg' %}">
-    <link rel="alternate icon" type="image/png" href="{% static 'business_page/img/favicon.svg' %}">
-    <link rel="apple-touch-icon" href="{% static 'business_page/img/favicon.svg' %}">
+    <link rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: light)" href="{% static 'business_page/img/favicon-32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" media="(prefers-color-scheme: light)" href="{% static 'business_page/img/favicon-16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)" href="{% static 'business_page/img/favicon-dark-32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)" href="{% static 'business_page/img/favicon-dark-16.png' %}">
+    <link rel="alternate icon" href="{% static 'business_page/img/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'business_page/img/apple-touch-icon.png' %}">
     <meta name="theme-color" content="#D91F25">
     <meta name="msapplication-TileColor" content="#D91F25">
 
@@ -232,7 +235,9 @@ a:hover{opacity:.8}
 .btn-ghost:hover{border-color:var(--ember);color:var(--ember)!important;background:var(--ember-dim)}
 .navbar{background:rgba(247,247,245,0.96)!important;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:0 1px 0 var(--border),0 4px 20px rgba(0,0,0,0.04);padding:.75rem 0;position:sticky;top:0;z-index:1000;transition:background var(--trans)}
 [data-theme="dark"] .navbar{background:rgba(13,13,13,0.94)!important;box-shadow:0 1px 0 rgba(255,255,255,0.05),0 4px 20px rgba(0,0,0,0.4)}
-.navbar-brand{font-family:var(--sans);font-weight:900;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text)!important;text-decoration:none}
+.navbar-brand{font-family:var(--sans);font-weight:900;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text)!important;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem}
+.navbar-brand-mark{height:26px;width:auto;display:block}
+.footer-brand-mark{height:22px;width:auto;display:block}
 .nav-link{font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)!important;padding:.4rem .8rem!important;position:relative;transition:color var(--trans);text-decoration:none}
 .nav-link::after{content:'';position:absolute;bottom:-2px;left:50%;width:0;height:1px;background:var(--ember);transition:width 200ms ease,left 200ms ease}
 .nav-link:hover,.nav-link.active{color:var(--text)!important}
@@ -428,7 +433,7 @@ footer a:hover{color:var(--ember)}
 <header>
 <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
   <div class="container">
-    <a class="navbar-brand" href="/" aria-label="HZORTECH — Software Engineering Armenia" title="HZORTECH — Software Engineers & Automation Company, Yerevan">HZORTECH</a>
+    <a class="navbar-brand" href="/" aria-label="HZORTECH — Software Engineering Armenia" title="HZORTECH — Software Engineers & Automation Company, Yerevan"><img class="navbar-brand-mark" src="{% static 'business_page/img/hzortech-mark.png' %}" alt="" width="117" height="160">HZORTECH</a>
     <div class="d-flex align-items-center gap-2 ms-auto order-lg-last">
       <span class="status-badge d-none d-xl-flex">
         <span class="status-dot" aria-hidden="true"></span>
@@ -503,7 +508,7 @@ footer a:hover{color:var(--ember)}
       <div class="col-md-4" itemscope itemtype="https://schema.org/Organization">
         <meta itemprop="name" content="HZORTECH">
         <meta itemprop="url" content="https://hzortech.com">
-        <p style="font-family:var(--sans);font-size:1rem;font-weight:900;color:var(--text);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem"><a href="/" itemprop="url" style="color:inherit;text-decoration:none">HZORTECH</a></p>
+        <p style="font-family:var(--sans);font-size:1rem;font-weight:900;color:var(--text);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem"><a href="/" itemprop="url" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:.45rem"><img class="footer-brand-mark" src="{% static 'business_page/img/hzortech-mark.png' %}" alt="" width="117" height="160">HZORTECH</a></p>
         <p style="font-size:.82rem;margin-bottom:.4rem" data-i18n="footer.tagline" itemprop="description">Engineering sovereignty through cloud, DevOps, automation, and security.</p>
         <p style="font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-bottom:.25rem" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
           <span itemprop="addressLocality">Yerevan</span>, <span itemprop="addressCountry">Armenia</span>
