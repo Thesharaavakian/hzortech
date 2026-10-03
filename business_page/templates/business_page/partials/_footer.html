@@ -1,0 +1,83 @@
+{% load hz_tags %}
+<footer class="site-footer" aria-labelledby="footer-title">
+  <div class="wrap">
+    <div class="footer-cta">
+      <h2 class="t-h1 footer-cta__title" id="footer-title"><a href="{% url 'contact' %}">Tell us what you’re building<span class="t-red">.</span></a></h2>
+      <div class="stack" style="--stack:16px">
+        <p class="t-body">A principal engineer reads every brief and replies within 48 hours on working days — with questions, or a direct assessment.</p>
+        <ul class="cluster" role="list" aria-label="Start with a project type" style="--cluster:8px">
+          <li><a class="chip" href="{% url 'contact' %}?type=platform">A new platform</a></li>
+          <li><a class="chip" href="{% url 'contact' %}?type=automation">Automate a workflow</a></li>
+          <li><a class="chip" href="{% url 'contact' %}?type=infrastructure">Cloud &amp; DevOps</a></li>
+          <li><a class="chip" href="{% url 'contact' %}?type=security">Security</a></li>
+          <li><a class="chip" href="{% url 'contact' %}?type=takeover">Fix an existing system</a></li>
+        </ul>
+        <a class="btn btn--primary btn--large" href="{% url 'contact' %}">Start a project <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <div class="footer-grid">
+      <nav class="footer-col footer-col--wide" aria-labelledby="f-cap">
+        <h2 id="f-cap">Capabilities</h2>
+        <div class="footer-layers">
+          {% for layer in footer_layers %}
+          <div>
+            <h3><span>{{ layer.index }}</span>{{ layer.name }}</h3>
+            <ul class="footer-links" role="list">
+              {% for s in layer.items %}<li><a href="{% url 'service_detail' s.slug %}">{{ s.nav_label }}</a></li>{% endfor %}
+            </ul>
+          </div>
+          {% endfor %}
+        </div>
+      </nav>
+      <nav class="footer-col" aria-labelledby="f-co">
+        <h2 id="f-co">Company</h2>
+        <ul class="footer-links" role="list">
+          <li><a href="{% url 'projects' %}">Work</a></li>
+          <li><a href="{% url 'services' %}">Capabilities</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'blog' %}">Journal</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-col">
+        <h2>Direct lines</h2>
+        <ul class="footer-links" role="list">
+          <li><a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
+          <li><a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></li>
+          <li><a href="{{ company.whatsapp }}" rel="noopener" target="_blank">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li class="t-small">{{ company.city }}<br>{{ company.hours }}</li>
+        </ul>
+      </div>
+      <div class="footer-col footer-col--news">
+        <h2 id="f-news">Journal by email</h2>
+        <form class="stack" style="--stack:10px" method="post" action="{% url 'newsletter_signup' %}" aria-labelledby="f-news">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <p class="t-small">New articles only, roughly monthly. Confirm by email; unsubscribe in one click.</p>
+          <label class="visually-hidden" for="footer-email">Email address</label>
+          <input class="input" id="footer-email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required>
+          <div class="visually-hidden" aria-hidden="true"><label for="footer-website">Leave empty</label><input id="footer-website" type="text" name="website" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn--small" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-base t-mono">
+      <div class="footer-sig">
+        <span>© {% now "Y" %} HZORTECH</span>
+        <span>{{ company.coords }}</span>
+        <span>Hzor <span class="t-armenian" lang="hy">(հզոր)</span> — strong</span>
+      </div>
+      <div class="footer-sig">
+        <span data-yerevan-time>{{ company.hours }}</span>
+        <a href="{% url 'privacy' %}">Privacy</a>
+        <a href="#" data-consent-open>Cookie settings</a>
+        <a href="/.well-known/security.txt">security.txt</a>
+        <a href="{{ company.linkedin }}" rel="noopener" target="_blank" aria-label="LinkedIn (opens in a new tab)"><svg width="16" height="16" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="{{ company.instagram }}" rel="noopener" target="_blank" aria-label="Instagram (opens in a new tab)"><svg width="16" height="16" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="{{ company.github }}" rel="noopener" target="_blank" aria-label="GitHub (opens in a new tab)"><svg width="16" height="16" aria-hidden="true"><use href="#i-github"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>

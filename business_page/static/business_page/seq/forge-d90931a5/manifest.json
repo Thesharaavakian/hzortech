@@ -1,0 +1,17 @@
+{
+  "source": "assets/generated/home-forge-d90931a5.mp4",
+  "request_id_prefix": "d90931a5",
+  "desktop": {
+    "count": 145,
+    "width": 1600,
+    "height": 800,
+    "dir": "d"
+  },
+  "mobile": {
+    "count": 73,
+    "width": 800,
+    "height": 400,
+    "dir": "m"
+  },
+  "keys": 5
+}

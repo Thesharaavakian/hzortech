@@ -1,0 +1,161 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   HZORTECH v2 — design tokens
+   Dark is canonical (the brand is black + crimson). The light "paper" theme
+   follows the OS preference unless the visitor picks one explicitly.
+   Cinematic sections (.dark-island) stay dark in both themes.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0a0b;
+  --bg-2: #0f0f11;
+  --surface: #141416;
+  --raised: #1b1b1e;
+  --line: rgba(237, 234, 228, 0.12);
+  --line-2: rgba(237, 234, 228, 0.2);
+  --line-strong: rgba(237, 234, 228, 0.36);
+  --text: #edeae4;
+  --text-2: #b4afa7;
+  --text-3: #8c877f;
+  --invert-bg: #edeae4;
+  --invert-text: #0a0a0b;
+
+  --hzor: #bb1f25;          /* brand fill (logo red) */
+  --hzor-hot: #d9272e;      /* hover / glow */
+  --hzor-text: #f0444a;     /* red text on dark: 5.3:1 */
+  --hzor-glow: rgba(217, 39, 46, 0.32);
+  --hzor-dim: rgba(217, 39, 46, 0.1);
+
+  --sig-product: #edeae4;
+  --sig-platform: #5fb39a;
+  --sig-automation: #e0a34a;
+  --sig-infrastructure: #7fa7c9;
+  --sig-security: #f0444a;
+  --ok: #5fb39a;
+  --warn: #e0a34a;
+
+  --focus: #f0444a;
+  --scrim: rgba(10, 10, 11, 0.72);
+  --header-bg: rgba(10, 10, 11, 0.78);
+
+  --font-sans: 'Archivo Variable', 'Noto Sans Armenian', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-18: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --fs-21: clamp(1.125rem, 1.05rem + 0.38vw, 1.3125rem);
+  --fs-28: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --fs-40: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  --fs-56: clamp(2.125rem, 1.6rem + 2.6vw, 3.5rem);
+  --fs-80: clamp(2.5rem, 1.7rem + 4.2vw, 5rem);
+  --fs-120: clamp(3rem, 1.8rem + 6.4vw, 7.5rem);
+  --fs-176: clamp(3.4rem, 1.6rem + 9.6vw, 11rem);
+
+  --gutter: clamp(20px, 4.2vw, 72px);
+  --maxw: 1680px;
+  --col-gap: clamp(16px, 2vw, 32px);
+  --section-y: clamp(88px, 13vh, 200px);
+  --header-h: 68px;
+  --radius: 2px;
+  --radius-lg: 6px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-1: 0.18s;
+  --dur-2: 0.36s;
+  --dur-3: 0.72s;
+}
+
+/* Light "paper" theme — explicit choice, or OS preference with no choice. */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f1eee8;
+  --bg-2: #ebe7e0;
+  --surface: #e6e1d9;
+  --raised: #faf8f4;
+  --line: rgba(14, 14, 16, 0.12);
+  --line-2: rgba(14, 14, 16, 0.2);
+  --line-strong: rgba(14, 14, 16, 0.4);
+  --text: #0e0e10;
+  --text-2: #45423d;
+  --text-3: #5e5a54;
+  --invert-bg: #0e0e10;
+  --invert-text: #f1eee8;
+  --hzor-text: #b01c22;
+  --hzor-dim: rgba(187, 31, 37, 0.08);
+  --sig-product: #0e0e10;
+  --sig-platform: #1f6b55;
+  --sig-automation: #8a5a12;
+  --sig-infrastructure: #2f5e86;
+  --sig-security: #b01c22;
+  --ok: #1f6b55;
+  --warn: #8a5a12;
+  --focus: #b01c22;
+  --scrim: rgba(241, 238, 232, 0.8);
+  --header-bg: rgba(241, 238, 232, 0.82);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    color-scheme: light;
+    --bg: #f1eee8;
+    --bg-2: #ebe7e0;
+    --surface: #e6e1d9;
+    --raised: #faf8f4;
+    --line: rgba(14, 14, 16, 0.12);
+    --line-2: rgba(14, 14, 16, 0.2);
+    --line-strong: rgba(14, 14, 16, 0.4);
+    --text: #0e0e10;
+    --text-2: #45423d;
+    --text-3: #5e5a54;
+    --invert-bg: #0e0e10;
+    --invert-text: #f1eee8;
+    --hzor-text: #b01c22;
+    --hzor-dim: rgba(187, 31, 37, 0.08);
+    --sig-product: #0e0e10;
+    --sig-platform: #1f6b55;
+    --sig-automation: #8a5a12;
+    --sig-infrastructure: #2f5e86;
+    --sig-security: #b01c22;
+    --ok: #1f6b55;
+    --warn: #8a5a12;
+    --focus: #b01c22;
+    --scrim: rgba(241, 238, 232, 0.8);
+    --header-bg: rgba(241, 238, 232, 0.82);
+  }
+}
+
+/* Cinematic sections: always dark, regardless of theme. */
+.dark-island {
+  color-scheme: dark;
+  --bg: #0a0a0b;
+  --bg-2: #0f0f11;
+  --surface: #141416;
+  --raised: #1b1b1e;
+  --line: rgba(237, 234, 228, 0.12);
+  --line-2: rgba(237, 234, 228, 0.2);
+  --line-strong: rgba(237, 234, 228, 0.36);
+  --text: #edeae4;
+  --text-2: #b4afa7;
+  --text-3: #8c877f;
+  --invert-bg: #edeae4;
+  --invert-text: #0a0a0b;
+  --hzor-text: #f0444a;
+  --hzor-dim: rgba(217, 39, 46, 0.1);
+  --sig-product: #edeae4;
+  --sig-platform: #5fb39a;
+  --sig-automation: #e0a34a;
+  --sig-infrastructure: #7fa7c9;
+  --sig-security: #f0444a;
+  --ok: #5fb39a;
+  --warn: #e0a34a;
+  --focus: #f0444a;
+  --scrim: rgba(10, 10, 11, 0.72);
+  background: var(--bg);
+  color: var(--text);
+}

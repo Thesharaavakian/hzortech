@@ -29,9 +29,9 @@ SERVICES = {
             'Full documentation and team knowledge transfer',
         ],
         'stats': [
-            {'val': '0', 'label': 'Unplanned outages on managed systems'},
-            {'val': '15×/day', 'label': 'Deploy frequency (from 2×/week)'},
-            {'val': '6 min', 'label': 'Average deploy time, end-to-end'},
+            {'val': '100% IaC', 'label': 'Every environment defined in version-controlled code'},
+            {'val': 'Auto-rollback', 'label': 'Failed health checks roll back without a human'},
+            {'val': 'Runbooks', 'label': 'Written for your team, handed over with the system'},
         ],
         'process': [
             {'step': '01', 'name': 'Infrastructure Audit', 'desc': 'Map existing deployment process, identify failure points, document what exists.'},
@@ -44,7 +44,7 @@ SERVICES = {
             {'q': 'What DevOps services does HZORTECH provide in Armenia?', 'a': 'End-to-end DevOps engineering: CI/CD pipeline design, Docker containerisation, Kubernetes orchestration, Terraform infrastructure-as-code, AWS cloud architecture, and monitoring with Prometheus/Grafana. Based in Yerevan, Armenia, serving clients locally and internationally.'},
             {'q': 'How long does it take to build a production CI/CD pipeline?', 'a': 'A basic pipeline (build, test, deploy) takes 1-2 weeks. A full production system with staging, rollbacks, IaC, and monitoring typically takes 4-8 weeks depending on existing infrastructure.'},
             {'q': 'Do you work with existing infrastructure or only greenfield?', 'a': 'Both. We frequently modernise legacy infrastructure — migrating from manual deployments to automated pipelines, or lifting on-premise systems to cloud with minimal disruption to production.'},
-            {'q': 'What cloud providers do you work with?', 'a': 'Our primary cloud platform is AWS (eu-north-1, eu-west-1, us-east-1). We work with EC2, ECS, EKS, RDS, S3, CloudWatch, and related services. We also work with bare-metal and hybrid cloud setups.'},
+            {'q': 'What cloud providers do you work with?', 'a': 'Our primary cloud platform is AWS, mostly in EU regions (eu-north-1, eu-west-1) plus us-east-1. We work with EC2, ECS, EKS, RDS, S3, CloudWatch, and related services. We also work with bare-metal and hybrid cloud setups.'},
             {'q': 'Will our team be able to maintain the system after delivery?', 'a': 'Yes — every engagement includes operational runbooks, architecture documentation, and a knowledge transfer session. Your team operates the infrastructure independently after handover.'},
         ],
         'schema_type': 'DevOps Engineering',
@@ -125,9 +125,9 @@ SERVICES = {
             'Team training and documentation',
         ],
         'stats': [
-            {'val': '10+ hrs/wk', 'label': 'Typical manual work eliminated per engagement'},
-            {'val': '100%', 'label': 'Event-driven — no polling, no missed triggers'},
-            {'val': '48h', 'label': 'Maximum response time on all automated alerts'},
+            {'val': 'Audit first', 'label': 'Every manual step mapped before anything is automated'},
+            {'val': 'Event-driven', 'label': 'Webhooks and triggers — no polling, no missed events'},
+            {'val': '30 days', 'label': 'Of monitoring after launch, included'},
         ],
         'process': [
             {'step': '01', 'name': 'Workflow Audit', 'desc': 'Map all manual processes, identify automation targets, estimate time savings.'},
@@ -359,9 +359,9 @@ SERVICES = {
             'Compliance mapping (ISO 27001, PCI-DSS, GDPR, CBA)',
         ],
         'stats': [
-            {'val': '-78%', 'label': 'Mean detection time after SIEM deployment'},
-            {'val': 'CIS L2', 'label': 'Benchmark compliance on all hardened endpoints'},
-            {'val': '< 15 min', 'label': 'Alert-to-triage with automated correlation rules'},
+            {'val': 'SIEM', 'label': 'Wazuh or Elastic, tuned to your environment — not defaults'},
+            {'val': 'CIS L1/L2', 'label': 'Benchmark hardening on every endpoint we manage'},
+            {'val': '< 15 min', 'label': 'Alert-to-triage target with correlation rules'},
         ],
         'process': [
             {'step': '01', 'name': 'Security Audit', 'desc': 'Asset inventory, vulnerability scan, current posture assessment.'},
@@ -406,7 +406,7 @@ SERVICES = {
             '30-day post-migration monitoring and support',
         ],
         'stats': [
-            {'val': '0', 'label': 'Data loss on all completed migrations'},
+            {'val': 'Checksums', 'label': 'Row counts and hashes verified before and after cutover'},
             {'val': 'Blue/green', 'label': 'Zero-downtime cutover strategy'},
             {'val': '30 days', 'label': 'Post-migration monitoring included'},
         ],
@@ -453,8 +453,8 @@ SERVICES = {
             'System administration documentation and runbooks',
         ],
         'stats': [
-            {'val': '1,000+', 'label': 'Simulation jobs/month automated on production HPC'},
-            {'val': '-60%', 'label': 'Compute cost reduction via scheduling optimisation'},
+            {'val': '1,000+', 'label': 'Simulation jobs a month automated (RA Scientific Research HPC)'},
+            {'val': 'Burst', 'label': 'On-premise clusters extended to AWS Batch on demand'},
             {'val': '24/7', 'label': 'Automated monitoring on all managed systems'},
         ],
         'process': [
@@ -493,3 +493,78 @@ SERVICE_ORDER = [
     'software-development', 'devops', 'crm-automation', 'smart-home-automation',
     'cloud', 'python', 'api-integration', 'security', 'cloud-migration', 'hpc-linux',
 ]
+
+# ── v2: one system, five layers ──────────────────────────────────────────────
+# Every discipline belongs to exactly one layer; security is drawn as the
+# perimeter that runs through all of them. This single taxonomy replaces the
+# four competing groupings of v1 (home layers / services sections / about
+# fields / footer anchors).
+LAYERS = [
+    {
+        'key': 'product', 'index': '01', 'name': 'Product',
+        'title': 'What your customers use',
+        'desc': 'Websites, web applications, portals and dashboards — designed around the job the customer is trying to do, and built to spec.',
+        'services': ['software-development'],
+        'legacy_anchor': 'web-dev',
+    },
+    {
+        'key': 'platform', 'index': '02', 'name': 'Platform',
+        'title': 'The logic and data behind it',
+        'desc': 'Backends, databases and the APIs that connect your product to everything else you run. Python and Django by default, typed and tested.',
+        'services': ['python', 'api-integration'],
+        'legacy_anchor': 'api',
+    },
+    {
+        'key': 'automation', 'index': '03', 'name': 'Automation',
+        'title': 'The work that runs itself',
+        'desc': 'CRM pipelines, workflow automation and connected devices — so your team stops doing by hand what a system should do for them.',
+        'services': ['crm-automation', 'smart-home-automation'],
+        'legacy_anchor': 'crm',
+    },
+    {
+        'key': 'infrastructure', 'index': '04', 'name': 'Infrastructure',
+        'title': 'What keeps it running',
+        'desc': 'Cloud architecture, CI/CD, migrations and high-performance compute — defined in code, monitored, and documented for handover.',
+        'services': ['devops', 'cloud', 'cloud-migration', 'hpc-linux'],
+        'legacy_anchor': 'devops',
+    },
+    {
+        'key': 'security', 'index': '05', 'name': 'Security',
+        'title': 'The perimeter around all of it',
+        'desc': 'Not a layer you add at the end — hardening, monitoring and detection designed into every layer from day one.',
+        'services': ['security'],
+        'legacy_anchor': 'security',
+    },
+]
+LAYER_BY_KEY = {layer['key']: layer for layer in LAYERS}
+
+_V2 = {
+    'software-development': ('product', 'Custom software development',
+                             'Web applications, portals and internal tools built to a written spec.', 'assembly'),
+    'python': ('platform', 'Python & Django engineering',
+               'Backends, APIs, data pipelines and automation — typed, tested, documented.', 'tree'),
+    'api-integration': ('platform', 'API & system integration',
+                        'Connecting systems that were never designed to talk to each other.', 'packets'),
+    'crm-automation': ('automation', 'CRM & business process automation',
+                       'Sales pipelines, follow-ups and reporting that run on triggers, not reminders.', 'flow'),
+    'smart-home-automation': ('automation', 'Smart home & IoT systems',
+                              'Devices, dashboards and rule engines that keep working when the internet does not.', 'mesh'),
+    'devops': ('infrastructure', 'DevOps & CI/CD engineering',
+               'Pipelines from commit to production, with rollback built in.', 'pipeline'),
+    'cloud': ('infrastructure', 'Cloud infrastructure on AWS',
+              'Architecture defined in Terraform, monitored, and documented for recovery.', 'topology'),
+    'cloud-migration': ('infrastructure', 'Cloud migration',
+                        'Moving live systems to AWS in verified phases, with a rollback at every step.', 'migration'),
+    'hpc-linux': ('infrastructure', 'HPC & Linux systems',
+                  'Schedulers, clusters and cloud burst for scientific and compute-heavy workloads.', 'scheduler'),
+    'security': ('security', 'Cybersecurity & DevSecOps',
+                 'SIEM, hardening and detection that make threats visible before they become incidents.', 'perimeter'),
+}
+for _slug, (_layer, _h1, _short, _sig) in _V2.items():
+    SERVICES[_slug].update({
+        'layer': _layer, 'layer_name': LAYER_BY_KEY[_layer]['name'],
+        'h1_plain': _h1, 'short': _short, 'signature': _sig,
+        'tagline': ' '.join(SERVICES[_slug]['h1']),
+    })
+assert all(s in SERVICES for layer in LAYERS for s in layer['services'])
+assert sorted(s for layer in LAYERS for s in layer['services']) == sorted(SERVICE_ORDER)

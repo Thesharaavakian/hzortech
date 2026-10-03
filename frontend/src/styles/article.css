@@ -1,0 +1,51 @@
+/* Journal article reading face — loaded only on post_detail via the
+   'article' Vite entry, so no other page pays for the serif font or the
+   code-highlighting theme. */
+.article-hero { padding-bottom: clamp(28px, 4vw, 48px); }
+.article-hero__meta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+.article-body { display: grid; gap: clamp(32px, 4vw, 56px); padding-bottom: clamp(48px, 7vw, 96px); }
+@media (min-width: 1000px) { .article-body { grid-template-columns: 220px 1fr; } }
+.article-toc { align-self: start; position: sticky; top: calc(var(--header-h) + 24px); }
+.article-toc ol { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: toc; }
+.article-toc a { color: var(--text-3); text-decoration: none; counter-increment: toc; }
+.article-toc a::before { content: counter(toc, decimal-leading-zero) '  '; font-family: var(--font-mono); font-size: 11px; color: var(--hzor-text); }
+.article-toc a:hover { color: var(--text); }
+.article-toc__cta { margin-top: 20px; border: 0; padding: 0; }
+
+.article-content {
+  font-family: var(--font-serif);
+  font-size: var(--fs-21);
+  line-height: 1.7;
+  color: var(--text);
+  max-width: 68ch;
+}
+.article-content h2 { font-family: var(--font-sans); font-size: var(--fs-28); font-variation-settings: 'wdth' 88; margin-top: 2.2em; scroll-margin-top: calc(var(--header-h) + 20px); }
+.article-content h3 { font-family: var(--font-sans); font-size: var(--fs-21); font-weight: 700; margin-top: 1.8em; scroll-margin-top: calc(var(--header-h) + 20px); }
+.article-content p, .article-content ul, .article-content ol { margin-top: 1.2em; }
+.article-content a { color: var(--hzor-text); text-decoration-thickness: 1px; }
+.article-content blockquote {
+  margin: 1.6em 0; padding-left: 1.2em; border-left: 3px solid var(--hzor-text);
+  font-style: italic; color: var(--text-2);
+}
+.article-content code { font-family: var(--font-mono); font-size: 0.82em; background: var(--surface); padding: 0.1em 0.35em; border-radius: 3px; }
+.article-content pre {
+  font-family: var(--font-mono); font-size: 0.82em; line-height: 1.6;
+  background: #0a0a0b; color: #c8cdd6; border: 1px solid var(--line);
+  padding: 20px 22px; overflow-x: auto; margin: 1.6em 0;
+}
+.article-content pre code { background: none; padding: 0; }
+.table-scroll { overflow-x: auto; margin: 1.6em 0; }
+.article-content table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.72em; }
+.article-content th, .article-content td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; }
+.article-content th { font-family: var(--font-mono); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); }
+
+/* Pygments (codehilite) — dark, matched to the site palette */
+.hl .c, .hl .cm, .hl .c1 { color: #6b7280; font-style: italic; }
+.hl .k, .hl .kn, .hl .kd { color: #f0444a; }
+.hl .s, .hl .s1, .hl .s2 { color: #5fb39a; }
+.hl .n, .hl .nx { color: #edeae4; }
+.hl .nf, .hl .fm { color: #e0a34a; }
+.hl .o, .hl .p { color: #b4afa7; }
+.hl .mi, .hl .mf { color: #7fa7c9; }
+
+.article-subscribe { background: var(--bg); }

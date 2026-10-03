@@ -1,154 +1,270 @@
-import requests as http_requests
+import json
+from functools import lru_cache
+from pathlib import Path
 
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 
-from .forms import ContactForm
-from .models import ContactSubmission
-from .services_data import SERVICES, SERVICE_ORDER
+from . import content
+from .forms import ProjectIntakeForm, SubscribeForm
+from .intake import (
+    client_ip,
+    confirm_subscription,
+    rate_limited,
+    save_intake,
+    subscribe,
+    unsubscribe,
+    verify_turnstile,
+)
+from .models import CaseStudy, ContactSubmission, Post
+from .services_data import LAYER_BY_KEY, LAYERS, SERVICE_ORDER, SERVICES
+
+FORGE_SEQ = 'business_page/seq/forge-d90931a5'
+
+
+def _layers_with_services():
+    return [{**layer, 'items': [SERVICES[s] for s in layer['services']]} for layer in LAYERS]
+
+
+def _published_cases():
+    return CaseStudy.objects.filter(is_published=True)
+
+
+def _published_posts():
+    return Post.objects.filter(is_published=True)
+
+
+@lru_cache(maxsize=1)
+def _forge_manifest():
+    path = Path(__file__).resolve().parent / 'static' / FORGE_SEQ / 'manifest.json'
+    return json.loads(path.read_text())
+
+
+def _forge_props():
+    m = _forge_manifest()
+    # Frame files are addressed by index from JS, so the base must be the
+    # un-hashed directory (the directory name itself is the version).
+    return {
+        'base': f"/{settings.STATIC_URL.strip('/')}/{FORGE_SEQ}/",
+        'desktop': m['desktop'],
+        'mobile': m['mobile'],
+        'chapters': len(content.PROCESS),
+    }
 
 
 def home(request):
-    from .services_data import SERVICES, SERVICE_ORDER
-    service_list = [SERVICES[s] for s in SERVICE_ORDER if s in SERVICES]
-    return render(request, 'business_page/home.html', {'service_list': service_list})
+    cases = list(_published_cases())
+    featured = [c for c in cases if c.featured][:4]
+    return render(request, 'business_page/home.html', {
+        'layers': _layers_with_services(),
+        'featured_cases': featured,
+        'case_count': len(cases),
+        'latest_posts': _published_posts()[:3],
+        'founders': content.FOUNDERS,
+        'standards': content.STANDARDS,
+        'frameworks': content.FRAMEWORKS,
+        'process': content.PROCESS,
+        'forge_seq': FORGE_SEQ,
+        'forge_props': _forge_props(),
+        'hero_props': {'mark': f"/{settings.STATIC_URL.strip('/')}/business_page/brand/mark.svg"},
+        'system_map': content.SYSTEM_MAP,
+        'system_map_props': {
+            **content.SYSTEM_MAP,
+            'layers': [{'key': layer['key'], 'name': layer['name']} for layer in LAYERS],
+            'services': {slug: {'name': SERVICES[slug]['nav_label'], 'url': f'/services/{slug}/'} for slug in SERVICE_ORDER},
+        },
+    })
+
 
 def about(request):
-    return render(request, 'business_page/about.html')
+    return render(request, 'business_page/about.html', {
+        'founders': content.FOUNDERS,
+        'principles': content.PRINCIPLES,
+        'layers': _layers_with_services(),
+        'forge_seq': FORGE_SEQ,
+        'case_count': _published_cases().count(),
+    })
+
 
 def services(request):
-    service_list = [SERVICES[s] for s in SERVICE_ORDER if s in SERVICES]
-    return render(request, 'business_page/services.html', {'service_list': service_list})
+    layers = _layers_with_services()
+    return render(request, 'business_page/services.html', {
+        'layers': layers,
+        'all_services': [s for layer in layers for s in layer['items']],
+        'engagements': content.ENGAGEMENTS,
+        'process': content.PROCESS,
+        'faqs': content.GENERAL_FAQ,
+        'frameworks': content.FRAMEWORKS,
+    })
+
 
 def service_detail(request, slug):
     svc = SERVICES.get(slug)
     if svc is None:
         raise Http404
+    layer = LAYER_BY_KEY[svc['layer']]
     related_services = [SERVICES[s] for s in svc.get('related', []) if s in SERVICES]
+    cases = [c for c in _published_cases() if slug in (c.services or [])]
     return render(request, 'business_page/service_detail.html', {
         'svc': svc,
+        'layer': layer,
         'related_services': related_services,
+        'related_cases': cases[:3],
+        'signature_props': {'variant': svc['signature'], 'name': svc['nav_label'], 'layer': svc['layer']},
     })
 
+
 def projects(request):
-    return render(request, 'business_page/projects.html')
+    layer = request.GET.get('layer', '')
+    cases = list(_published_cases())
+    shown = [c for c in cases if layer in (c.layers or [])] if layer in LAYER_BY_KEY else cases
+    return render(request, 'business_page/projects.html', {
+        'cases': shown,
+        'all_count': len(cases),
+        'layers': LAYERS,
+        'active_layer': layer if layer in LAYER_BY_KEY else '',
+    })
+
+
+def work(request):
+    return redirect('projects', permanent=True)
+
+
+def case_study(request, slug):
+    case = get_object_or_404(_published_cases(), slug=slug)
+    ordered = list(_published_cases())
+    idx = next(i for i, c in enumerate(ordered) if c.pk == case.pk)
+    next_case = ordered[(idx + 1) % len(ordered)] if len(ordered) > 1 else None
+    return render(request, 'business_page/case_study.html', {
+        'case': case,
+        'case_layers': [LAYER_BY_KEY[k] for k in case.layers if k in LAYER_BY_KEY],
+        'case_services': [SERVICES[s] for s in case.services if s in SERVICES],
+        'next_case': next_case,
+        'architecture_props': {
+            **(case.architecture or {}),
+            'layers': [{'key': layer['key'], 'name': layer['name']} for layer in LAYERS],
+            'title': f'{case.client} — system architecture',
+        },
+    })
+
+
+def contact(request):
+    initial_type = request.GET.get('type', '')
+    if initial_type not in dict(ContactSubmission.PROJECT_TYPES):
+        initial_type = ''
+    if request.method == 'POST':
+        form = ProjectIntakeForm(request.POST)
+        if form.is_spam:
+            messages.success(request, 'sent')
+            return redirect('contact')
+        if rate_limited(request, 'intake'):
+            messages.error(request, 'Too many submissions from your connection in a short time. Please wait a few minutes, or email contact@hzortech.com.')
+        elif form.is_valid():
+            if not verify_turnstile(request.POST.get('cf-turnstile-response', ''), client_ip(request)):
+                messages.error(request, 'The spam check didn’t pass. Please try again, or email contact@hzortech.com directly.')
+            else:
+                sub, _ = save_intake(form, request)
+                request.session['intake_urgent'] = sub.is_urgent
+                return redirect('contact_thanks')
+    else:
+        form = ProjectIntakeForm(initial={'project_type': initial_type})
+    return render(request, 'business_page/contact.html', {
+        'form': form,
+        'turnstile_site_key': settings.TURNSTILE_SITE_KEY,
+        'intake_props': {
+            'initialType': initial_type,
+            'turnstileSiteKey': settings.TURNSTILE_SITE_KEY,
+            'endpoint': '/api/v1/intake/',
+            'choices': {
+                'project_type': ContactSubmission.PROJECT_TYPES,
+                'budget': ContactSubmission.BUDGETS,
+                'timeline': ContactSubmission.TIMELINES,
+            },
+        },
+    })
+
+
+def contact_thanks(request):
+    urgent = request.session.pop('intake_urgent', False)
+    return render(request, 'business_page/contact_thanks.html', {'urgent': urgent})
+
+
+def blog(request):
+    topic = request.GET.get('topic', '')
+    topics = dict(Post.TOPICS)
+    posts = list(_published_posts())
+    shown = [p for p in posts if p.topic == topic] if topic in topics else posts
+    featured = next((p for p in shown if p.featured), shown[0] if shown else None)
+    return render(request, 'business_page/blog.html', {
+        'featured': featured,
+        'posts': [p for p in shown if p != featured],
+        'topics': Post.TOPICS,
+        'topic_counts': {k: sum(1 for p in posts if p.topic == k) for k in topics},
+        'active_topic': topic if topic in topics else '',
+        'post_count': len(posts),
+        'subscribe_form': SubscribeForm(),
+    })
+
+
+def post_detail(request, slug):
+    post = get_object_or_404(_published_posts(), slug=slug)
+    others = list(_published_posts().exclude(pk=post.pk))
+    related = [p for p in others if p.topic == post.topic][:2] or others[:2]
+    topic_service = {
+        'security': 'security', 'devops': 'devops', 'cloud': 'cloud',
+        'automation': 'crm-automation', 'engineering': 'software-development',
+    }.get(post.topic)
+    return render(request, 'business_page/post_detail.html', {
+        'post': post,
+        'related': related,
+        'topic_service': SERVICES.get(topic_service),
+        'subscribe_form': SubscribeForm(),
+    })
+
 
 def privacy(request):
     return render(request, 'business_page/privacy.html')
+
+
+@require_POST
+def newsletter_signup(request):
+    form = SubscribeForm(request.POST)
+    back = request.POST.get('next') or request.META.get('HTTP_REFERER') or '/blog/'
+    if not back.startswith('/'):
+        back = '/blog/'
+    if form.data.get('website'):
+        messages.success(request, 'Check your inbox to confirm your subscription.')
+    elif rate_limited(request, 'subscribe'):
+        messages.error(request, 'Too many attempts. Please try again in a few minutes.')
+    elif form.is_valid():
+        _, state = subscribe(form.cleaned_data['email'], request)
+        messages.success(request, 'You’re already subscribed — thank you.' if state == 'already'
+                         else 'Almost done — check your inbox and confirm your subscription.')
+    else:
+        messages.error(request, form.errors['email'][0])
+    return redirect(back)
+
+
+def newsletter_confirm(request, token):
+    sub = confirm_subscription(token)
+    if not sub:
+        raise Http404
+    return render(request, 'business_page/newsletter_state.html', {'state': 'confirmed', 'sub': sub})
+
+
+def newsletter_unsubscribe(request, token):
+    sub = unsubscribe(token)
+    if not sub:
+        raise Http404
+    return render(request, 'business_page/newsletter_state.html', {'state': 'unsubscribed', 'sub': sub})
+
 
 def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
-def _verify_turnstile(token, ip):
-    """Verify Cloudflare Turnstile token server-side. Returns True if valid."""
-    secret = settings.TURNSTILE_SECRET_KEY
-    if not secret:
-        return True  # Skip verification if key not configured
-    try:
-        resp = http_requests.post(
-            'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-            data={'secret': secret, 'response': token, 'remoteip': ip},
-            timeout=5,
-        )
-        return resp.json().get('success', False)
-    except Exception:
-        return True  # Fail open if Turnstile is unreachable
-
-
-def blog(request):
-    return render(request, 'business_page/blog.html')
-
-
-def newsletter_signup(request):
-    if request.method == 'POST':
-        email = request.POST.get('email', '').strip()
-        if email and '@' in email:
-            try:
-                send_mail(
-                    subject="[HZORTECH] Newsletter Signup",
-                    message=f"New newsletter subscriber: {email}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.CONTACT_EMAIL],
-                    fail_silently=True,
-                )
-                send_mail(
-                    subject="HZORTECH — Security Health Check Brief",
-                    message=(
-                        f"Hello,\n\n"
-                        "Thanks for subscribing to the HZORTECH Security Intelligence brief.\n\n"
-                        "Each month you'll receive:\n"
-                        "• Cloud cost optimisation tips\n"
-                        "• SIEM tuning notes (Wazuh, ELK)\n"
-                        "• Infrastructure hardening checklists\n\n"
-                        "Your first Security Health Check checklist:\n"
-                        "https://hzortech.com/contact/\n\n"
-                        "— HZORTECH\n"
-                        "contact@hzortech.com | hzortech.com"
-                    ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=True,
-                )
-                messages.success(request, "newsletter_ok")
-            except Exception:
-                pass
-    return redirect('home')
-
-
-def contact(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            # Turnstile verification
-            turnstile_token = request.POST.get('cf-turnstile-response', '')
-            ip = request.META.get('HTTP_CF_CONNECTING_IP') or request.META.get('REMOTE_ADDR', '')
-            if not _verify_turnstile(turnstile_token, ip):
-                messages.error(request, "Security check failed. Please try again.")
-                return render(request, 'business_page/contact.html', {'form': form})
-
-            name    = form.cleaned_data['name']
-            email   = form.cleaned_data['email']
-            subject = form.cleaned_data.get('subject') or 'New contact form submission'
-            message = form.cleaned_data['message']
-
-            ContactSubmission.objects.create(
-                name=name, email=email, subject=subject, message=message,
-            )
-
-            try:
-                send_mail(
-                    subject=f"[HZORTECH] {subject}",
-                    message=f"From: {name} <{email}>\n\n{message}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[settings.CONTACT_EMAIL],
-                    fail_silently=False,
-                )
-                # Auto-reply to sender
-                send_mail(
-                    subject="HZORTECH — Message Received",
-                    message=(
-                        f"Hello {name},\n\n"
-                        "Thank you for reaching out to HZORTECH. "
-                        "We have received your message and will respond within 48 hours "
-                        "with a direct assessment.\n\n"
-                        "— The HZORTECH Team\n"
-                        "contact@hzortech.com | hzortech.com"
-                    ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[email],
-                    fail_silently=True,
-                )
-                messages.success(request, "sent")
-            except Exception:
-                messages.success(request, "received")
-            return redirect('contact')
-    else:
-        form = ContactForm()
-    return render(request, 'business_page/contact.html', {
-        'form': form,
-        'turnstile_site_key': settings.TURNSTILE_SITE_KEY,
-    })
+def custom_500(request):
+    return render(request, '500.html', status=500)

@@ -10,7 +10,58 @@ permissions:
   packages: write
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      DJANGO_SECRET_KEY: ci-test-key-not-used-in-production
+      DJANGO_TEST_STATIC: simple
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Ruff
+        run: ruff check business_page hzortech
+
+      - name: Django check
+        run: python manage.py check
+
+      - name: Django tests
+        run: python manage.py test business_page
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci --no-audit --no-fund
+
+      - name: Frontend typecheck + lint
+        working-directory: frontend
+        run: |
+          npm run typecheck
+          npm run lint
+
+      - name: Frontend build
+        working-directory: frontend
+        run: npm run build
+
+      - name: collectstatic (verifies the Vite manifest resolves)
+        run: python manage.py collectstatic --noinput
+
   build-and-deploy:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +80,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/thesharaavakian/hzortech:latest
+          tags: |
+            ghcr.io/thesharaavakian/hzortech:latest
+            ghcr.io/thesharaavakian/hzortech:${{ github.sha }}
 
       # ── 2. Skip if server not ready yet ──────────────────────────────────
       - name: Check EC2_HOST is set

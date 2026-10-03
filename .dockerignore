@@ -41,3 +41,15 @@ kubeconfig
 # Claude Code / agent tooling — not part of the running app
 .claude/
 .agents/
+
+# v2: frontend — stage 1 builds its own, don't ship a stale/host dist or its deps
+frontend/dist/
+frontend/node_modules/
+
+# v2: not part of the running app
+graphics-new/
+docs/
+main.py
+requirements-higgsfield.txt
+assets/generated/
+.playwright-mcp/

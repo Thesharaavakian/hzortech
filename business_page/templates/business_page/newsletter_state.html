@@ -1,0 +1,20 @@
+{% extends "business_page/base.html" %}
+{% block title %}{% if state == 'confirmed' %}Subscription confirmed{% else %}Unsubscribed{% endif %} — HZORTECH Journal{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+{% block content %}
+<section class="page-hero state-page" aria-labelledby="page-title">
+  <div class="wrap grid">
+    <div class="span-8 stack">
+      <p class="eyebrow"><span class="eyebrow__index">Journal</span> {{ sub.email }}</p>
+      {% if state == 'confirmed' %}
+      <h1 class="t-h1" id="page-title">You’re subscribed.</h1>
+      <p class="t-lead">New Journal articles will reach you by email — roughly once a month, nothing else. Every email has a one-click unsubscribe link.</p>
+      {% else %}
+      <h1 class="t-h1" id="page-title">You’re unsubscribed.</h1>
+      <p class="t-lead">You won’t receive any more emails from the Journal. Changed your mind? You can subscribe again from any article.</p>
+      {% endif %}
+      <p><a class="btn btn--large" href="{% url 'blog' %}">Read the Journal</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+/* Styles for React islands. Kept separate from their TS so the fallback
+   markup and the mounted markup can share classes exactly. */
+
+/* ── System map ───────────────────────────────────────────────────────── */
+.sysmap { display: grid; gap: 24px; }
+@media (min-width: 1000px) { .sysmap { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; } }
+.sysmap__scenarios { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.sysmap__svg-wrap { border: 1px solid var(--line); background: radial-gradient(120% 100% at 10% 0%, rgba(240, 68, 74, 0.06), transparent 60%); padding: clamp(16px, 3vw, 32px); }
+.sysmap__stage { position: relative; width: 100%; }
+.sysmap__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
+.sysmap__edge { stroke: var(--line-2); stroke-width: 1.25; fill: none; transition: stroke var(--dur-2) ease, stroke-width var(--dur-2) ease; }
+.sysmap__edge[data-active='true'] { stroke: var(--hzor-text); stroke-width: 1.75; }
+.sysmap__node-btn {
+  position: absolute; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 84px; padding: 8px 12px; text-align: center;
+  background: var(--raised); border: 1px solid var(--line-strong); border-radius: 3px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-2); line-height: 1.2;
+  cursor: pointer; transition: border-color var(--dur-1) ease, box-shadow var(--dur-1) ease, color var(--dur-1) ease;
+  white-space: nowrap;
+}
+.sysmap__node-btn:hover { border-color: var(--text-2); color: var(--text); }
+.sysmap__node-btn[data-active='true'] { border-color: var(--hzor-text); color: var(--text); box-shadow: 0 0 0 3px var(--hzor-dim); }
+.sysmap__node-btn[data-hostile='true'] { border-color: var(--sig-security); color: var(--sig-security); }
+.sysmap__node-btn[aria-pressed='true'] { background: var(--hzor-dim); border-color: var(--hzor-text); }
+.sysmap__node-btn[data-layer='product']::before, .sysmap__node-btn[data-layer='platform']::before,
+.sysmap__node-btn[data-layer='automation']::before, .sysmap__node-btn[data-layer='infrastructure']::before,
+.sysmap__node-btn[data-layer='security']::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; flex-shrink: 0;
+}
+.sysmap__node-btn[data-layer='product']::before { background: var(--sig-product); }
+.sysmap__node-btn[data-layer='platform']::before { background: var(--sig-platform); }
+.sysmap__node-btn[data-layer='automation']::before { background: var(--sig-automation); }
+.sysmap__node-btn[data-layer='infrastructure']::before { background: var(--sig-infrastructure); }
+.sysmap__node-btn[data-layer='security']::before { background: var(--sig-security); }
+.sysmap__panel { border: 1px solid var(--line); background: var(--raised); padding: 22px; display: grid; gap: 14px; align-content: start; min-height: 220px; }
+.sysmap__panel h3 { font-size: var(--fs-21); }
+.sysmap__panel a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; }
+.sysmap__log { list-style: none; padding: 0; font-family: var(--font-mono); font-size: 12px; color: var(--text-2); display: grid; gap: 6px; max-height: 220px; overflow-y: auto; }
+.sysmap__log li { opacity: 0; animation: sysmap-log-in 0.3s ease forwards; }
+@keyframes sysmap-log-in { to { opacity: 1; } }
+.sysmap__legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; font-size: 12px; color: var(--text-3); }
+.sysmap__legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* ── Forge WebGL canvas ──────────────────────────────────────────────── */
+.forge__frame canvas { opacity: 0; transition: opacity 0.6s ease; }
+.forge__frame canvas.is-ready { opacity: 1; }
+.forge.is-scrubbing .forge__frame picture.forge__poster { opacity: 0; }
+
+/* ── Signature (per-discipline generative visual) ────────────────────── */
+.signature svg, .signature canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ── Architecture diagram (case study) ───────────────────────────────── */
+.arch__svg { width: 100%; height: auto; display: block; }
+.arch__node rect { fill: var(--raised); stroke: var(--line-strong); }
+.arch__node text { fill: var(--text-2); font-family: var(--font-mono); font-size: 10.5px; }
+.arch__edge { stroke: var(--line-2); fill: none; }
+
+/* ── Visit meter ──────────────────────────────────────────────────────── */
+.meter-note { margin-top: 20px; color: var(--text-3); max-width: 64ch; }
+
+/* ── Project intake (React island) ───────────────────────────────────── */
+.intake { display: grid; }
+.intake__progress { display: flex; gap: 8px; margin-bottom: 28px; }
+.intake__progress span { height: 3px; flex: 1; background: var(--line); }
+.intake__progress span.is-done { background: var(--hzor-text); }
+.intake__step { display: grid; gap: 20px; }
+.intake__nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+.intake__success { display: grid; gap: 16px; padding: 40px 0; }
+.intake__error-banner { margin-bottom: 20px; }
+
+/* ── Command menu ─────────────────────────────────────────────────────── */
+.cmdk__item mark { background: var(--hzor-dim); color: var(--hzor-text); border-radius: 2px; }
+
+/* ── Filter (work index island upgrade) ──────────────────────────────── */
+.filter-bar[data-live] .chip { cursor: pointer; }

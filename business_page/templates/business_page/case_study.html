@@ -1,0 +1,115 @@
+{% extends "business_page/base.html" %}
+{% load static hz_tags %}
+{% block title %}{{ case.client }} — {{ case.title }} | Case study | HZORTECH{% endblock %}
+{% block meta_desc %}{{ case.summary }}{% endblock %}
+{% block og_title %}{{ case.client }} — {{ case.title }}{% endblock %}
+{% block og_desc %}{{ case.summary }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_image %}{% if case.cover %}{% abs_static case.cover %}{% else %}{% abs_static 'business_page/img/og-image.png' %}{% endif %}{% endblock %}
+{% block canonical_path %}{{ case.get_absolute_url }}{% endblock %}
+{% block body_class %}page-case{% endblock %}
+{% block schema %}
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CreativeWork","@id":"{{ site_url }}{{ case.get_absolute_url }}#case","name":"{{ case.client|escapejs }} — {{ case.title|escapejs }}","description":"{{ case.summary|escapejs }}","creator":{"@id":"{{ site_url }}/#organization"},"about":"{{ case.sector|escapejs }}","dateModified":"{{ case.updated_at|date:'c' }}"{% if case.public_url %},"mentions":{"@type":"WebSite","url":"{{ case.public_url }}","name":"{{ case.client|escapejs }}"}{% endif %}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ site_url }}/"},{"@type":"ListItem","position":2,"name":"Work","item":"{{ site_url }}/projects/"},{"@type":"ListItem","position":3,"name":"{{ case.client|escapejs }}","item":"{{ site_url }}{{ case.get_absolute_url }}"}]}]}</script>
+{% endblock %}
+
+{% block content %}
+<article aria-labelledby="page-title">
+  <header class="page-hero case-hero">
+    <div class="wrap grid">
+      <nav class="span-12" aria-label="Breadcrumb"><ol class="crumbs"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'projects' %}">Work</a></li><li aria-current="page">{{ case.client }}</li></ol></nav>
+      <div class="span-8 stack">
+        <p class="eyebrow"><span class="eyebrow__index">Case study</span> {{ case.sector }}</p>
+        <h1 class="t-h1" id="page-title" data-split>{{ case.client }}</h1>
+        <p class="t-h3 case-hero__title">{{ case.title }}</p>
+        <p class="t-lead">{{ case.summary }}</p>
+      </div>
+      <dl class="kv span-4 case-hero__meta">
+        <div><dt>Status</dt><dd><span class="status status--{{ case.status }}">{{ case.get_status_display }}</span></dd></div>
+        <div><dt>Layers</dt><dd><ul class="cluster" role="list" style="--cluster:6px">{% for l in case_layers %}<li class="chip"><span class="chip__dot layer-dot" data-layer="{{ l.key }}" aria-hidden="true"></span>{{ l.name }}</li>{% endfor %}</ul></dd></div>
+        {% if case_services %}<div><dt>Disciplines</dt><dd>{% for s in case_services %}<a href="{% url 'service_detail' s.slug %}">{{ s.nav_label }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</dd></div>{% endif %}
+        {% if case.stack %}<div><dt>Stack</dt><dd>{{ case.stack|join:", " }}</dd></div>{% endif %}
+        {% if case.public_url %}<div><dt>Live</dt><dd><a href="{{ case.public_url }}" rel="noopener" target="_blank">{{ case.domain }} <svg width="12" height="12" aria-hidden="true"><use href="#i-arrow-ne"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></dd></div>{% endif %}
+      </dl>
+    </div>
+  </header>
+
+  {% if case.cover %}
+  <figure class="case-cover wrap">
+    <div class="frame">
+      {% if case.cover_is_illustration %}
+        <div class="cover case-cover__img"><img src="{% static case.cover %}" alt="{{ case.cover_alt }}" width="1600" height="1000" fetchpriority="high"><span class="cover__badge">Illustration</span></div>
+      {% else %}
+        <div class="browser"><div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i><span class="browser__url">{{ case.domain|default:case.client }}</span></div>
+          <img src="{% static case.cover %}" alt="{{ case.cover_alt }}" width="1600" height="1000" fetchpriority="high"></div>
+      {% endif %}
+    </div>
+    {% if case.scope_note %}<figcaption class="frame__caption t-small"><span>{{ case.scope_note }}</span></figcaption>{% endif %}
+  </figure>
+  {% endif %}
+
+  <div class="wrap case-body">
+    <nav class="case-toc" aria-label="On this page">
+      <ol role="list" class="t-mono">
+        {% if case.context %}<li><a href="#context">Context</a></li>{% endif %}
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#system">System</a></li>
+        {% if case.architecture.nodes %}<li><a href="#architecture">Architecture</a></li>{% endif %}
+        <li><a href="#implementation">Implementation</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+      </ol>
+    </nav>
+    <div class="case-sections">
+      {% if case.context %}<section class="case-section" id="context" aria-labelledby="h-context"><p class="t-mono t-red">00</p><h2 class="t-h3" id="h-context">Context</h2><div class="prose">{{ case.context|linebreaks }}</div></section>{% endif %}
+      <section class="case-section" id="problem" aria-labelledby="h-problem"><p class="t-mono t-red">01</p><h2 class="t-h3" id="h-problem">The problem</h2><div class="prose">{{ case.problem|linebreaks }}</div></section>
+      <section class="case-section" id="system" aria-labelledby="h-system"><p class="t-mono t-red">02</p><h2 class="t-h3" id="h-system">The system</h2><div class="prose">{{ case.system|linebreaks }}</div></section>
+      {% if case.architecture.nodes %}
+      <section class="case-section case-section--wide" id="architecture" aria-labelledby="h-arch">
+        <p class="t-mono t-red">03</p><h2 class="t-h3" id="h-arch">Architecture</h2>
+        <div class="arch dark-island" data-island="architecture" data-props="arch-props">
+          <div class="island-fallback">
+            <ul class="arch-fallback" role="list">{% for n in case.architecture.nodes %}<li><span class="chip__dot layer-dot" data-layer="{{ n.layer }}" aria-hidden="true"></span><strong>{{ n.label }}</strong> — {{ n.detail }}</li>{% endfor %}</ul>
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      <section class="case-section" id="implementation" aria-labelledby="h-impl"><p class="t-mono t-red">04</p><h2 class="t-h3" id="h-impl">Implementation</h2><div class="prose">{{ case.implementation|linebreaks }}</div></section>
+      <section class="case-section" id="outcome" aria-labelledby="h-out">
+        <p class="t-mono t-red">05</p><h2 class="t-h3" id="h-out">Outcome</h2>
+        <div class="prose">{{ case.outcome|linebreaks }}</div>
+        {% if case.outcomes %}<dl class="facts case-facts">{% for o in case.outcomes %}<div class="fact"><dt class="fact__label">{{ o.label }}</dt><dd class="fact__value fact__value--sm">{{ o.value }}</dd></div>{% endfor %}</dl>{% endif %}
+      </section>
+    </div>
+  </div>
+
+  {% if case.gallery %}
+  <section class="section case-gallery" aria-labelledby="h-gallery">
+    <div class="wrap">
+      <h2 class="t-mono" id="h-gallery">In production</h2>
+      <ul class="gallery" role="list">
+        {% for g in case.gallery %}
+        <li class="gallery__item gallery__item--{{ g.device|default:'desktop' }}">
+          <figure>
+            {% if g.device == 'mobile' %}<div class="phone"><img src="{% static g.src %}" alt="{{ g.alt }}" loading="lazy" decoding="async" width="390" height="844"></div>
+            {% else %}<div class="browser"><div class="browser__bar" aria-hidden="true"><i></i><i></i><i></i></div><img src="{% static g.src %}" alt="{{ g.alt }}" loading="lazy" decoding="async" width="1440" height="900"></div>{% endif %}
+            {% if g.caption %}<figcaption class="t-small">{{ g.caption }}</figcaption>{% endif %}
+          </figure>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+</article>
+{{ architecture_props|json_script:"arch-props" }}
+
+{% if next_case %}
+<nav class="next-case" aria-label="Next case study">
+  <a class="wrap next-case__link" href="{{ next_case.get_absolute_url }}">
+    <span class="t-mono">Next case study</span>
+    <span class="t-h1">{{ next_case.client }}</span>
+    <span class="t-body">{{ next_case.title }}</span>
+    <svg width="40" height="40" aria-hidden="true"><use href="#i-arrow"/></svg>
+  </a>
+</nav>
+{% endif %}
+{% endblock %}

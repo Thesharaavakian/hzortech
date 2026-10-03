@@ -1,0 +1,59 @@
+{% with path=request.path %}
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="{% url 'home' %}" aria-label="HZORTECH — home">
+      {% include 'business_page/partials/_mark.html' with class='brand__mark' %}
+      <span class="brand__word">Hzortech</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav__list" role="list">
+        {% for key, label, urlname in nav_items %}
+          {% url urlname as href %}
+          <li><a class="nav__link" href="{{ href }}"{% if href != '/' and href in path %} aria-current="page"{% endif %}>{{ label }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-command-open aria-label="Search the site" title="Search (Ctrl K)">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+      </button>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg aria-hidden="true"><use href="#i-theme"/></svg>
+      </button>
+      <a class="btn btn--primary btn--small" href="{% url 'contact' %}">Start a project</a>
+      <button class="icon-btn menu-btn" type="button" data-menu-open aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
+        <svg aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="mobile-menu" id="mobile-menu" aria-label="Menu">
+  <div class="wrap">
+    <div class="mobile-menu__top">
+      <a class="brand" href="{% url 'home' %}" aria-label="HZORTECH — home">
+        {% include 'business_page/partials/_mark.html' with class='brand__mark' %}
+        <span class="brand__word">Hzortech</span>
+      </a>
+      <button class="icon-btn" type="button" data-menu-close aria-label="Close menu">
+        <svg aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </div>
+    <ul class="mobile-menu__list" role="list">
+      {% for key, label, urlname in nav_items %}
+        <li><a href="{% url urlname %}"><span>0{{ forloop.counter }}</span>{{ label }}</a></li>
+      {% endfor %}
+      <li><a href="{% url 'contact' %}"><span>05</span>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a class="btn btn--primary btn--large" href="{% url 'contact' %}">Start a project <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <p class="t-small"><a href="mailto:{{ company.email }}">{{ company.email }}</a> · <a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></p>
+      <p class="t-mono" data-yerevan-time>{{ company.hours }}</p>
+      <div class="cluster">
+        <button class="btn btn--small" type="button" data-theme-toggle>Switch theme</button>
+        <button class="btn btn--small" type="button" data-command-open>Search</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+{% endwith %}

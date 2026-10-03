@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 110
+target-version = "py313"
+exclude = ["migrations", ".venv", "for-sharas-eyes-only", "ignore-this-for-contact-only"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "DJ"]
+ignore = ["E501"]  # long lines happen in template-string-heavy views; not worth the churn here
+
+[tool.ruff.lint.isort]
+known-first-party = ["business_page", "hzortech"]

@@ -1,0 +1,19 @@
+{% load static %}
+<li class="case-card"{% if case.legacy_anchor and anchors %} id="{{ case.legacy_anchor }}"{% endif %} data-layers="{{ case.layers|join:" " }}" data-reveal>
+  <article aria-labelledby="cc-{{ case.slug }}">
+    <a class="case-card__link" href="{{ case.get_absolute_url }}">
+      <div class="case-card__media cover">
+        {% if case.cover %}<img src="{% static case.cover %}" alt="{{ case.cover_alt }}" loading="lazy" decoding="async" width="1600" height="1000">{% endif %}
+        {% if case.cover_is_illustration %}<span class="cover__badge">Illustration</span>{% endif %}
+      </div>
+      <div class="case-card__body">
+        <p class="t-mono case-card__meta"><span>{{ case.sector }}</span><span class="status status--{{ case.status }}">{{ case.get_status_display }}</span></p>
+        <h3 class="t-h3" id="cc-{{ case.slug }}">{{ case.client }}</h3>
+        <p class="case-card__title">{{ case.title }}</p>
+        <ul class="cluster" role="list" aria-label="Layers" style="--cluster:6px">
+          {% for key in case.layers %}<li class="chip"><span class="chip__dot layer-dot" data-layer="{{ key }}" aria-hidden="true"></span>{{ key|capfirst }}</li>{% endfor %}
+        </ul>
+      </div>
+    </a>
+  </article>
+</li>

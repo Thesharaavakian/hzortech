@@ -1,0 +1,5 @@
+# Local/CI only — not installed in the production image.
+-r requirements.txt
+ruff>=0.7
+pytest>=8.0
+pytest-django>=4.9

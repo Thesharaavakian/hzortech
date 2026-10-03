@@ -1,0 +1,64 @@
+{% extends "business_page/base.html" %}
+{% load hz_tags %}
+{% block title %}{{ post.title }} — HZORTECH Journal{% endblock %}
+{% block meta_desc %}{{ post.dek }}{% endblock %}
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_desc %}{{ post.dek }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block canonical_path %}{{ post.get_absolute_url }}{% endblock %}
+{% block body_class %}page-article{% endblock %}
+{% block schema %}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"{{ post.title|escapejs }}","description":"{{ post.dek|escapejs }}","author":{"@type":"Organization","name":"{{ post.author_name|escapejs }}"},"publisher":{"@id":"{{ site_url }}/#organization"},"datePublished":"{{ post.published_at|date:'c' }}","dateModified":"{{ post.updated_at|date:'c' }}","mainEntityOfPage":"{{ site_url }}{{ post.get_absolute_url }}","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ site_url }}/"},{"@type":"ListItem","position":2,"name":"Journal","item":"{{ site_url }}/blog/"},{"@type":"ListItem","position":3,"name":"{{ post.title|escapejs }}","item":"{{ site_url }}{{ post.get_absolute_url }}"}]}}</script>
+{% endblock %}
+{% block head_extra %}{% vite_entry 'src/entries/article.ts' with_css=True %}{% endblock %}
+
+{% block content %}
+<article aria-labelledby="page-title">
+  <header class="page-hero article-hero">
+    <div class="wrap grid">
+      <nav class="span-12" aria-label="Breadcrumb"><ol class="crumbs"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'blog' %}">Journal</a></li><li aria-current="page">{{ post.title }}</li></ol></nav>
+      <div class="span-9 stack">
+        <p class="t-mono article-hero__meta"><span>{{ post.get_topic_display }}</span><time datetime="{{ post.published_at|date:'Y-m-d' }}">{{ post.published_at|date:'d F Y' }}</time><span>{{ post.reading_minutes }} min read</span><span>{{ post.author_name }}</span></p>
+        <h1 class="t-h1" id="page-title">{{ post.title }}</h1>
+        <p class="t-lead">{{ post.dek }}</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap article-body">
+    {% if post.toc %}
+    <nav class="article-toc" aria-label="On this page">
+      <p class="t-mono">On this page</p>
+      <ol role="list">{% for h in post.toc %}<li><a href="#{{ h.id }}">{{ h.name }}</a></li>{% endfor %}</ol>
+      {% if topic_service %}<a class="link-arrow article-toc__cta" href="{% url 'service_detail' topic_service.slug %}">{{ topic_service.nav_label }} <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>{% endif %}
+    </nav>
+    {% endif %}
+    <div class="prose article-content">{{ post.body_html|safe }}</div>
+  </div>
+
+  <section class="section section--tight dark-island article-subscribe" aria-labelledby="sub-title">
+    <div class="wrap grid">
+      <div class="span-6 stack">
+        <h2 class="t-h3" id="sub-title">More field notes like this.</h2>
+        <p class="t-body">New articles by email, roughly monthly. No marketing.</p>
+      </div>
+      <form class="span-5 start-8 cluster" method="post" action="{% url 'newsletter_signup' %}">
+        {% csrf_token %}<input type="hidden" name="next" value="{{ request.path }}">
+        <label class="visually-hidden" for="art-email">Email</label>
+        <input class="input" id="art-email" type="email" name="email" placeholder="you@company.com" required style="flex:1;min-width:200px">
+        <div class="visually-hidden" aria-hidden="true"><label for="art-website">Leave empty</label><input id="art-website" type="text" name="website" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn--primary" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  {% if related %}
+  <section class="section" aria-labelledby="rel-title">
+    <div class="wrap">
+      <h2 class="t-mono" id="rel-title">Read next</h2>
+      <ol class="post-list" role="list">{% for post in related %}{% include 'business_page/partials/_post_row.html' %}{% endfor %}</ol>
+    </div>
+  </section>
+  {% endif %}
+</article>
+{% endblock %}

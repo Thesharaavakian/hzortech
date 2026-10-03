@@ -3,3 +3,5 @@ gunicorn>=21.2
 whitenoise>=6.6
 psycopg2-binary>=2.9
 requests>=2.31
+Markdown>=3.6,<4.0
+Pygments>=2.18,<3.0

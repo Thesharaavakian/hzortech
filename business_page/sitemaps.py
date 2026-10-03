@@ -1,19 +1,21 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from .services_data import SERVICES, SERVICE_ORDER
+
+from .models import CaseStudy, Post
+from .services_data import SERVICE_ORDER
 
 
 class StaticViewSitemap(Sitemap):
     protocol = "https"
 
     pages = [
-        ("home",     "/",          1.0, "weekly"),
-        ("services", "/services/", 0.9, "monthly"),
-        ("projects", "/projects/", 0.9, "monthly"),
-        ("about",    "/about/",    0.8, "monthly"),
-        ("contact",  "/contact/",  0.7, "monthly"),
-        ("blog",     "/blog/",     0.6, "weekly"),
-        ("privacy",  "/privacy/",  0.3, "yearly"),
+        ("home",     1.0, "weekly"),
+        ("services", 0.9, "monthly"),
+        ("projects", 0.9, "monthly"),
+        ("about",    0.8, "monthly"),
+        ("contact",  0.8, "monthly"),
+        ("blog",     0.7, "weekly"),
+        ("privacy",  0.2, "yearly"),
     ]
 
     def items(self):
@@ -23,10 +25,10 @@ class StaticViewSitemap(Sitemap):
         return reverse(item[0])
 
     def priority(self, item):
-        return item[2]
+        return item[1]
 
     def changefreq(self, item):
-        return item[3]
+        return item[2]
 
 
 class ServiceDetailSitemap(Sitemap):
@@ -39,3 +41,27 @@ class ServiceDetailSitemap(Sitemap):
 
     def location(self, slug):
         return reverse('service_detail', kwargs={'slug': slug})
+
+
+class CaseStudySitemap(Sitemap):
+    protocol = "https"
+    changefreq = "monthly"
+    priority = 0.8
+
+    def items(self):
+        return CaseStudy.objects.filter(is_published=True)
+
+    def lastmod(self, obj):
+        return obj.updated_at
+
+
+class PostSitemap(Sitemap):
+    protocol = "https"
+    changefreq = "monthly"
+    priority = 0.7
+
+    def items(self):
+        return Post.objects.filter(is_published=True)
+
+    def lastmod(self, obj):
+        return obj.updated_at

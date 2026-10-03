@@ -1,119 +1,79 @@
 {% extends "business_page/base.html" %}
-{% block title %}Engineering Insights — DevOps, Cloud & Automation | HZORTECH Armenia{% endblock %}
-{% block meta_desc %}Technical insights from HZORTECH engineers: DevOps best practices, cloud architecture, automation, cybersecurity, and software engineering from Yerevan, Armenia.{% endblock %}
-{% block og_title %}Engineering Insights — DevOps, Cloud & Automation | HZORTECH{% endblock %}
-{% block og_desc %}Technical insights on DevOps, cloud architecture, automation, and cybersecurity from HZORTECH engineers in Yerevan, Armenia.{% endblock %}
-{% block meta_keywords %}DevOps blog Armenia, cloud engineering insights, automation engineering blog, software engineering Yerevan, cybersecurity Armenia blog, Python DevOps tutorials{% endblock %}
+{% load hz_tags %}
+{% block title %}Journal — Field notes on DevOps, cloud, security &amp; automation | HZORTECH{% endblock %}
+{% block meta_desc %}Technical field notes from HZORTECH engineers: SIEM tuning, zero-downtime migration, CI/CD hardening, cloud architecture and automation — written from production, not theory.{% endblock %}
+{% block og_title %}Journal — field notes from production | HZORTECH{% endblock %}
 {% block canonical_path %}/blog/{% endblock %}
-
 {% block schema %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "@id": "https://hzortech.com/blog/#webpage",
-  "url": "https://hzortech.com/blog/",
-  "name": "Engineering Insights | HZORTECH Armenia",
-  "description": "Technical insights on DevOps, cloud, automation, and cybersecurity from HZORTECH engineers.",
-  "isPartOf": {"@id": "https://hzortech.com/#website"},
-  "publisher": {"@id": "https://hzortech.com/#organization"},
-  "breadcrumb": {
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://hzortech.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Insights", "item": "https://hzortech.com/blog/"}
-    ]
-  }
-}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","url":"{{ site_url }}/blog/","name":"HZORTECH Journal","publisher":{"@id":"{{ site_url }}/#organization"},"isPartOf":{"@id":"{{ site_url }}/#website"}}</script>
 {% endblock %}
 
 {% block content %}
-
-<section class="mb-5 py-3 reveal hz-hero-motif" style="--motif-hue:165;--motif-hue2:205">
-    <div class="hz-label">INSIGHTS // TECHNICAL BRIEFS</div>
-    <h1 class="display-hero mb-3">
-        Engineering<br>
-        <span style="color:var(--ember);">Intelligence.</span>
-    </h1>
-    <p style="max-width:560px;font-size:1rem;line-height:1.75;">
-        Technical notes from the field. Cloud hardening, SIEM tuning, DevOps patterns — written by engineers, for engineers.
-    </p>
+<section class="page-hero" aria-labelledby="page-title">
+  <div class="wrap grid">
+    <nav class="span-12" aria-label="Breadcrumb"><ol class="crumbs"><li><a href="{% url 'home' %}">Home</a></li><li aria-current="page">Journal</li></ol></nav>
+    <h1 class="t-h1 span-12" id="page-title" data-split>Field notes <br>from <span class="t-red">production.</span></h1>
+    <p class="t-lead span-7">What we learn shipping DevOps, cloud, security and automation work — written by the engineers who did it, for engineers who might hit the same problem.</p>
+  </div>
 </section>
 
-<hr class="hz-line">
-
-<div class="row g-4">
-
-    <div class="col-md-6 col-lg-4 reveal">
-        <div class="hz-card hz-card-body h-100 hz-card-ember">
-            <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">SIEM // 11 MAY 2026</div>
-            <h3 style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.75rem;">Wazuh in Production: 5 Tuning Rules That Eliminate 80% of Alert Noise</h3>
-            <p style="font-size:.83rem;margin-bottom:1.25rem;">Out-of-the-box Wazuh generates thousands of alerts per day. Most are noise. Here are the five rule overrides we apply on every deployment to surface only what matters.</p>
-            <div class="hz-terminal" style="font-size:.75rem;">
-                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
-                <span class="t-line t-comment"># /var/ossec/etc/rules/local_rules.xml</span>
-                <span class="t-line"><span class="t-prompt">&lt;rule id="100001" level="0"&gt;</span></span>
-                <span class="t-line" style="padding-left:1rem;color:#8E9196;">  &lt;if_sid&gt;5501&lt;/if_sid&gt;</span>
-                <span class="t-line" style="padding-left:1rem;color:#8E9196;">  &lt;description&gt;Ignore cron PAM&lt;/description&gt;</span>
-                <span class="t-line"><span class="t-prompt">&lt;/rule&gt;</span></span>
-            </div>
-            <div class="mt-3">
-                <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;">Request Full Guide</a>
-            </div>
-        </div>
+{% if not post_count %}
+<section class="section section--flush-top" aria-label="No articles yet">
+  <div class="wrap">
+    <div class="notice">
+      <p><strong>The first articles are being written.</strong> When they publish, they’ll appear here — real patterns from real engagements, not filler. Subscribe below and we’ll email you when the first one is live.</p>
     </div>
+  </div>
+</section>
+{% else %}
 
-    <div class="col-md-6 col-lg-4 reveal">
-        <div class="hz-card hz-card-body h-100">
-            <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">TERRAFORM // 04 MAY 2026</div>
-            <h3 style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.75rem;">Zero-Downtime AWS Migration: The Blue/Green Checklist We Run Every Time</h3>
-            <p style="font-size:.83rem;margin-bottom:1.25rem;">A 14-step pre-cutover checklist covering DNS TTL reduction, health check validation, rollback triggers, and 30-day post-migration monitoring thresholds.</p>
-            <div class="hz-terminal" style="font-size:.75rem;">
-                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
-                <span class="t-line t-comment"># Pre-cutover checklist excerpt</span>
-                <span class="t-line t-out">✓ DNS TTL set to 60s (24h before)</span>
-                <span class="t-line t-out">✓ Health checks passing on green</span>
-                <span class="t-line t-out">✓ Rollback trigger defined</span>
-                <span class="t-line" style="color:#F59E0B;">⧗ Data integrity checksums...</span>
-            </div>
-            <div class="mt-3">
-                <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;">Request Full Guide</a>
-            </div>
-        </div>
+{% if featured %}
+<section class="section section--flush-top featured-post" aria-labelledby="fp-title">
+  <div class="wrap">
+    <a class="featured-post__link" href="{{ featured.get_absolute_url }}" aria-labelledby="fp-title">
+      <p class="t-mono featured-post__meta"><span>Featured</span><span>{{ featured.get_topic_display }}</span><time datetime="{{ featured.published_at|date:'Y-m-d' }}">{{ featured.published_at|date:'d M Y' }}</time><span>{{ featured.reading_minutes }} min read</span></p>
+      <h2 class="t-h1" id="fp-title">{{ featured.title }}</h2>
+      <p class="t-lead">{{ featured.dek }}</p>
+      <span class="link-arrow">Read the article <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+    </a>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section--tight" aria-labelledby="list-title">
+  <div class="wrap">
+    <h2 class="visually-hidden" id="list-title">All articles</h2>
+    <nav class="filter-bar" aria-label="Filter by topic">
+      <p class="t-mono">Filter by topic</p>
+      <ul class="cluster" role="list" style="--cluster:8px">
+        <li><a class="chip{% if not active_topic %} is-active{% endif %}" href="{% url 'blog' %}"{% if not active_topic %} aria-current="true"{% endif %}>All <span class="t-faint">{{ post_count }}</span></a></li>
+        {% for key, label in topics %}
+        <li><a class="chip{% if active_topic == key %} is-active{% endif %}" href="?topic={{ key }}"{% if active_topic == key %} aria-current="true"{% endif %}>{{ label }} <span class="t-faint">{{ topic_counts|get_item:key }}</span></a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <ol class="post-list" role="list" data-reveal-group>
+      {% for post in posts %}{% include 'business_page/partials/_post_row.html' %}{% endfor %}
+    </ol>
+  </div>
+</section>
+{% endif %}
+
+<section class="section dark-island newsletter-cta" aria-labelledby="nl-title">
+  <div class="wrap grid">
+    <div class="span-6 stack">
+      <p class="eyebrow"><span class="eyebrow__index">§</span> Journal by email</p>
+      <h2 class="t-h2" id="nl-title">New articles, <br>roughly monthly.</h2>
+      <p class="t-body">No marketing, nothing else — just an email when a new field note publishes. Confirm once, unsubscribe any time.</p>
     </div>
-
-    <div class="col-md-6 col-lg-4 reveal">
-        <div class="hz-card hz-card-body h-100">
-            <div style="font-family:var(--mono);font-size:.65rem;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;">CI/CD // 28 APR 2026</div>
-            <h3 style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.75rem;">GitHub Actions Security Hardening: What Most Teams Miss</h3>
-            <p style="font-size:.83rem;margin-bottom:1.25rem;">Secret scanning, OIDC instead of long-lived keys, pinned action versions, and workflow permission scoping — the four controls that prevent supply chain compromise.</p>
-            <div class="hz-terminal" style="font-size:.75rem;">
-                <div class="t-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
-                <span class="t-line t-comment"># .github/workflows/deploy.yml</span>
-                <span class="t-line" style="color:#8E9196;">permissions:</span>
-                <span class="t-line" style="padding-left:1rem;color:#00CC66;">  contents: read</span>
-                <span class="t-line" style="padding-left:1rem;color:#00CC66;">  packages: write</span>
-                <span class="t-line" style="padding-left:1rem;color:#E62127;">  # nothing else</span>
-            </div>
-            <div class="mt-3">
-                <a href="{% url 'contact' %}" class="btn-ghost" style="font-size:.75rem;">Request Full Guide</a>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<hr class="hz-line">
-
-<section class="text-center py-4 reveal">
-    <div class="hz-label" style="justify-content:center;">MORE COMING MONTHLY</div>
-    <p style="max-width:480px;margin:1rem auto 2rem;">Subscribe to get each brief when it publishes. One email. No marketing. Unsubscribe any time.</p>
-    <form action="{% url 'newsletter_signup' %}" method="post" class="d-inline-flex gap-2 flex-wrap justify-content-center">
-        {% csrf_token %}
-        <input type="email" name="email" placeholder="your@email.com" class="form-control" style="max-width:280px;" required>
-        <button type="submit" class="btn-ember">Subscribe</button>
+    <form class="span-5 start-8 stack newsletter-cta__form" method="post" action="{% url 'newsletter_signup' %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <label class="field__label" for="nl-email">Email <span class="field__req">Required</span></label>
+      <input class="input" id="nl-email" type="email" name="email" autocomplete="email" placeholder="you@company.com" required>
+      <div class="visually-hidden" aria-hidden="true"><label for="nl-website">Leave empty</label><input id="nl-website" type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <button class="btn btn--primary btn--large" type="submit">Subscribe</button>
     </form>
+  </div>
 </section>
-
 {% endblock %}
