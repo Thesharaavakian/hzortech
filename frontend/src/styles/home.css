@@ -99,11 +99,51 @@
 .forge.is-scrubbing .forge__chapter .forge__still { display: none; }
 .forge.is-scrubbing .forge__meter { display: block; color: rgba(237, 234, 228, 0.55); letter-spacing: 0.1em; }
 
-/* ── Work stack ───────────────────────────────────────────────────────── */
+/* ── Work stack ───────────────────────────────────────────────────────────
+   Each <li> needs real scroll runway taller than the viewport for the
+   sticky-then-recede effect to have anywhere to happen: a card this short
+   (content-sized, no min-height) becomes sticky and is immediately
+   overtaken by the next card's normal-flow position before motion.ts's
+   fade/scale scrub has time to finish — the two render in the same screen
+   area at once, each readable, which is exactly the "overlapping, one
+   thing hurting the other from showing" bug. min-height gives it a full
+   viewport of dwell time regardless of how tall the card's own content is.
+
+   position: sticky lives on .work-card__sticky, an inner wrapper — NOT on
+   .work-card (the <li>, used by motion.ts as the ScrollTrigger reference
+   for the NEXT card's trigger). GSAP has to re-measure that reference
+   element's natural-flow position on every ScrollTrigger.refresh() (e.g.
+   after a lazy island like the forge film mounts and changes page height
+   below). A position:sticky element that is CURRENTLY stuck reports its
+   stuck viewport position from getBoundingClientRect(), not its natural
+   flow position — so a refresh that happens to run while a card is stuck
+   permanently corrupts that trigger's start/end for the rest of the page's
+   life, which is what made the cards fade to (and stay) invisible. Keeping
+   .work-card itself a plain, never-sticky flow box makes it always
+   correctly measurable regardless of scroll position at refresh time.
+
+   .work-card__inner's own fade/scale stays a separate element again, same
+   reasoning as before: with align-items:center the inner card was only as
+   tall as its own content, floating in the middle of the taller sticky box
+   with transparent space above/below where a still-stuck previous card
+   could show through — align-items:stretch (default, so just omitting
+   center) plus align-content:center on the inner grid keeps the content
+   visually centered while the opaque background fills the full box. */
 .work-stack { list-style: none; padding: 0; }
-.work-card { position: sticky; top: calc(var(--header-h) + 16px); padding-bottom: 24px; }
+.work-card {
+  min-height: calc(100svh - var(--header-h) - 16px);
+  padding-bottom: 24px;
+}
+.work-card__sticky {
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  display: flex;
+  height: calc(100svh - var(--header-h) - 16px);
+}
 .work-card__inner {
   display: grid;
+  align-content: center;
+  width: 100%;
   gap: 28px;
   border: 1px solid var(--line);
   background: var(--bg);

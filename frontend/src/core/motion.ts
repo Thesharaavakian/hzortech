@@ -51,6 +51,27 @@ export function initMotion(): void {
     ScrollTrigger.refresh()
   })
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true })
+
+  // Islands lazy-mount well after this runs (scroll-proximity gated, up to
+  // several seconds out via islands.ts's own backstop) and several of them
+  // change page height after mounting — forge's pin alone goes from a
+  // content-sized block to a full 100svh pinned section. A plain
+  // ScrollTrigger.refresh() is NOT enough to fix this: GSAP correctly
+  // recalculates ScrollTrigger.maxScroll() and self-referencing triggers
+  // (trigger: el, start: 'top 88%') after a refresh, but a trigger created
+  // earlier with `trigger: someLaterSibling` keeps stale start/end pixel
+  // values even across repeated forced refreshes once something ABOVE that
+  // sibling has inserted a pin-spacer — confirmed by killing and recreating
+  // the exact same tween/trigger after the fact, which reads the correct
+  // (now forge-inclusive) position immediately. So initStack()'s own
+  // triggers are killed and recreated (not just refreshed) whenever any
+  // island mounts, since any of them can change layout below itself; it's
+  // the one spot in this file using a *sibling* element as the trigger
+  // reference, which is what's exposed to this GSAP behavior.
+  document.addEventListener('island:mounted', () => {
+    initStack()
+    ScrollTrigger.refresh()
+  }, { passive: true })
 }
 
 function revealOne(el: HTMLElement) {
@@ -142,16 +163,32 @@ function initParallax() {
   })
 }
 
+let stackTriggers: ScrollTrigger[] = []
+
+// Safe to call more than once: kills its own previous triggers first. It's
+// re-run (not just covered by ScrollTrigger.refresh()) whenever an island
+// mounts below it — see the 'island:mounted' listener in initMotion() for
+// why a refresh alone doesn't correct these specific triggers' positions.
 function initStack() {
+  stackTriggers.forEach((t) => t.kill())
+  stackTriggers = []
   const cards = gsap.utils.toArray<HTMLElement>('[data-stack-card]')
   cards.forEach((card, i) => {
     const next = cards[i + 1]
     if (!next) return
-    gsap.to(card.querySelector('[data-stack-inner]') || card, {
+    // Fades fully to 0, not a dim-but-still-visible floor: the previous
+    // card's own sticky dwell and the next card's entrance are tuned to
+    // line up almost exactly, but not pixel-perfectly at every viewport
+    // size — a non-zero opacity floor meant whatever sliver of mistiming
+    // existed stayed permanently visible as two faded cards' content
+    // overlapping (the "one thing hurting the other from showing" bug).
+    // Reaching true 0 means any such sliver is invisible by construction.
+    const tween = gsap.to(card.querySelector('[data-stack-inner]') || card, {
       scale: 0.94,
-      opacity: 0.35,
+      opacity: 0,
       ease: 'none',
-      scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top+=96', scrub: true },
+      scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top+=140', scrub: true },
     })
+    if (tween.scrollTrigger) stackTriggers.push(tween.scrollTrigger)
   })
 }

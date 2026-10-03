@@ -163,6 +163,7 @@
     <ol class="work-stack" role="list">
       {% for case in featured_cases %}
       <li class="work-card" data-stack-card style="--i:{{ forloop.counter0 }}">
+        <div class="work-card__sticky">
         <article class="work-card__inner" data-stack-inner aria-labelledby="work-{{ case.slug }}">
           <div class="work-card__media cover">
             {% if case.cover %}<img src="{% static case.cover %}" alt="{{ case.cover_alt }}" loading="lazy" decoding="async" width="1600" height="1000">{% endif %}
@@ -180,6 +181,7 @@
               <a class="link-arrow work-card__cta" href="{{ case.get_absolute_url }}">Read the case study<span class="visually-hidden">: {{ case.client }}</span> <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
           </div>
         </article>
+        </div>
       </li>
       {% endfor %}
     </ol>
