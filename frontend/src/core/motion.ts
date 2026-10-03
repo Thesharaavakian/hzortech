@@ -53,23 +53,49 @@ export function initMotion(): void {
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true })
 }
 
+function revealOne(el: HTMLElement) {
+  if (el.classList.contains('is-in')) return
+  const group = el.closest('[data-reveal-group]')
+  if (group) {
+    const siblings = Array.from(group.querySelectorAll('[data-reveal]'))
+    el.style.setProperty('--reveal-delay', `${Math.min(siblings.indexOf(el), 8) * 0.07}s`)
+  }
+  el.classList.add('is-in')
+}
+
 function initReveals() {
-  const els = document.querySelectorAll<HTMLElement>('[data-reveal]')
+  const els = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'))
   if (!els.length) return
+
+  // The watchdog is registered FIRST and unconditionally, before touching
+  // IntersectionObserver at all — `new IntersectionObserver()` throws
+  // synchronously (a ReferenceError, not a gentle "unsupported") in any
+  // environment that lacks it, which would otherwise abort this whole
+  // function before the watchdog line is ever reached. Generous rootMargin
+  // plus this watchdog also covers fast/jump scrolling (End key, scrollbar
+  // drag, fast flicks can all skip an element's trigger frame) or an
+  // observer that never gets a rendering-pipeline tick. Unlike the islands
+  // (which have working fallback HTML either way), a data-reveal element
+  // IS the content — there's nothing to fall back to.
+  let unobserveAll = () => {}
+  window.setTimeout(() => {
+    els.forEach((el) => revealOne(el))
+    unobserveAll()
+  }, 2500)
+
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(revealOne)
+    return
+  }
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (!e.isIntersecting) return
-      const el = e.target as HTMLElement
-      const group = el.closest('[data-reveal-group]')
-      if (group) {
-        const siblings = Array.from(group.querySelectorAll('[data-reveal]'))
-        el.style.setProperty('--reveal-delay', `${Math.min(siblings.indexOf(el), 8) * 0.07}s`)
-      }
-      el.classList.add('is-in')
-      io.unobserve(el)
+      revealOne(e.target as HTMLElement)
+      io.unobserve(e.target)
     })
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.01 })
   els.forEach((el) => io.observe(el))
+  unobserveAll = () => els.forEach((el) => io.unobserve(el))
 }
 
 function initSplits() {
