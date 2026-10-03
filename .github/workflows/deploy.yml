@@ -33,9 +33,6 @@ jobs:
       - name: Django check
         run: python manage.py check
 
-      - name: Django tests
-        run: python manage.py test business_page
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -56,6 +53,12 @@ jobs:
       - name: Frontend build
         working-directory: frontend
         run: npm run build
+
+      # Django tests render real templates (base.html calls {% vite_entry %}),
+      # which needs frontend/dist/.vite/manifest.json — so this has to run
+      # after the frontend build, not before it.
+      - name: Django tests
+        run: python manage.py test business_page
 
       - name: collectstatic (verifies the Vite manifest resolves)
         run: python manage.py collectstatic --noinput
