@@ -166,6 +166,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 package-lock.json
+# ...except the one that matters: frontend/'s lockfile is committed on
+# purpose, for reproducible `npm ci` in CI and in the Docker build.
+!frontend/package-lock.json
 yarn.lock
 .env.local
 .env.development.local

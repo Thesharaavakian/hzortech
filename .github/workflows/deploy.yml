@@ -15,6 +15,10 @@ jobs:
     env:
       DJANGO_SECRET_KEY: ci-test-key-not-used-in-production
       DJANGO_TEST_STATIC: simple
+      # Without this, SECURE_SSL_REDIRECT (= not DEBUG) is True and every
+      # plain-HTTP test request 301s before reaching a view — the Django
+      # test client doesn't mark requests secure unless told to per-call.
+      DEBUG: 'True'
     steps:
       - uses: actions/checkout@v4
 
