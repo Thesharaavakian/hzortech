@@ -21,8 +21,14 @@ class SecurityHeadersMiddleware:
         response = self.get_response(request)
         if response.get('Content-Security-Policy') is None:
             response['Content-Security-Policy'] = self.policy(request)
-        # HSTS is set by django.middleware.security.SecurityMiddleware (see
-        # SECURE_HSTS_* in settings.py) — not duplicated here.
+        # Sent unconditionally, not gated on request.is_secure() (Django's
+        # own SECURE_HSTS_SECONDS mechanism is, and that gate evaluated
+        # false in the real Cloudflare → nginx → Django chain in production
+        # — see the SECURE_SSL_REDIRECT comment in settings.py). A header
+        # here can't loop the way a redirect could, so this is the safe
+        # way to keep sending it while that's unresolved.
+        if not settings.DEBUG:
+            response['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
         response['X-Frame-Options'] = 'DENY'
         response['X-Content-Type-Options'] = 'nosniff'
         response['Referrer-Policy'] = 'strict-origin-when-cross-origin'

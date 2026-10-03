@@ -183,16 +183,17 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 X_FRAME_OPTIONS = 'DENY'
-# nginx (nginx-dc.conf) sets X-Forwarded-Proto: https unconditionally on every
-# proxied request, so request.is_secure() is always true here — redirecting
-# never loops, and this is real protection against anything that reaches
-# Django without going through that proxy (a direct port-80 hit, a
-# misconfigured health check). HSTS is set via Django's own mechanism rather
-# than the hand-written header a previous pass put in SecurityHeadersMiddleware.
-SECURE_SSL_REDIRECT = not DEBUG
-SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
-SECURE_HSTS_PRELOAD = not DEBUG
+# SECURE_SSL_REDIRECT was briefly enabled on the (incorrect) assumption that
+# nginx's hardcoded `X-Forwarded-Proto: https` guarantees request.is_secure()
+# is always true in production. In the real Cloudflare → nginx → Django
+# chain it was not — the live site 301-redirected to itself in a loop
+# (caught and reverted within minutes; see git history). Root cause wasn't
+# chased under live-incident pressure — it needs reproducing against the
+# real proxy chain (not a local simulation) before re-enabling. Cloudflare's
+# own edge TLS/"Always Use HTTPS" is what actually protects visitors here;
+# this was defense-in-depth, not load-bearing, so leaving it off is safe.
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 0
 
 SITEMAP_PROTOCOL = 'https'
 
