@@ -42,9 +42,15 @@
 .sysmap__legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; font-size: 12px; color: var(--text-3); }
 .sysmap__legend span { display: inline-flex; align-items: center; gap: 6px; }
 
-/* ── Forge WebGL canvas ──────────────────────────────────────────────── */
-.forge__frame canvas { opacity: 0; transition: opacity 0.6s ease; }
-.forge__frame canvas.is-ready { opacity: 1; }
+/* ── Forge canvas ──────────────────────────────────────────────────────
+   The whole .forge__frame container's fade-in is handled by
+   .forge.is-scrubbing .forge__frame { opacity: 1 } in home.css, which forge.ts
+   already gates on frame 0 being loaded (it only inserts the canvas after
+   that succeeds). A second opacity:0→1 gate on the canvas ITSELF, keyed to
+   an .is-ready class forge.ts never actually sets, previously left the
+   canvas permanently invisible — real frames were drawing underneath a
+   literal opacity:0, which is why the section rendered as a black void
+   with no film visible at all. */
 .forge.is-scrubbing .forge__frame picture.forge__poster { opacity: 0; }
 
 /* ── Signature (per-discipline generative visual) ────────────────────── */
