@@ -4,9 +4,28 @@
 /* ── System map ───────────────────────────────────────────────────────── */
 .sysmap { display: grid; gap: 24px; }
 @media (min-width: 1000px) { .sysmap { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; } }
+/* Grid items default to min-width: auto, so below 1000px (no explicit
+   track sizing to force a minimum of 0) the diagram's fixed-width
+   scroll stage (below) inflates its own implicit grid cell to fit,
+   which inflates the grid track, which inflates .sysmap, pushing the
+   whole page into horizontal overflow instead of staying contained in
+   the intended scrollable box. */
+.sysmap > * { min-width: 0; }
 .sysmap__scenarios { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
 .sysmap__svg-wrap { border: 1px solid var(--line); background: radial-gradient(120% 100% at 10% 0%, rgba(240, 68, 74, 0.06), transparent 60%); padding: clamp(16px, 3vw, 32px); }
 .sysmap__stage { position: relative; width: 100%; }
+/* Node buttons (min-width: 84px below, white-space: nowrap, some labels
+   like "Admin & dashboards") are laid out at fixed design-canvas
+   percentages — below ~700px wide, compressing that canvas into the
+   viewport packs several buttons' real pixel width into less space than
+   they need, so neighboring nodes overlap and their text runs together.
+   Below 699.98px the stage holds a minimum real width and the wrap
+   scrolls horizontally instead, keeping every node's design spacing
+   (and so its actual on-screen size) intact. */
+@media (max-width: 699.98px) {
+  .sysmap__svg-wrap { overflow-x: auto; }
+  .sysmap__stage { width: 640px; max-width: none; }
+}
 .sysmap__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: visible; }
 .sysmap__edge { stroke: var(--line-2); stroke-width: 1.25; fill: none; transition: stroke var(--dur-2) ease, stroke-width var(--dur-2) ease; }
 .sysmap__edge[data-active='true'] { stroke: var(--hzor-text); stroke-width: 1.75; }
