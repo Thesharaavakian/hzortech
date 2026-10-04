@@ -6,6 +6,10 @@
 .article-body { display: grid; gap: clamp(32px, 4vw, 56px); padding-bottom: clamp(48px, 7vw, 96px); }
 @media (min-width: 1000px) { .article-body { grid-template-columns: 220px 1fr; } }
 .article-toc { align-self: start; position: sticky; top: calc(var(--header-h) + 24px); }
+/* .article-body is single-column below 1000px, stacking the TOC above the
+   article instead of beside it — sticky there pinned it over the body
+   text as it scrolled underneath (same pattern as .case-toc). */
+@media (max-width: 999.98px) { .article-toc { position: static; } }
 .article-toc ol { list-style: none; padding: 0; display: grid; gap: 10px; counter-reset: toc; }
 .article-toc a { color: var(--text-3); text-decoration: none; counter-increment: toc; }
 .article-toc a::before { content: counter(toc, decimal-leading-zero) '  '; font-family: var(--font-mono); font-size: 11px; color: var(--hzor-text); }

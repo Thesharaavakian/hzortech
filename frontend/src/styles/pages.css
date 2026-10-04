@@ -14,6 +14,11 @@
 .anchor-alias { display: block; position: relative; top: calc(-1 * var(--header-h) - 20px); }
 .layer-section { scroll-margin-top: var(--header-h); padding-block: clamp(48px, 7vw, 96px); }
 .layer-section__head { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; }
+/* .grid collapses every column to full-width below 899.98px (layout.css),
+   stacking the head above the discipline list instead of beside it —
+   sticky in a single-column flow pins the head over the list as it
+   scrolls underneath, instead of just scrolling past it like a heading. */
+@media (max-width: 899.98px) { .layer-section__head { position: static; } }
 .discipline-list { list-style: none; padding: 0; border-top: 1px solid var(--line); }
 .discipline { border-bottom: 1px solid var(--line); }
 .discipline__link {
@@ -78,6 +83,10 @@
 .case-body { display: grid; gap: clamp(32px, 4vw, 56px); padding-bottom: clamp(48px, 7vw, 96px); }
 @media (min-width: 1000px) { .case-body { grid-template-columns: 220px 1fr; } }
 .case-toc { align-self: start; position: sticky; top: calc(var(--header-h) + 24px); }
+/* .case-body is single-column below 1000px, stacking the TOC above the
+   case content instead of beside it — sticky there pins it over the
+   content as it scrolls underneath. */
+@media (max-width: 999.98px) { .case-toc { position: static; } }
 .case-toc ol { list-style: none; padding: 0; display: grid; gap: 10px; }
 .case-toc a { color: var(--text-3); text-decoration: none; }
 .case-toc a:hover { color: var(--text); }
@@ -118,6 +127,10 @@
 /* ── Contact ──────────────────────────────────────────────────────────── */
 .contact { padding-bottom: clamp(64px, 9vh, 140px); }
 .contact__aside { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; }
+/* Same .grid single-column collapse as .layer-section__head above: below
+   899.98px the aside stacks above the intake form instead of beside it,
+   and sticky there pinned it over the form's own radio options. */
+@media (max-width: 899.98px) { .contact__aside { position: static; } }
 .contact__line { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; }
 .intake-form { display: grid; }
 .field-row { display: grid; gap: 20px; margin-top: 20px; }
