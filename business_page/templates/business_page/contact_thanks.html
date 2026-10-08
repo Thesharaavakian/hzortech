@@ -8,7 +8,7 @@
       <p class="eyebrow"><span class="eyebrow__index">✓</span> Brief received</p>
       <h1 class="t-h1" id="page-title">Thank you. <br><span class="t-red">It’s with an engineer.</span></h1>
       {% if urgent %}
-      <p class="t-lead">You marked this as urgent, so we’ll triage it today (Mon–Fri, 09:00–18:00 Yerevan time). If production is down right now, call <a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a> as well.</p>
+      <p class="t-lead">You marked this as urgent, so we’ll triage it today (Mon–Fri, 09:00–18:00 Yerevan time). If it’s critical, message us on <a href="{{ company.whatsapp }}" rel="noopener" target="_blank">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a> as well.</p>
       {% else %}
       <p class="t-lead">We reply within 48 hours on working days — with questions or a direct assessment. A copy of the confirmation is on its way to your inbox.</p>
       {% endif %}

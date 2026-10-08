@@ -207,31 +207,19 @@
   </div>
 </section>
 
-{# ── 08 · The people ────────────────────────────────────────────────────── #}
+{# ── 08 · The team ──────────────────────────────────────────────────────── #}
 <section class="section people" id="people" aria-labelledby="people-title">
   <div class="wrap">
     <header class="section-head section-head--split">
       <div class="stack">
-        <p class="eyebrow"><span class="eyebrow__index">§ 07</span> The people</p>
-        <h2 class="t-h2" id="people-title" data-split>Two engineers. <br>No layers.</h2>
+        <p class="eyebrow"><span class="eyebrow__index">§ 07</span> The team</p>
+        <h2 class="t-h2" id="people-title" data-split>A small team. <br>No layers.</h2>
       </div>
-      <p class="t-body-lg">When you talk to HZORTECH you talk to the people who design, build and run your system — from the first call to production. For larger scopes, trusted specialists join, agreed with you before work starts.</p>
+      <p class="t-body-lg">When you talk to HZORTECH you talk to the engineers who design, build and run your system — from the first call to production. For larger scopes, trusted specialists join, agreed with you before work starts.</p>
     </header>
-    <div class="people__grid" data-reveal-group>
-      {% for f in founders %}
-      <article class="person" data-reveal aria-labelledby="person-{{ f.key }}">
-        <div class="person__mono" aria-hidden="true">{{ f.initials }}</div>
-        <div class="person__body">
-          <h3 class="t-h3" id="person-{{ f.key }}">{{ f.name }}</h3>
-          <p class="t-mono t-red">{{ f.role }}</p>
-          <p class="t-body">{{ f.summary }}</p>
-          <ol class="person__path" role="list">
-            {% for org, what in f.path %}<li><strong>{{ org }}</strong><span>{{ what }}</span></li>{% endfor %}
-          </ol>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
+    <ul class="cluster" role="list" aria-label="Backgrounds on the team" style="--cluster:10px">
+      {% for b in team_backgrounds %}<li class="chip">{{ b }}</li>{% endfor %}
+    </ul>
     <p class="section-foot"><a class="link-arrow" href="{% url 'about' %}">The whole story <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
   </div>
 </section>

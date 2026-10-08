@@ -63,7 +63,7 @@ def home(request):
         'featured_cases': featured,
         'case_count': len(cases),
         'latest_posts': _published_posts()[:3],
-        'founders': content.FOUNDERS,
+        'team_backgrounds': content.TEAM_BACKGROUNDS,
         'standards': content.STANDARDS,
         'frameworks': content.FRAMEWORKS,
         'process': content.PROCESS,
@@ -81,7 +81,7 @@ def home(request):
 
 def about(request):
     return render(request, 'business_page/about.html', {
-        'founders': content.FOUNDERS,
+        'team_backgrounds': content.TEAM_BACKGROUNDS,
         'principles': content.PRINCIPLES,
         'layers': _layers_with_services(),
         'forge_seq': FORGE_SEQ,
@@ -161,10 +161,10 @@ def contact(request):
             messages.success(request, 'sent')
             return redirect('contact')
         if rate_limited(request, 'intake'):
-            messages.error(request, 'Too many submissions from your connection in a short time. Please wait a few minutes, or email contact@hzortech.com.')
+            messages.error(request, 'Too many submissions from your connection in a short time. Please wait a few minutes and try again.')
         elif form.is_valid():
             if not verify_turnstile(request.POST.get('cf-turnstile-response', ''), client_ip(request)):
-                messages.error(request, 'The spam check didn’t pass. Please try again, or email contact@hzortech.com directly.')
+                messages.error(request, 'The spam check didn’t pass. Please try again in a moment.')
             else:
                 sub, _ = save_intake(form, request)
                 request.session['intake_urgent'] = sub.is_urgent

@@ -1,12 +1,12 @@
 {% extends "business_page/base.html" %}
 {% load static %}
 {% block title %}About HZORTECH — Engineers from banking, research HPC and security | Yerevan, Armenia{% endblock %}
-{% block meta_desc %}HZORTECH (hzor — Armenian for “strong”) is an engineering company in Yerevan founded in 2022 by Shara Avakian and Marat Sargsyan, engineers from banking systems, national research HPC and cybersecurity.{% endblock %}
+{% block meta_desc %}HZORTECH (hzor — Armenian for “strong”) is an engineering company in Yerevan founded in 2022 by a team of engineers from banking systems, national research HPC and cybersecurity.{% endblock %}
 {% block og_title %}About HZORTECH — strong, by name and by design{% endblock %}
 {% block canonical_path %}/about/{% endblock %}
 {% block body_class %}page-about{% endblock %}
 {% block schema %}
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","url":"{{ site_url }}/about/","name":"About HZORTECH","about":{"@id":"{{ site_url }}/#organization"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ site_url }}/"},{"@type":"ListItem","position":2,"name":"About","item":"{{ site_url }}/about/"}]},"mentions":[{% for f in founders %}{"@type":"Person","name":"{{ f.name }}","jobTitle":"{{ f.role }}","worksFor":{"@id":"{{ site_url }}/#organization"}}{% if not forloop.last %},{% endif %}{% endfor %}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"AboutPage","url":"{{ site_url }}/about/","name":"About HZORTECH","about":{"@id":"{{ site_url }}/#organization"},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"{{ site_url }}/"},{"@type":"ListItem","position":2,"name":"About","item":"{{ site_url }}/about/"}]}}</script>
 {% endblock %}
 
 {% block content %}
@@ -40,25 +40,14 @@
 <section class="section" aria-labelledby="people-title">
   <div class="wrap">
     <header class="section-head section-head--split">
-      <div class="stack"><p class="eyebrow"><span class="eyebrow__index">§ 02</span> The people</p><h2 class="t-h2" id="people-title" data-split>Two engineers, <br>three industries.</h2></div>
+      <div class="stack"><p class="eyebrow"><span class="eyebrow__index">§ 02</span> The team</p><h2 class="t-h2" id="people-title" data-split>Small by design.</h2></div>
       <p class="t-body-lg">HZORTECH was started in {{ company.founded }} by engineers who had spent years on live banking systems, national research computing and enterprise security — and wanted to bring that discipline straight to clients, without the layers of an agency.</p>
     </header>
-    {% for f in founders %}
-    <article class="founder" aria-labelledby="f-{{ f.key }}" data-reveal>
-      <div class="founder__mono t-display" aria-hidden="true">{{ f.initials }}</div>
-      <div class="founder__head stack">
-        <h3 class="t-h2" id="f-{{ f.key }}">{{ f.name }}</h3>
-        <p class="t-mono t-red">{{ f.role }}</p>
-        <p class="t-body-lg">{{ f.summary }}</p>
-        {% if f.education %}<p class="t-small">{{ f.education }}</p>{% endif %}
-        <ul class="cluster" role="list" style="--cluster:6px">{% for s in f.skills %}<li class="chip">{{ s }}</li>{% endfor %}</ul>
-      </div>
-      <ol class="founder__path" role="list" aria-label="Career path">
-        {% for org, what in f.path %}<li><span class="t-mono">{{ forloop.counter|stringformat:"02d" }}</span><div><strong>{{ org }}</strong><p class="t-small">{{ what }}</p></div></li>{% endfor %}
-      </ol>
-    </article>
-    {% endfor %}
-    <p class="t-body about-note">For larger scopes, trusted specialists join the team — the size and make-up of the team is agreed with you before work starts. The two of us stay responsible for the result.</p>
+    <div class="stack" style="--stack:24px">
+      <p class="t-body">Every engineer on the team has shipped and supported production systems before working here — payment-workflow platforms for live banking, vulnerability management and endpoint hardening, HPC scheduling for research compute, systems support for critical infrastructure. That background is where the standards on this page come from.</p>
+      <ul class="cluster" role="list" aria-label="Backgrounds on the team" style="--cluster:8px">{% for b in team_backgrounds %}<li class="chip">{{ b }}</li>{% endfor %}</ul>
+    </div>
+    <p class="t-body about-note">For larger scopes, trusted specialists join the team — the size and make-up of the team is agreed with you before work starts. The core team stays responsible for the result.</p>
   </div>
 </section>
 

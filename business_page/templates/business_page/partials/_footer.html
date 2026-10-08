@@ -43,9 +43,8 @@
       <div class="footer-col">
         <h2>Direct lines</h2>
         <ul class="footer-links" role="list">
-          <li><a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
-          <li><a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></li>
           <li><a href="{{ company.whatsapp }}" rel="noopener" target="_blank">WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a href="{% url 'contact' %}">Start a project</a></li>
           <li class="t-small">{{ company.city }}<br>{{ company.hours }}</li>
         </ul>
       </div>
@@ -76,7 +75,6 @@
         <a href="/.well-known/security.txt">security.txt</a>
         <a href="{{ company.linkedin }}" rel="noopener" target="_blank" aria-label="LinkedIn (opens in a new tab)"><svg width="16" height="16" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
         <a href="{{ company.instagram }}" rel="noopener" target="_blank" aria-label="Instagram (opens in a new tab)"><svg width="16" height="16" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="{{ company.github }}" rel="noopener" target="_blank" aria-label="GitHub (opens in a new tab)"><svg width="16" height="16" aria-hidden="true"><use href="#i-github"/></svg></a>
       </div>
     </div>
   </div>

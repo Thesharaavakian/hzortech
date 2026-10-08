@@ -2,28 +2,9 @@
 standards, engagement models, the system-map definition. Kept as plain data
 so templates stay declarative and islands receive it via json_script."""
 
-FOUNDERS = [
-    {
-        'key': 'shara', 'initials': 'SA', 'name': 'Shara Avakian', 'role': 'Principal Engineer & Founder',
-        'summary': 'Cloud, security and banking-systems engineer. Builds the platforms and the infrastructure under them.',
-        'path': [
-            ('Golden SB-Tech', 'Technical support for live banking payment-workflow systems — production triage, incident escalation, process automation.'),
-            ('Senex Security', 'Security and QA specialist — vulnerability management and endpoint-hardening programmes for Ford Saudi Arabia and Bank of Dubai.'),
-            ('IIAP — National research institute', 'Junior cloud engineer — Python compute services, SaaS platform integration and HPC scheduling for quantum-simulation workloads.'),
-        ],
-        'education': 'Degree in Computer Science; completing a Master’s in Computer Systems.',
-        'skills': ['Python', 'Django', 'DevOps', 'Kubernetes', 'Terraform', 'Wazuh', 'Blue team', 'CI/CD'],
-    },
-    {
-        'key': 'marat', 'initials': 'MS', 'name': 'Marat Sargsyan', 'role': 'Engineering Partner',
-        'summary': 'Systems and technical-operations engineer. Keeps what we ship running and supported.',
-        'path': [
-            ('IQS — Integrated Quantum Solutions, Yerevan', 'Systems and technical support.'),
-            ('Gavar State University', 'Background in computer engineering.'),
-        ],
-        'education': '',
-        'skills': ['Systems support', 'Technical operations'],
-    },
+TEAM_BACKGROUNDS = [
+    'Banking systems', 'Security & vulnerability management', 'HPC & research computing',
+    'Cloud & DevOps', 'Systems support',
 ]
 
 PRINCIPLES = [

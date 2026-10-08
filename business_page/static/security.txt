@@ -1,9 +1,9 @@
-Contact: mailto:contact@hzortech.com
+Contact: https://hzortech.com/contact/
 Expires: 2027-09-30T00:00:00.000Z
 Preferred-Languages: en, hy, ru
 Canonical: https://hzortech.com/.well-known/security.txt
 
-# If you find a vulnerability in hzortech.com, please report it to the
-# address above with the subject "Security disclosure". We acknowledge
+# If you find a vulnerability in hzortech.com, please report it via the
+# link above with the subject "Security disclosure". We acknowledge
 # reports within 24 hours and send a status update within 72 hours.
 # We're happy to credit you if you'd like.

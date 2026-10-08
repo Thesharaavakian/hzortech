@@ -22,7 +22,7 @@
     <p>Intake submissions are used only to reply to you and to keep a record of the enquiry. Journal subscriptions are used only to send new articles, after you confirm by email (double opt-in) — every email includes a one-click unsubscribe link.</p>
 
     <h2 id="retention">3. Retention</h2>
-    <p>Contact submissions are kept for up to 24 months for business correspondence. Unconfirmed Journal subscriptions that are never confirmed are removed automatically. You can ask for your data to be deleted at any time by emailing <a href="mailto:{{ company.email }}">{{ company.email }}</a>.</p>
+    <p>Contact submissions are kept for up to 24 months for business correspondence. Unconfirmed Journal subscriptions that are never confirmed are removed automatically. You can ask for your data to be deleted at any time via our <a href="{% url 'contact' %}">contact form</a>.</p>
 
     <h2 id="cookies">4. Cookies</h2>
     <p>This site sets one strictly necessary cookie (a session identifier that protects forms from cross-site forgery) and, only if you accept it in the cookie panel, the Meta Pixel — which helps us understand how our ads perform. The Pixel never loads before you accept, and declining costs you nothing. You can change your choice at any time from “Cookie settings” in the footer.</p>
@@ -31,10 +31,10 @@
     <p>Cloudflare provides DNS, CDN, DDoS protection and Turnstile (a privacy-preserving spam check on the contact form) and may process request metadata (IP address, headers) under its own privacy policy. If you accept analytics cookies, Meta processes Pixel event data under its own policy.</p>
 
     <h2 id="your-rights">6. Your rights (GDPR)</h2>
-    <p>If you're in the European Economic Area, you can access, correct or erase your data, restrict or object to processing, and request data portability. Contact us at <a href="mailto:{{ company.email }}">{{ company.email }}</a> to exercise any of these.</p>
+    <p>If you're in the European Economic Area, you can access, correct or erase your data, restrict or object to processing, and request data portability. <a href="{% url 'contact' %}">Contact us</a> to exercise any of these.</p>
 
     <h2 id="contact">7. Contact</h2>
-    <p>Data controller: Shara Avakian, HZORTECH, {{ company.city }}. Email: <a href="mailto:{{ company.email }}">{{ company.email }}</a>.</p>
+    <p>Data controller: HZORTECH, {{ company.city }} — reachable via our <a href="{% url 'contact' %}">contact form</a>.</p>
   </div>
 </section>
 {% endblock %}

@@ -89,7 +89,7 @@ def save_intake(form, request):
         + ("You marked this as urgent, so we will triage it today (Mon–Fri, 09:00–18:00 Yerevan time, GMT+4).\n\n"
            if sub.is_urgent else
            "We reply within 48 hours on working days, with questions or a direct assessment.\n\n")
-        + "— HZORTECH\ncontact@hzortech.com · +374 77 075 919 · hzortech.com"
+        + "— The HZORTECH team\nhzortech.com"
     )
     try:
         send_mail('HZORTECH — we received your project brief', reply,

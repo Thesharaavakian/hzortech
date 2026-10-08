@@ -11,9 +11,6 @@ NAV = [
 
 COMPANY = {
     'name': 'HZORTECH',
-    'email': 'contact@hzortech.com',
-    'phone': '+374 77 075 919',
-    'phone_e164': '+37477075919',
     'whatsapp': 'https://wa.me/37477075919',
     'city': 'Yerevan, Armenia',
     'coords': '40.1792° N · 44.4991° E',
@@ -21,7 +18,6 @@ COMPANY = {
     'founded': 2022,
     'instagram': 'https://www.instagram.com/hzortech',
     'linkedin': 'https://linkedin.com/company/hzortech',
-    'github': 'https://github.com/Thesharaavakian',
 }
 
 
@@ -53,21 +49,17 @@ def _org_graph():
                 'image': f'{url}/static/business_page/img/og-image.png',
                 'description': ('Engineering company in Yerevan, Armenia building digital platforms — the product, '
                                 'backend, automation, cloud infrastructure and security behind it.'),
-                'email': COMPANY['email'],
-                'telephone': COMPANY['phone_e164'],
                 'foundingDate': str(COMPANY['founded']),
-                'founder': [{'@type': 'Person', 'name': 'Shara Avakian'},
-                            {'@type': 'Person', 'name': 'Marat Sargsyan'}],
                 'address': {'@type': 'PostalAddress', 'addressLocality': 'Yerevan', 'addressCountry': 'AM'},
                 'geo': {'@type': 'GeoCoordinates', 'latitude': 40.179186, 'longitude': 44.499103},
                 'areaServed': ['Armenia', 'European Union', 'United States', 'United Kingdom', 'Worldwide'],
                 'knowsLanguage': ['en', 'hy', 'ru'],
-                'contactPoint': {'@type': 'ContactPoint', 'email': COMPANY['email'], 'telephone': COMPANY['phone_e164'],
+                'contactPoint': {'@type': 'ContactPoint', 'url': f'{url}/contact/',
                                  'contactType': 'sales', 'availableLanguage': ['English', 'Armenian', 'Russian']},
                 'openingHoursSpecification': {'@type': 'OpeningHoursSpecification',
                                               'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                                               'opens': '09:00', 'closes': '18:00'},
-                'sameAs': [COMPANY['instagram'], COMPANY['linkedin'], COMPANY['github']],
+                'sameAs': [COMPANY['instagram'], COMPANY['linkedin'], COMPANY['whatsapp']],
             },
             {
                 '@type': 'WebSite', '@id': f'{url}/#website', 'url': f'{url}/', 'name': 'HZORTECH',

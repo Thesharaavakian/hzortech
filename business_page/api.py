@@ -105,7 +105,6 @@ def search_index(request):
     items += [{'group': 'Journal', 'title': p.title, 'url': p.get_absolute_url(), 'hint': p.get_topic_display()}
               for p in Post.objects.filter(is_published=True)]
     items += [
-        {'group': 'Contact', 'title': 'Email contact@hzortech.com', 'url': 'mailto:contact@hzortech.com', 'hint': ''},
         {'group': 'Contact', 'title': 'WhatsApp +374 77 075 919', 'url': 'https://wa.me/37477075919', 'hint': 'Opens WhatsApp'},
     ]
     resp = JsonResponse({'items': items})
@@ -123,12 +122,12 @@ def intake(request):
         return JsonResponse({'ok': True, 'urgent': False}, status=201)
     if rate_limited(request, 'intake'):
         return JsonResponse({'ok': False, 'errors': {'__all__': [
-            'Too many submissions from your connection. Please wait a few minutes, or email contact@hzortech.com.']}}, status=429)
+            'Too many submissions from your connection. Please wait a few minutes and try again.']}}, status=429)
     if not form.is_valid():
         return JsonResponse({'ok': False, 'errors': _errors(form)}, status=400)
     if not verify_turnstile(data.get('cf-turnstile-response', ''), client_ip(request)):
         return JsonResponse({'ok': False, 'errors': {'__all__': [
-            'The spam check didn’t pass. Please try again, or email contact@hzortech.com.']}}, status=400)
+            'The spam check didn’t pass. Please try again in a moment.']}}, status=400)
     sub, emailed = save_intake(form, request)
     return JsonResponse({'ok': True, 'id': sub.pk, 'urgent': sub.is_urgent, 'emailed': emailed}, status=201)
 

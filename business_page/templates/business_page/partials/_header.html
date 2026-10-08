@@ -47,7 +47,8 @@
     </ul>
     <div class="mobile-menu__foot">
       <a class="btn btn--primary btn--large" href="{% url 'contact' %}">Start a project <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <p class="t-small"><a href="mailto:{{ company.email }}">{{ company.email }}</a> · <a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></p>
+      <a class="contact__line t-small" href="{{ company.whatsapp }}" rel="noopener" target="_blank"><svg width="16" height="16" aria-hidden="true"><use href="#i-whatsapp"/></svg>Message us on WhatsApp<span class="visually-hidden"> (opens in a new tab)</span></a>
+      <p class="t-small">{{ company.city }}</p>
       <p class="t-mono" data-yerevan-time>{{ company.hours }}</p>
       <div class="cluster">
         <button class="btn btn--small" type="button" data-theme-toggle>Switch theme</button>
