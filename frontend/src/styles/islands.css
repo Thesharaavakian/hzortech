@@ -12,7 +12,7 @@
    the intended scrollable box. */
 .sysmap > * { min-width: 0; }
 .sysmap__scenarios { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-.sysmap__svg-wrap { border: 1px solid var(--line); background: radial-gradient(120% 100% at 10% 0%, rgba(240, 68, 74, 0.06), transparent 60%); padding: clamp(16px, 3vw, 32px); }
+.sysmap__svg-wrap { border: 1px solid var(--line); background: radial-gradient(120% 100% at 10% 0%, rgba(255, 138, 0, 0.06), transparent 60%); padding: clamp(16px, 3vw, 32px); }
 .sysmap__stage { position: relative; width: 100%; }
 /* Node buttons (min-width: 84px below, white-space: nowrap, some labels
    like "Admin & dashboards") are laid out at fixed design-canvas
