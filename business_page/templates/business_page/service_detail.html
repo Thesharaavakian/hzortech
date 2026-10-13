@@ -12,6 +12,9 @@
 
 {% block content %}
 <section class="page-hero svc-hero" aria-labelledby="page-title">
+  <picture class="svc-hero__bg" aria-hidden="true">
+    <img src="{% static svc.hero_img %}" alt="" width="1600" height="900" fetchpriority="high">
+  </picture>
   <div class="wrap grid">
     <nav class="span-12" aria-label="Breadcrumb"><ol class="crumbs"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'services' %}">Capabilities</a></li><li><a href="{% url 'services' %}#{{ layer.key }}">{{ layer.name }}</a></li><li aria-current="page">{{ svc.nav_label }}</li></ol></nav>
     <div class="span-6 stack svc-hero__text">

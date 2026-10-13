@@ -76,6 +76,22 @@
 
 .numbered--compact > li { padding: 16px 0; }
 
+/* ── Page-hero background photo variant ──────────────────────────────────
+   Three page-heroes (service detail, contact, the capabilities index) have
+   their own generated background photo instead of .page-hero's generic
+   chevron motif — the motif is turned off on these specifically so the two
+   don't compete. Shared as one rule (via each page's __bg suffix) rather
+   than repeated per page. */
+.svc-hero::before, .contact-hero::before, .services-hero::before { display: none; }
+.svc-hero__bg, .contact-hero__bg, .services-hero__bg { position: absolute; inset: 0; z-index: 0; }
+.svc-hero__bg::after, .contact-hero__bg::after, .services-hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, var(--bg) 0%, var(--bg) 35%, color-mix(in srgb, var(--bg) 55%, transparent) 60%, color-mix(in srgb, var(--bg) 15%, transparent) 100%);
+}
+.svc-hero__bg img, .contact-hero__bg img, .services-hero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+
 /* ── Service detail ──────────────────────────────────────────────────── */
 .svc-hero { padding-bottom: clamp(32px, 5vw, 64px); }
 .svc-hero__tagline { display: block; margin: 6px 0 14px; letter-spacing: 0.06em; }

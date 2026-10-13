@@ -72,8 +72,49 @@
    with no film visible at all. */
 .forge.is-scrubbing .forge__frame picture.forge__poster { opacity: 0; }
 
-/* ── Signature (per-discipline generative visual) ────────────────────── */
+/* ── Signature (per-discipline generative visual) ──────────────────────
+   signature.tsx's own comment has always pointed here ("Pure SVG + CSS
+   animation — see .sig-* in islands.css") but these rules never actually
+   existed, in any commit back to the original v2 build — not something
+   today's redesign broke. Every unstyled shape defaulted to SVG's own
+   fill: black with no stroke, which is exactly a solid black box at the
+   scale these diagrams render at. Accent color comes from each page's own
+   layer (.sig--product/platform/automation/infrastructure/security),
+   reusing the same --sig-* tokens the system map and layer dots use —
+   this diagram, the map, and the capability chips all agree on what
+   "platform" or "security" looks like. */
 .signature svg, .signature canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.signature__svg { color: var(--text-2); }
+.signature__svg .sig-frame, .signature__svg .sig-grid-lines, .signature__svg .sig-wire, .signature__svg .sig-branch {
+  fill: none; stroke: var(--line-strong); stroke-width: 1.5;
+}
+.signature__svg .sig-frame--dashed { stroke-dasharray: 5 4; }
+.signature__svg .sig-frame--accent { stroke: var(--accent); }
+.signature__svg .sig-node, .signature__svg .sig-block, .signature__svg .sig-packet, .signature__svg .sig-cell, .signature__svg .sig-stage {
+  fill: var(--surface); stroke: var(--accent); stroke-width: 1.5;
+}
+.signature__svg .sig-node--core { fill: var(--accent); stroke: none; }
+.signature__svg .sig-packet--slide { fill: var(--accent); stroke: none; }
+.signature__svg .sig-shield { fill: color-mix(in srgb, var(--accent) 12%, transparent); stroke: var(--accent); stroke-width: 2; }
+.signature__svg .sig-check { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.signature__svg .sig-label { font-family: var(--font-mono); font-size: 10px; fill: var(--text-2); letter-spacing: 0.04em; }
+.sig--product { --accent: var(--sig-product); }
+.sig--platform { --accent: var(--sig-platform); }
+.sig--automation { --accent: var(--sig-automation); }
+.sig--infrastructure { --accent: var(--sig-infrastructure); }
+.sig--security { --accent: var(--sig-security); }
+
+@keyframes sig-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+@keyframes sig-draw { from { opacity: 0; } to { opacity: 1; } }
+.signature__svg .sig-node, .signature__svg .sig-block, .signature__svg .sig-packet, .signature__svg .sig-cell, .signature__svg .sig-stage {
+  transform-origin: center; transform-box: fill-box;
+  animation: sig-in 0.5s var(--ease-out) backwards;
+}
+.signature__svg .sig-wire, .signature__svg .sig-branch { animation: sig-draw 0.6s ease backwards; }
+.signature--still .sig-node, .signature--still .sig-block, .signature--still .sig-packet,
+.signature--still .sig-cell, .signature--still .sig-stage, .signature--still .sig-wire, .signature--still .sig-branch {
+  animation: none;
+}
 
 /* ── Architecture diagram (case study) ───────────────────────────────── */
 .arch__svg { width: 100%; height: auto; display: block; }
