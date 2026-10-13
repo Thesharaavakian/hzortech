@@ -9,6 +9,7 @@ import { initMotion } from './core/motion'
 import { initIslands } from './core/islands'
 import { initConsent } from './core/consent'
 import { initCommand } from './core/command'
+import { initInteractions } from './core/interactions'
 
 function boot() {
   document.documentElement.classList.add('motion-ready')
@@ -18,6 +19,7 @@ function boot() {
   initCommand()
   initMotion()
   initIslands()
+  initInteractions()
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, { once: true })

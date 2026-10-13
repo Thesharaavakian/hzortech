@@ -1,5 +1,5 @@
 {% extends "business_page/base.html" %}
-{% load static hz_tags %}
+{% load hz_tags %}
 {% block title %}{{ svc.title }}{% endblock %}
 {% block meta_desc %}{{ svc.meta_desc }}{% endblock %}
 {% block og_title %}{{ svc.og_title }}{% endblock %}
@@ -12,9 +12,7 @@
 
 {% block content %}
 <section class="page-hero svc-hero" aria-labelledby="page-title">
-  <picture class="svc-hero__bg" aria-hidden="true">
-    <img src="{% static svc.hero_img %}" alt="" width="1600" height="900" fetchpriority="high">
-  </picture>
+  <div class="svc-hero__bg" data-island="field" data-island-load="eager" aria-hidden="true"></div>
   <div class="wrap grid">
     <nav class="span-12" aria-label="Breadcrumb"><ol class="crumbs"><li><a href="{% url 'home' %}">Home</a></li><li><a href="{% url 'services' %}">Capabilities</a></li><li><a href="{% url 'services' %}#{{ layer.key }}">{{ layer.name }}</a></li><li aria-current="page">{{ svc.nav_label }}</li></ol></nav>
     <div class="span-6 stack svc-hero__text">
@@ -27,7 +25,7 @@
         <a class="btn btn--large" href="#approach">How we approach it</a>
       </div>
     </div>
-    <figure class="span-6 svc-signature dark-island" aria-labelledby="sig-cap">
+    <figure class="span-6 svc-signature glass dark-island" aria-labelledby="sig-cap">
       <div class="signature" data-island="signature" data-props="signature-props">
         <div class="island-fallback signature__fallback">
           <p class="t-mono">{{ svc.nav_label }}</p>

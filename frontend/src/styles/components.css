@@ -1,3 +1,21 @@
+/* ── Glass (frosted-depth surface) ───────────────────────────────────────
+   A translucent, blurred surface used for anything that floats above a
+   generative/busy background and needs to read as one raised layer rather
+   than a flat box — the signature diagram frame, the system-map panel,
+   engagement cards. Falls back to the plain --surface fill (still correct,
+   just flat) wherever backdrop-filter isn't supported. */
+.glass {
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line-strong) 80%, transparent);
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--text) 6%, transparent) inset, 0 24px 64px -32px rgba(0, 0, 0, 0.55);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+  }
+}
+
 /* ── Buttons ──────────────────────────────────────────────────────────── */
 .btn {
   --btn-bg: transparent;

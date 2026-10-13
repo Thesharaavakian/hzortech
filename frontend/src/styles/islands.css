@@ -52,7 +52,15 @@
 .sysmap__node-btn[data-layer='automation']::before { background: var(--sig-automation); }
 .sysmap__node-btn[data-layer='infrastructure']::before { background: var(--sig-infrastructure); }
 .sysmap__node-btn[data-layer='security']::before { background: var(--sig-security); }
-.sysmap__panel { border: 1px solid var(--line); background: var(--raised); padding: 22px; display: grid; gap: 14px; align-content: start; min-height: 220px; }
+.sysmap__panel {
+  background: color-mix(in srgb, var(--surface) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line-strong) 80%, transparent);
+  box-shadow: 0 1px 0 0 color-mix(in srgb, var(--text) 6%, transparent) inset, 0 24px 64px -32px rgba(0, 0, 0, 0.55);
+  padding: 22px; display: grid; gap: 14px; align-content: start; min-height: 220px; border-radius: var(--radius-lg);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .sysmap__panel { -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%); }
+}
 .sysmap__panel h3 { font-size: var(--fs-21); }
 .sysmap__panel a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 600; }
 .sysmap__log { list-style: none; padding: 0; font-family: var(--font-mono); font-size: 12px; color: var(--text-2); display: grid; gap: 6px; max-height: 220px; overflow-y: auto; }

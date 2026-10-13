@@ -13,6 +13,7 @@ type IslandModule = { mount: MountFn }
 
 const registry: Record<string, () => Promise<IslandModule>> = {
   'hero-scene': () => import('../islands/hero-scene'),
+  field: () => import('../islands/field'),
   'system-map': () => import('../islands/system-map'),
   forge: () => import('../islands/forge'),
   intake: () => import('../islands/intake'),
