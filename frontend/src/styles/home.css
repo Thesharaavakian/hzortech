@@ -10,7 +10,7 @@
 .hero__stage { position: absolute; inset: 0; z-index: 0; }
 .hero__poster {
   position: absolute; inset: 0;
-  background: var(--mark) center 38% / min(560px, 62vw) auto no-repeat, radial-gradient(80% 60% at 50% 30%, #16161a 0%, #0a0a0b 70%);
+  background: var(--mark) center 38% / min(560px, 62vw) auto no-repeat, radial-gradient(80% 60% at 50% 30%, #122a44 0%, #07131f 70%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
   mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
   opacity: 0.9;
@@ -74,13 +74,13 @@
    .is-scrubbing, at which point GSAP's own ScrollTrigger pin takes over
    `.forge__pin` positioning directly (inline styles), so nothing here fights
    it — these rules just set up the pinned layout for it to size. ─────────── */
-.forge { position: relative; background: #000; }
+.forge { position: relative; background: #07131f; }
 .forge__pin { position: relative; overflow: clip; padding-block: clamp(64px, 9vh, 140px); }
 .forge__frame { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .forge__frame picture, .forge__frame img, .forge__frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.forge__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, #050506 0%, #0a0a0b 100%); }
-.forge__ui { position: relative; z-index: 1; color: #edeae4; }
-.forge__head h2 { color: #fff; }
+.forge__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, #050a10 0%, #07131f 100%); }
+.forge__ui { position: relative; z-index: 1; color: #f2f6fa; }
+.forge__head h2 { color: #f2f6fa; }
 .forge__chapters { list-style: none; padding: 0; display: grid; gap: 56px; margin-top: 40px; }
 .forge__chapter { max-width: 680px; }
 .forge__chapter .forge__still { display: block; margin-bottom: 20px; aspect-ratio: 2/1; overflow: hidden; border: 1px solid var(--line); }
@@ -90,14 +90,14 @@
 .forge.is-scrubbing .forge__pin { height: 100svh; padding-block: 0; }
 .forge.is-scrubbing .forge__frame { opacity: 1; }
 .forge.is-scrubbing .forge__scrim {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 35%, rgba(0, 0, 0, 0.15) 65%, rgba(0, 0, 0, 0.75) 100%);
+  background: linear-gradient(180deg, rgba(5, 10, 16, 0.55) 0%, rgba(5, 10, 16, 0.15) 35%, rgba(5, 10, 16, 0.15) 65%, rgba(5, 10, 16, 0.75) 100%);
 }
 .forge.is-scrubbing .forge__ui { height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-block: calc(var(--header-h) + 32px) 40px; }
 .forge.is-scrubbing .forge__chapters { position: relative; min-height: 30vh; margin-top: 0; display: block; }
 .forge.is-scrubbing .forge__chapter { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; }
 .forge.is-scrubbing .forge__chapter.is-active { opacity: 1; visibility: visible; }
 .forge.is-scrubbing .forge__chapter .forge__still { display: none; }
-.forge.is-scrubbing .forge__meter { display: block; color: rgba(237, 234, 228, 0.55); letter-spacing: 0.1em; }
+.forge.is-scrubbing .forge__meter { display: block; color: rgba(242, 246, 250, 0.55); letter-spacing: 0.1em; }
 
 /* ── Work stack ───────────────────────────────────────────────────────────
    Each <li> needs real scroll runway taller than the viewport for the

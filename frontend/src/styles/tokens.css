@@ -1,43 +1,54 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   HZORTECH v2 — design tokens
-   Dark is canonical (the brand is black + crimson). The light "paper" theme
-   follows the OS preference unless the visitor picks one explicitly.
+   HZORTECH 2027 — design tokens
+   Brand repaint: navy + orange, sourced directly from the HZOR TECH brand
+   board (swatches #0B2D4F · #1565A3 · #FF8A00 · #FFA94D · #F2F6FA). Dark is
+   canonical — deep navy, not black, so the brand's own blues read through
+   every surface instead of defaulting to neutral grey. The light "paper"
+   theme follows the OS preference unless the visitor picks one explicitly.
    Cinematic sections (.dark-island) stay dark in both themes.
+
+   Accent colors that aren't in the 5-swatch board (the success green, the
+   light-theme's darker shades of orange/gold) are deliberate: they're tints
+   or shades derived FROM the brand hues for contrast or semantic reasons
+   (a status green, text-safe variants of orange on light backgrounds), not
+   unrelated colors invented in place of the brand palette. See the contrast
+   notes inline — every text/background pairing here was measured against
+   WCAG AA (4.5:1 for body text, 3:1 for large text/UI), not eyeballed.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
   color-scheme: dark;
 
-  --bg: #0a0a0b;
-  --bg-2: #0f0f11;
-  --surface: #141416;
-  --raised: #1b1b1e;
-  --line: rgba(237, 234, 228, 0.12);
-  --line-2: rgba(237, 234, 228, 0.2);
-  --line-strong: rgba(237, 234, 228, 0.36);
-  --text: #edeae4;
-  --text-2: #b4afa7;
-  --text-3: #8c877f;
-  --invert-bg: #edeae4;
-  --invert-text: #0a0a0b;
+  --bg: #07131f;
+  --bg-2: #0a1a2a;
+  --surface: #0d2238;
+  --raised: #123152;
+  --line: rgba(242, 246, 250, 0.12);
+  --line-2: rgba(242, 246, 250, 0.2);
+  --line-strong: rgba(242, 246, 250, 0.36);
+  --text: #f2f6fa;
+  --text-2: #afc1d6;
+  --text-3: #7c93ac;
+  --invert-bg: #f2f6fa;
+  --invert-text: #07131f;
 
-  --hzor: #bb1f25;          /* brand fill (logo red) */
-  --hzor-hot: #d9272e;      /* hover / glow */
-  --hzor-text: #f0444a;     /* red text on dark: 5.3:1 */
-  --hzor-glow: rgba(217, 39, 46, 0.32);
-  --hzor-dim: rgba(217, 39, 46, 0.1);
+  --hzor: #ff8a00;          /* brand fill (accent) */
+  --hzor-hot: #ffa94d;      /* hover / glow — brand gold */
+  --hzor-text: #ff8a00;     /* orange text on dark bg: 7.9:1 */
+  --hzor-glow: rgba(255, 138, 0, 0.32);
+  --hzor-dim: rgba(255, 138, 0, 0.1);
 
-  --sig-product: #edeae4;
-  --sig-platform: #5fb39a;
-  --sig-automation: #e0a34a;
-  --sig-infrastructure: #7fa7c9;
-  --sig-security: #f0444a;
-  --ok: #5fb39a;
-  --warn: #e0a34a;
+  --sig-product: #f2f6fa;
+  --sig-platform: #4a8fc2;        /* lightened brand blue — 5.4:1 on dark */
+  --sig-automation: #ffa94d;      /* brand gold — 9.8:1 on dark */
+  --sig-infrastructure: #7c93ac;
+  --sig-security: #ff8a00;
+  --ok: #4fae8a;
+  --warn: #ffa94d;
 
-  --focus: #f0444a;
-  --scrim: rgba(10, 10, 11, 0.72);
-  --header-bg: rgba(10, 10, 11, 0.78);
+  --focus: #ff8a00;
+  --scrim: rgba(7, 19, 31, 0.72);
+  --header-bg: rgba(7, 19, 31, 0.78);
 
   --font-sans: 'Archivo Variable', 'Noto Sans Armenian', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
@@ -74,88 +85,88 @@
 /* Light "paper" theme — explicit choice, or OS preference with no choice. */
 :root[data-theme='light'] {
   color-scheme: light;
-  --bg: #f1eee8;
-  --bg-2: #ebe7e0;
-  --surface: #e6e1d9;
-  --raised: #faf8f4;
-  --line: rgba(14, 14, 16, 0.12);
-  --line-2: rgba(14, 14, 16, 0.2);
-  --line-strong: rgba(14, 14, 16, 0.4);
-  --text: #0e0e10;
-  --text-2: #45423d;
-  --text-3: #5e5a54;
-  --invert-bg: #0e0e10;
-  --invert-text: #f1eee8;
-  --hzor-text: #b01c22;
-  --hzor-dim: rgba(187, 31, 37, 0.08);
-  --sig-product: #0e0e10;
-  --sig-platform: #1f6b55;
+  --bg: #f2f6fa;
+  --bg-2: #e6edf5;
+  --surface: #dce6f0;
+  --raised: #ffffff;
+  --line: rgba(11, 45, 79, 0.12);
+  --line-2: rgba(11, 45, 79, 0.2);
+  --line-strong: rgba(11, 45, 79, 0.4);
+  --text: #0b2d4f;
+  --text-2: #2c4a66;
+  --text-3: #4a6278;
+  --invert-bg: #0b2d4f;
+  --invert-text: #f2f6fa;
+  --hzor-text: #a34e00;      /* dark-shaded brand orange — 5.3:1 on F2F6FA */
+  --hzor-dim: rgba(255, 138, 0, 0.08);
+  --sig-product: #0b2d4f;
+  --sig-platform: #1565a3;   /* brand blue — 5.65:1 on light */
   --sig-automation: #8a5a12;
   --sig-infrastructure: #2f5e86;
-  --sig-security: #b01c22;
+  --sig-security: #a34e00;
   --ok: #1f6b55;
   --warn: #8a5a12;
-  --focus: #b01c22;
-  --scrim: rgba(241, 238, 232, 0.8);
-  --header-bg: rgba(241, 238, 232, 0.82);
+  --focus: #a34e00;
+  --scrim: rgba(242, 246, 250, 0.8);
+  --header-bg: rgba(242, 246, 250, 0.82);
 }
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme='dark']) {
     color-scheme: light;
-    --bg: #f1eee8;
-    --bg-2: #ebe7e0;
-    --surface: #e6e1d9;
-    --raised: #faf8f4;
-    --line: rgba(14, 14, 16, 0.12);
-    --line-2: rgba(14, 14, 16, 0.2);
-    --line-strong: rgba(14, 14, 16, 0.4);
-    --text: #0e0e10;
-    --text-2: #45423d;
-    --text-3: #5e5a54;
-    --invert-bg: #0e0e10;
-    --invert-text: #f1eee8;
-    --hzor-text: #b01c22;
-    --hzor-dim: rgba(187, 31, 37, 0.08);
-    --sig-product: #0e0e10;
-    --sig-platform: #1f6b55;
+    --bg: #f2f6fa;
+    --bg-2: #e6edf5;
+    --surface: #dce6f0;
+    --raised: #ffffff;
+    --line: rgba(11, 45, 79, 0.12);
+    --line-2: rgba(11, 45, 79, 0.2);
+    --line-strong: rgba(11, 45, 79, 0.4);
+    --text: #0b2d4f;
+    --text-2: #2c4a66;
+    --text-3: #4a6278;
+    --invert-bg: #0b2d4f;
+    --invert-text: #f2f6fa;
+    --hzor-text: #a34e00;
+    --hzor-dim: rgba(255, 138, 0, 0.08);
+    --sig-product: #0b2d4f;
+    --sig-platform: #1565a3;
     --sig-automation: #8a5a12;
     --sig-infrastructure: #2f5e86;
-    --sig-security: #b01c22;
+    --sig-security: #a34e00;
     --ok: #1f6b55;
     --warn: #8a5a12;
-    --focus: #b01c22;
-    --scrim: rgba(241, 238, 232, 0.8);
-    --header-bg: rgba(241, 238, 232, 0.82);
+    --focus: #a34e00;
+    --scrim: rgba(242, 246, 250, 0.8);
+    --header-bg: rgba(242, 246, 250, 0.82);
   }
 }
 
 /* Cinematic sections: always dark, regardless of theme. */
 .dark-island {
   color-scheme: dark;
-  --bg: #0a0a0b;
-  --bg-2: #0f0f11;
-  --surface: #141416;
-  --raised: #1b1b1e;
-  --line: rgba(237, 234, 228, 0.12);
-  --line-2: rgba(237, 234, 228, 0.2);
-  --line-strong: rgba(237, 234, 228, 0.36);
-  --text: #edeae4;
-  --text-2: #b4afa7;
-  --text-3: #8c877f;
-  --invert-bg: #edeae4;
-  --invert-text: #0a0a0b;
-  --hzor-text: #f0444a;
-  --hzor-dim: rgba(217, 39, 46, 0.1);
-  --sig-product: #edeae4;
-  --sig-platform: #5fb39a;
-  --sig-automation: #e0a34a;
-  --sig-infrastructure: #7fa7c9;
-  --sig-security: #f0444a;
-  --ok: #5fb39a;
-  --warn: #e0a34a;
-  --focus: #f0444a;
-  --scrim: rgba(10, 10, 11, 0.72);
+  --bg: #07131f;
+  --bg-2: #0a1a2a;
+  --surface: #0d2238;
+  --raised: #123152;
+  --line: rgba(242, 246, 250, 0.12);
+  --line-2: rgba(242, 246, 250, 0.2);
+  --line-strong: rgba(242, 246, 250, 0.36);
+  --text: #f2f6fa;
+  --text-2: #afc1d6;
+  --text-3: #7c93ac;
+  --invert-bg: #f2f6fa;
+  --invert-text: #07131f;
+  --hzor-text: #ff8a00;
+  --hzor-dim: rgba(255, 138, 0, 0.1);
+  --sig-product: #f2f6fa;
+  --sig-platform: #4a8fc2;
+  --sig-automation: #ffa94d;
+  --sig-infrastructure: #7c93ac;
+  --sig-security: #ff8a00;
+  --ok: #4fae8a;
+  --warn: #ffa94d;
+  --focus: #ff8a00;
+  --scrim: rgba(7, 19, 31, 0.72);
   background: var(--bg);
   color: var(--text);
 }

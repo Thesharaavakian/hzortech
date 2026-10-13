@@ -19,7 +19,7 @@ const sync = (btn: HTMLElement) => {
   else btn.textContent = label
   btn.dataset.current = cur
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])')
-  if (meta) meta.content = cur === 'dark' ? '#0a0a0b' : '#f1eee8'
+  if (meta) meta.content = cur === 'dark' ? '#07131f' : '#f2f6fa'
 }
 
 export function initTheme(): void {

@@ -25,8 +25,8 @@ async function build(canvas: HTMLCanvasElement): Promise<Cleanup> {
   const positions = new Float32Array(COUNT * 3)
   const targets = new Float32Array(COUNT * 3)
   const colors = new Float32Array(COUNT * 3)
-  const ember = new THREE.Color('#d9272e')
-  const steel = new THREE.Color('#8c877f')
+  const ember = new THREE.Color('#ff8a00')
+  const steel = new THREE.Color('#7c93ac')
 
   // Target shape: a loose blade silhouette (two tapered triangles forming a
   // vertical sword-like form) sampled by rejection — echoes the mark without

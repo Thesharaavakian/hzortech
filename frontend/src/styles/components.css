@@ -34,7 +34,9 @@
 }
 .btn:hover::before { transform: translateY(0); }
 .btn:hover { color: var(--btn-fg-hover, var(--bg)); border-color: var(--btn-fill, var(--text)); }
-.btn--primary { --btn-bg: var(--hzor); --btn-fg: #fff; --btn-bd: var(--hzor); --btn-fill: #0a0a0b; --btn-fg-hover: #fff; }
+/* --btn-fg is dark, not white: orange only clears ~2.4:1 against white
+   (fails AA) but 7.9:1 against the brand's dark navy. */
+.btn--primary { --btn-bg: var(--hzor); --btn-fg: #07131f; --btn-bd: var(--hzor); --btn-fill: #07131f; --btn-fg-hover: #fff; }
 .btn--primary:hover { border-color: var(--hzor); }
 .btn--small { min-height: 40px; padding: 0 16px; font-size: var(--fs-14); }
 .btn--large { min-height: 60px; padding: 0 32px; font-size: var(--fs-18); }
