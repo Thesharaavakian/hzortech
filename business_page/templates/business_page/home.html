@@ -56,12 +56,29 @@
   </div>
 </section>
 
-{# ── 03 · System map ────────────────────────────────────────────────────── #}
+{# ── 03 · Selected work ─────────────────────────────────────────────────── #}
+<section class="section work" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <header class="section-head section-head--split">
+      <div class="stack">
+        <p class="eyebrow"><span class="eyebrow__index">§ 02</span> Selected work</p>
+        <h2 class="t-h2" id="work-title" data-split>Systems in <br>production.</h2>
+      </div>
+      <p class="t-body-lg">20+ businesses run on platforms we’ve built. These are the ones we can show — each named, live, and described as it actually is.</p>
+    </header>
+    <ul class="case-grid" role="list" data-reveal-group>
+      {% for case in featured_cases %}{% include 'business_page/partials/_case_card.html' %}{% endfor %}
+    </ul>
+    <p class="section-foot"><a class="btn btn--large" href="{% url 'projects' %}">All work ({{ case_count }}) <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+  </div>
+</section>
+
+{# ── 04 · System map ────────────────────────────────────────────────────── #}
 <section class="section system dark-island" id="system" aria-labelledby="system-title">
   <div class="wrap">
     <header class="section-head section-head--split">
       <div class="stack">
-        <p class="eyebrow"><span class="eyebrow__index">§ 02</span> One system</p>
+        <p class="eyebrow"><span class="eyebrow__index">§ 03</span> One system</p>
         <h2 class="t-h2" id="system-title" data-split>Five layers. <br>One platform.</h2>
       </div>
       <p class="t-body-lg">This is the shape of a typical platform we build. Select any part to see what we do there — then run a deploy, or an attack, and watch how the system responds.</p>
@@ -84,12 +101,12 @@
 </section>
 {{ system_map_props|json_script:"system-map-props" }}
 
-{# ── 04 · Capabilities ──────────────────────────────────────────────────── #}
+{# ── 05 · Capabilities ──────────────────────────────────────────────────── #}
 <section class="section capabilities" id="capabilities" aria-labelledby="cap-title">
   <div class="wrap">
     <header class="section-head section-head--split">
       <div class="stack">
-        <p class="eyebrow"><span class="eyebrow__index">§ 03</span> Capabilities</p>
+        <p class="eyebrow"><span class="eyebrow__index">§ 04</span> Capabilities</p>
         <h2 class="t-h2" id="cap-title" data-split>Ten disciplines, <br>one team.</h2>
       </div>
       <p class="t-body-lg">Each discipline is a way into the same system. Most engagements touch three or four of them — that’s why they belong to one team.</p>
@@ -115,7 +132,7 @@
   </div>
 </section>
 
-{# ── 05 · Forged, not assembled (Higgsfield film, scroll-scrubbed) ─────── #}
+{# ── 06 · Forged, not assembled (Higgsfield film, scroll-scrubbed) ─────── #}
 <section class="forge dark-island" id="forged" aria-labelledby="forge-title">
   <div class="forge__pin">
     <div class="forge__frame" data-island="forge" data-props="forge-props">
@@ -127,7 +144,7 @@
     <div class="forge__scrim" aria-hidden="true"></div>
     <div class="wrap forge__ui">
       <header class="forge__head">
-        <p class="eyebrow"><span class="eyebrow__index">§ 04</span> How we work</p>
+        <p class="eyebrow"><span class="eyebrow__index">§ 05</span> How we work</p>
         <h2 class="t-h2" id="forge-title">Forged, <br>not assembled.</h2>
       </header>
       <ol class="forge__chapters" role="list">
@@ -149,45 +166,6 @@
   <p class="visually-hidden">The accompanying film shows a red-hot steel blade cooling on an anvil until a precise crimson circuit pattern is revealed in the finished steel.</p>
 </section>
 {{ forge_props|json_script:"forge-props" }}
-
-{# ── 06 · Selected work ─────────────────────────────────────────────────── #}
-<section class="section work" id="work" aria-labelledby="work-title">
-  <div class="wrap">
-    <header class="section-head section-head--split">
-      <div class="stack">
-        <p class="eyebrow"><span class="eyebrow__index">§ 05</span> Selected work</p>
-        <h2 class="t-h2" id="work-title" data-split>Systems in <br>production.</h2>
-      </div>
-      <p class="t-body-lg">20+ businesses run on platforms we’ve built. These are the ones we can show — each named, live, and described as it actually is.</p>
-    </header>
-    <ol class="work-stack" role="list">
-      {% for case in featured_cases %}
-      <li class="work-card" data-stack-card style="--i:{{ forloop.counter0 }}">
-        <div class="work-card__sticky">
-        <article class="work-card__inner" data-stack-inner aria-labelledby="work-{{ case.slug }}">
-          <div class="work-card__media cover">
-            {% if case.cover %}<img src="{% static case.cover %}" alt="{{ case.cover_alt }}" loading="lazy" decoding="async" width="1600" height="1000">{% endif %}
-            {% if case.cover_is_illustration %}<span class="cover__badge">Illustration</span>{% endif %}
-          </div>
-          <div class="work-card__body">
-            <p class="t-mono">{{ forloop.counter|pad2 }} / {{ case.sector }}</p>
-            <h3 class="t-h2 work-card__client" id="work-{{ case.slug }}">{{ case.client }}</h3>
-            <p class="t-h4 work-card__title">{{ case.title }}</p>
-            <p class="t-body">{{ case.summary }}</p>
-            <ul class="cluster" role="list" aria-label="Layers" style="--cluster:8px">
-              {% for key in case.layers %}<li class="chip"><span class="chip__dot layer-dot" data-layer="{{ key }}" aria-hidden="true"></span>{{ key|capfirst }}</li>{% endfor %}
-            </ul>
-            <p class="work-card__foot"><span class="status status--{{ case.status }}">{{ case.get_status_display }}</span>
-              <a class="link-arrow work-card__cta" href="{{ case.get_absolute_url }}">Read the case study<span class="visually-hidden">: {{ case.client }}</span> <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
-          </div>
-        </article>
-        </div>
-      </li>
-      {% endfor %}
-    </ol>
-    <p class="section-foot"><a class="btn btn--large" href="{% url 'projects' %}">All work ({{ case_count }}) <svg class="btn__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
-  </div>
-</section>
 
 {# ── 07 · Your visit, measured (engineering visualisation) ───────────────── #}
 <section class="section measured dark-island" id="measured" aria-labelledby="measured-title">

@@ -99,65 +99,6 @@
 .forge.is-scrubbing .forge__chapter .forge__still { display: none; }
 .forge.is-scrubbing .forge__meter { display: block; color: rgba(242, 246, 250, 0.55); letter-spacing: 0.1em; }
 
-/* ── Work stack ───────────────────────────────────────────────────────────
-   Each <li> needs real scroll runway taller than the viewport for the
-   sticky-then-recede effect to have anywhere to happen: a card this short
-   (content-sized, no min-height) becomes sticky and is immediately
-   overtaken by the next card's normal-flow position before motion.ts's
-   fade/scale scrub has time to finish — the two render in the same screen
-   area at once, each readable, which is exactly the "overlapping, one
-   thing hurting the other from showing" bug. min-height gives it a full
-   viewport of dwell time regardless of how tall the card's own content is.
-
-   position: sticky lives on .work-card__sticky, an inner wrapper — NOT on
-   .work-card (the <li>, used by motion.ts as the ScrollTrigger reference
-   for the NEXT card's trigger). GSAP has to re-measure that reference
-   element's natural-flow position on every ScrollTrigger.refresh() (e.g.
-   after a lazy island like the forge film mounts and changes page height
-   below). A position:sticky element that is CURRENTLY stuck reports its
-   stuck viewport position from getBoundingClientRect(), not its natural
-   flow position — so a refresh that happens to run while a card is stuck
-   permanently corrupts that trigger's start/end for the rest of the page's
-   life, which is what made the cards fade to (and stay) invisible. Keeping
-   .work-card itself a plain, never-sticky flow box makes it always
-   correctly measurable regardless of scroll position at refresh time.
-
-   .work-card__inner's own fade/scale stays a separate element again, same
-   reasoning as before: with align-items:center the inner card was only as
-   tall as its own content, floating in the middle of the taller sticky box
-   with transparent space above/below where a still-stuck previous card
-   could show through — align-items:stretch (default, so just omitting
-   center) plus align-content:center on the inner grid keeps the content
-   visually centered while the opaque background fills the full box. */
-.work-stack { list-style: none; padding: 0; }
-.work-card {
-  min-height: calc(100svh - var(--header-h) - 16px);
-  padding-bottom: 24px;
-}
-.work-card__sticky {
-  position: sticky;
-  top: calc(var(--header-h) + 16px);
-  display: flex;
-  height: calc(100svh - var(--header-h) - 16px);
-}
-.work-card__inner {
-  display: grid;
-  align-content: center;
-  width: 100%;
-  gap: 28px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  padding: clamp(20px, 3vw, 40px);
-  transform-origin: top center;
-  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.4);
-}
-@media (min-width: 900px) { .work-card__inner { grid-template-columns: 1.1fr 1fr; align-items: center; } }
-.work-card__media { aspect-ratio: 16/11; border: 1px solid var(--line); }
-.work-card__client { margin-top: 4px; }
-.work-card__title { color: var(--text-2); font-weight: 600; margin: 6px 0 14px; }
-.work-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
-.work-card__cta { border: 0; padding: 0; }
-
 /* ── Visit meter ──────────────────────────────────────────────────────── */
 .measured { padding-block: clamp(64px, 9vh, 140px); }
 .meter-grid { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 40px; }

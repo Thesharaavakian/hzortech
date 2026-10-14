@@ -57,10 +57,15 @@ def _forge_props():
 
 def home(request):
     cases = list(_published_cases())
-    featured = [c for c in cases if c.featured][:4]
+    # Featured cases lead, but the homepage teaser shows more than just the
+    # handful marked featured — a single-digit client list reads as "one
+    # project we can show", not the track record the business actually has.
+    featured = [c for c in cases if c.featured]
+    others = [c for c in cases if not c.featured]
+    homepage_cases = (featured + others)[:6]
     return render(request, 'business_page/home.html', {
         'layers': _layers_with_services(),
-        'featured_cases': featured,
+        'featured_cases': homepage_cases,
         'case_count': len(cases),
         'latest_posts': _published_posts()[:3],
         'team_backgrounds': content.TEAM_BACKGROUNDS,
