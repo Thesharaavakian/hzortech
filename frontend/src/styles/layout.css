@@ -113,6 +113,10 @@
   font-variation-settings: 'wdth' 88;
   text-transform: uppercase;
 }
+/* Two-tone wordmark — "HZOR" in the base text color, "TECH" in brand
+   orange — matching the reference lockup exactly (navy/white + orange
+   only, no third color in the brand unit itself). */
+.brand__word-accent { color: var(--hzor-text); }
 .nav { margin-left: auto; }
 .nav__list { display: flex; gap: clamp(18px, 2.2vw, 36px); list-style: none; padding: 0; }
 .nav__link {

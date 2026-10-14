@@ -3,7 +3,7 @@
   <div class="wrap site-header__inner">
     <a class="brand" href="{% url 'home' %}" aria-label="HZORTECH — home">
       {% include 'business_page/partials/_mark.html' with class='brand__mark' %}
-      <span class="brand__word">Hzortech</span>
+      <span class="brand__word"><span class="brand__word-main">Hzor</span><span class="brand__word-accent">tech</span></span>
     </a>
     <nav class="nav" aria-label="Primary">
       <ul class="nav__list" role="list">
@@ -33,7 +33,7 @@
     <div class="mobile-menu__top">
       <a class="brand" href="{% url 'home' %}" aria-label="HZORTECH — home">
         {% include 'business_page/partials/_mark.html' with class='brand__mark' %}
-        <span class="brand__word">Hzortech</span>
+        <span class="brand__word"><span class="brand__word-main">Hzor</span><span class="brand__word-accent">tech</span></span>
       </a>
       <button class="icon-btn" type="button" data-menu-close aria-label="Close menu">
         <svg aria-hidden="true"><use href="#i-close"/></svg>
