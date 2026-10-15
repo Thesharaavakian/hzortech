@@ -105,7 +105,29 @@
   color: inherit;
   flex-shrink: 0;
 }
-.brand__mark { width: auto; height: 34px; }
+.brand__mark { width: 31px; height: 34px; }
+
+/* Mark-pair: the designer-supplied raster mark, navy and white variants
+   stacked and swapped by CSS rather than recolored — these are photographic
+   source art (a real illustrated hand/wrist), not vector paths, so there's
+   no currentColor trick available. Mirrors tokens.css's own theme cascade
+   (explicit data-theme first, OS preference as fallback, dark canonical)
+   so the two always agree on which variant is "current". */
+.mark-pair { position: relative; display: inline-block; aspect-ratio: 2267 / 2470; }
+.mark-pair img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.mark-pair__navy { display: none; }
+.mark-pair__white { display: block; }
+:root[data-theme='light'] .mark-pair__navy { display: block; }
+:root[data-theme='light'] .mark-pair__white { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) .mark-pair__navy { display: block; }
+  :root:not([data-theme='dark']) .mark-pair__white { display: none; }
+}
+/* The header riding over the dark hero always shows the white mark,
+   regardless of the page theme — same override .is-over-dark already
+   applies to the header's text color. */
+.site-header.is-over-dark:not(.is-solid) .mark-pair__navy { display: none; }
+.site-header.is-over-dark:not(.is-solid) .mark-pair__white { display: block; }
 .brand__word {
   font-weight: 800;
   font-size: 1.0625rem;
@@ -264,3 +286,5 @@
 }
 .footer-base a { color: inherit; }
 .footer-sig { display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap; }
+.footer-sig__brand { display: inline-flex; align-items: center; gap: 8px; }
+.footer-sig__mark { width: 16px; height: 17px; align-self: center; }

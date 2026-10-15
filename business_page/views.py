@@ -74,7 +74,7 @@ def home(request):
         'process': content.PROCESS,
         'forge_seq': FORGE_SEQ,
         'forge_props': _forge_props(),
-        'hero_props': {'mark': f"/{settings.STATIC_URL.strip('/')}/business_page/brand/mark.svg"},
+        'hero_props': {'mark': f"/{settings.STATIC_URL.strip('/')}/business_page/img/brand/mark-white.png"},
         'system_map': content.SYSTEM_MAP,
         'system_map_props': {
             **content.SYSTEM_MAP,
